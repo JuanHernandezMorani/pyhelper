@@ -1,4 +1,4 @@
-name: Publish pyhelper-tools-jbhm to PyPI
+name: pyhelper-tools-jbhm
 
 on:
   release:

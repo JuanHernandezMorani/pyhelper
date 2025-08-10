@@ -49,10 +49,12 @@ def is_stdlib(module_name):
 install_requires = [pkg for pkg in raw_deps if not is_stdlib(pkg) and pkg not in internal_modules]
 
 setup(
-    name="pyhelper",
+    name="pyhelper-tools-jbhm",
     version="1.0.0",
     description="A centralized data-handling toolkit for Python developers",
     author="Juan Braian Hernandez Morani",
+    long_description=open("README.md").read(),
+    long_description_content_type="text/markdown",
     packages=find_packages(),
     package_data={"helper": ["translations.json"]},
     include_package_data=True,

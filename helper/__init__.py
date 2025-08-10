@@ -3,6 +3,9 @@ from .core import *
 import os
 import importlib
 
+__version__ = "1.0.0"
+__name__ = "pyhelper-tools-jbhm"
+
 _submodules_dir = os.path.join(os.path.dirname(__file__), "submodules")
 _submodules_package = __name__ + ".submodules"
 
