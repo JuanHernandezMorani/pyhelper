@@ -4,6 +4,9 @@ import ast
 import sys
 import importlib.util
 
+with open('README.md', 'r', encoding='utf-8') as f:
+    long_description = f.read()
+
 def find_imports_in_file(filepath):
     """
     Parses a Python file and extracts top-level imported packages.
@@ -53,7 +56,7 @@ setup(
     version="1.0.0",
     description="A centralized data-handling toolkit for Python developers",
     author="Juan Braian Hernandez Morani",
-    long_description=open("README.md").read(),
+    long_description=long_description,
     long_description_content_type="text/markdown",
     packages=find_packages(),
     package_data={"helper": ["translations.json"]},
