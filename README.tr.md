@@ -1,7 +1,7 @@
 # 🇹🇷 Helper - Python Kütüphanesi
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![PyPI version](https://badge.fury.io/py/pyhelper.svg)](https://badge.fury.io/py/pyhelper)
+[![PyPI](https://img.shields.io/pypi/v/pyhelper-tools-jbhm?style=for-the-badge&label=PyPI&color=blue)](https://pypi.org/project/pyhelper-tools-jbhm/)
 [![en](https://img.shields.io/badge/lang-en-red.svg)](README.md)
 [![es](https://img.shields.io/badge/lang-es-yellow.svg)](README.es.md)
 [![fr](https://img.shields.io/badge/lang-fr-blue.svg)](README.fr.md)
