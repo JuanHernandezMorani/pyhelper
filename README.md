@@ -14,7 +14,7 @@
 
 ## 📖 Overview
 
-Helper is a comprehensive Python toolkit designed to simplify common data handling, visualization, and utility tasks. It provides:
+PyHelper is a comprehensive Python toolkit designed to simplify common data handling, visualization, and utility tasks. It provides:
 
 - Statistical analysis functions
 - Data visualization tools
