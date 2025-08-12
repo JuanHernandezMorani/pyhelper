@@ -1,42 +1,53 @@
 from .core import *
+from .submodules import *
 
-import os
-import importlib
-
-__version__ = "1.0.0"
+__version__ ="1.1.0" 
 __name__ = "pyhelper-tools-jbhm"
 
-_submodules_dir = os.path.join(os.path.dirname(__file__), "submodules")
-_submodules_package = __name__ + ".submodules"
+import inspect
+from typing import Callable
 
-__submodules__ = []
-for filename in os.listdir(_submodules_dir):
-    if filename.endswith(".py") and filename != "__init__.py":
-        module_name = filename[:-3]
-        importlib.import_module(f"{_submodules_package}.{module_name}")
-        __submodules__.append(module_name)
 
-globals().update(
-    {
-        name: importlib.import_module(f"{_submodules_package}.{name}")
-        for name in __submodules__
-    }
-)
+def _get_all_functions():
+    functions = {}
 
-__all__ = __submodules__ + [
+    from . import core
+
+    for name, obj in inspect.getmembers(core):
+        if inspect.isfunction(obj) and obj.__module__.startswith("helper.core"):
+            functions[name] = obj
+
+    from . import submodules
+
+    for name, obj in inspect.getmembers(submodules):
+        if inspect.isfunction(obj) and obj.__module__.startswith("helper.submodules"):
+            functions[name] = obj
+
+    return functions
+
+
+ALL_FUNCTIONS = _get_all_functions()
+
+_exported_names = set()
+
+from .core import __all__ as core_all
+
+_exported_names.update(core_all)
+
+from .submodules import __all__ as submodules_all
+
+_exported_names.update(submodules_all)
+
+_other_exports = {
     "sys",
     "ast",
     "pd",
     "Path",
-    "Dict",
-    "Set",
     "json",
     "csv",
     "ET",
-    "Union",
-    "List",
     "sns",
-    "mpl"
+    "mpl",
     "tk",
     "messagebox",
     "ScrolledText",
@@ -45,22 +56,12 @@ __all__ = __submodules__ + [
     "re",
     "inspect",
     "asyncio",
-    "Callable",
     "time",
     "os",
-    "re",
-    "help",
-    "format_number",
-    "config",
-    "REGISTRY",
-    "register",
-    "NORMAL_SIZE",
-    "BIG_SIZE",
-    "CONFIG_LANG",
-    "set_language",
-    "t",
-    "show_gui_popup",
-    "load_user_translations",
-    "Optional",
-    "filedialog"
-]
+    "filedialog",
+}
+
+_other_exports = _other_exports - _exported_names
+_exported_names.update(_other_exports)
+
+__all__ = sorted(_exported_names)
