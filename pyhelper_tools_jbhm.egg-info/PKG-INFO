@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: pyhelper-tools-jbhm
-Version: 1.1.0
+Version: 1.1.1
 Summary: A centralized data-handling toolkit for Python developers
 Author: Juan Braian Hernandez Morani
 Requires-Python: >=3.8
