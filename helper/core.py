@@ -22,6 +22,10 @@ from collections.abc import Callable
 from tkinter import ttk, filedialog
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from typing import Optional
+import math
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+from scipy.stats import norm, skew, kurtosis
 
 try:
     from IPython.display import display, Markdown
@@ -375,15 +379,19 @@ def generate_all_previews(preview_data):
 
         except Exception as e:
             ax.text(
-                0.5, 0.5,
+                0.5,
+                0.5,
                 preview_error.format(error=str(e)),
-                ha="center", va="center", color="red"
+                ha="center",
+                va="center",
+                color="red",
             )
             ax.axis("off")
 
         ax.set_title(f"{func_name}", fontsize=12)
 
     return fig
+
 
 def help(type: str = None):
 
@@ -998,4 +1006,10 @@ __all__ = [
     "load_user_translations",
     "Optional",
     "filedialog",
+    "math",
+    "StandardScaler",
+    "PCA",
+    "norm",
+    "skew",
+    "kurtosis",
 ]

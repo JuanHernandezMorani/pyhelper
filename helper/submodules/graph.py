@@ -5,7 +5,7 @@ def hbar(data: pd.Series, title: str, xlabel: str, ylabel: str, save_path: Optio
 ):
     try:
         if data.empty:
-            show_gui_popup(t("ERROR_EMPTY_DATA"))
+            show_gui_popup("Error",t("ERROR_EMPTY_DATA"))
             return None
 
         if not show:
@@ -41,7 +41,7 @@ def hbar(data: pd.Series, title: str, xlabel: str, ylabel: str, save_path: Optio
             return fig
             
     except Exception as e:
-        show_gui_popup(t("ERROR_PLOT_GENERATION").format(str(e)))
+        show_gui_popup("Error",t("ERROR_PLOT_GENERATION").format(str(e)))
         return None
 
 
@@ -56,7 +56,7 @@ def vbar(data: Union[pd.Series, pd.DataFrame],
 ):
     try:
         if data.empty:
-            show_gui_popup(t("ERROR_EMPTY_DATA"))
+            show_gui_popup("Error",t("ERROR_EMPTY_DATA"))
             return None
 
         if not show:
@@ -91,7 +91,7 @@ def vbar(data: Union[pd.Series, pd.DataFrame],
             return fig
             
     except Exception as e:
-        show_gui_popup(t("ERROR_PLOT_GENERATION").format(str(e)))
+        show_gui_popup("Error",t("ERROR_PLOT_GENERATION").format(str(e)))
         return None
 
 
@@ -106,7 +106,7 @@ def pie(valores: Union[List[float], np.ndarray, pd.Series],
 ):
     try:
         if len(valores) == 0 or len(etiquetas) == 0:
-            show_gui_popup(t("ERROR_EMPTY_DATA"))
+            show_gui_popup("Error",t("ERROR_EMPTY_DATA"))
             return None
 
         if not show:
@@ -153,7 +153,7 @@ def pie(valores: Union[List[float], np.ndarray, pd.Series],
             return fig
             
     except Exception as e:
-        show_gui_popup(t("ERROR_PLOT_GENERATION").format(str(e)))
+        show_gui_popup("Error",t("ERROR_PLOT_GENERATION").format(str(e)))
         return None
 
 
@@ -170,7 +170,7 @@ def boxplot(df: pd.DataFrame,
 ):
     try:
         if df.empty:
-            show_gui_popup(t("ERROR_EMPTY_DATA"))
+            show_gui_popup("Error",t("ERROR_EMPTY_DATA"))
             return None
 
         if not show:
@@ -207,7 +207,7 @@ def boxplot(df: pd.DataFrame,
             return fig
             
     except Exception as e:
-        show_gui_popup(t("ERROR_PLOT_GENERATION").format(str(e)))
+        show_gui_popup("Error",t("ERROR_PLOT_GENERATION").format(str(e)))
         return None
 
 
@@ -223,14 +223,14 @@ def histo(df: pd.DataFrame,
 ):
     try:
         if column not in df.columns:
-            show_gui_popup(t("ERROR_COLUMN_NOT_FOUND").format(column))
+            show_gui_popup("Error",t("ERROR_COLUMN_NOT_FOUND").format(column))
             return None
 
         if condition is not None:
             df = df[condition]
 
         if df[column].dropna().empty:
-            show_gui_popup(t("ERROR_EMPTY_DATA"))
+            show_gui_popup("Error",t("ERROR_EMPTY_DATA"))
             return None
 
         if not show:
@@ -254,7 +254,7 @@ def histo(df: pd.DataFrame,
             return fig
             
     except Exception as e:
-        show_gui_popup(t("ERROR_PLOT_GENERATION").format(str(e)))
+        show_gui_popup("Error",t("ERROR_PLOT_GENERATION").format(str(e)))
         return None
 
 
@@ -274,7 +274,7 @@ def heatmap(data: Union[pd.DataFrame, np.ndarray],
             if index_col is not None and column_col is not None and value_col is not None:
                 # Pivot table case
                 if any(col not in data.columns for col in [index_col, column_col, value_col]):
-                    show_gui_popup(t("ERROR_COLUMN_NOT_FOUND"))
+                    show_gui_popup("Error",t("ERROR_COLUMN_NOT_FOUND"))
                     return None
                     
                 tabla = data.groupby([index_col, column_col])[value_col].size().unstack(fill_value=0)
@@ -286,7 +286,7 @@ def heatmap(data: Union[pd.DataFrame, np.ndarray],
             tabla = pd.DataFrame(data)
 
         if tabla.empty:
-            show_gui_popup(t("ERROR_EMPTY_DATA"))
+            show_gui_popup("Error",t("ERROR_EMPTY_DATA"))
             return None
 
         if not show:
@@ -318,7 +318,7 @@ def heatmap(data: Union[pd.DataFrame, np.ndarray],
             return fig
             
     except Exception as e:
-        show_gui_popup(t("ERROR_PLOT_GENERATION").format(str(e)))
+        show_gui_popup("Error",t("ERROR_PLOT_GENERATION").format(str(e)))
         return None
 
 
@@ -331,7 +331,7 @@ def table(data: Union[List[List], np.ndarray, pd.DataFrame],
 ):
     try:
         if len(data) == 0:
-            show_gui_popup(t("ERROR_EMPTY_DATA"))
+            show_gui_popup("Error",t("ERROR_EMPTY_DATA"))
             return None
 
         if not show:
@@ -366,7 +366,7 @@ def table(data: Union[List[List], np.ndarray, pd.DataFrame],
             return fig
             
     except Exception as e:
-        show_gui_popup(t("ERROR_PLOT_GENERATION").format(str(e)))
+        show_gui_popup("Error",t("ERROR_PLOT_GENERATION").format(str(e)))
         return None
 
 
@@ -383,7 +383,7 @@ def scatter(df: pd.DataFrame,
 ):
     try:
         if any(col not in df.columns for col in ([x, y] + ([hue] if hue else []))):
-            show_gui_popup(t("ERROR_COLUMN_NOT_FOUND"))
+            show_gui_popup("Error",t("ERROR_COLUMN_NOT_FOUND"))
             return None
 
         if not show:
@@ -413,7 +413,7 @@ def scatter(df: pd.DataFrame,
             return fig
             
     except Exception as e:
-        show_gui_popup(t("ERROR_PLOT_GENERATION").format(str(e)))
+        show_gui_popup("Error",t("ERROR_PLOT_GENERATION").format(str(e)))
         return None
 
 
@@ -430,7 +430,7 @@ def lineplot(df: pd.DataFrame,
 ):
     try:
         if any(col not in df.columns for col in ([x, y] + ([hue] if hue else []))):
-            show_gui_popup(t("ERROR_COLUMN_NOT_FOUND"))
+            show_gui_popup("Error",t("ERROR_COLUMN_NOT_FOUND"))
             return None
 
         if not show:
@@ -460,7 +460,7 @@ def lineplot(df: pd.DataFrame,
             return fig
             
     except Exception as e:
-        show_gui_popup(t("ERROR_PLOT_GENERATION").format(str(e)))
+        show_gui_popup("Error",t("ERROR_PLOT_GENERATION").format(str(e)))
         return None
 
 
@@ -476,7 +476,7 @@ def kdeplot(df: pd.DataFrame,
 ):
     try:
         if column not in df.columns or (hue and hue not in df.columns):
-            show_gui_popup(t("ERROR_COLUMN_NOT_FOUND"))
+            show_gui_popup("Error",t("ERROR_COLUMN_NOT_FOUND"))
             return None
 
         if not show:
@@ -504,7 +504,7 @@ def kdeplot(df: pd.DataFrame,
             return fig
             
     except Exception as e:
-        show_gui_popup(t("ERROR_PLOT_GENERATION").format(str(e)))
+        show_gui_popup("Error",t("ERROR_PLOT_GENERATION").format(str(e)))
         return None
 
 
@@ -521,7 +521,7 @@ def violinplot(df: pd.DataFrame,
 ):
     try:
         if df.empty:
-            show_gui_popup(t("ERROR_EMPTY_DATA"))
+            show_gui_popup("Error",t("ERROR_EMPTY_DATA"))
             return None
 
         if not show:
@@ -558,7 +558,7 @@ def violinplot(df: pd.DataFrame,
             return fig
             
     except Exception as e:
-        show_gui_popup(t("ERROR_PLOT_GENERATION").format(str(e)))
+        show_gui_popup("Error",t("ERROR_PLOT_GENERATION").format(str(e)))
         return None
 
 
@@ -573,11 +573,11 @@ def pairplot(df: pd.DataFrame,
 ):
     try:
         if df.empty:
-            show_gui_popup(t("ERROR_EMPTY_DATA"))
+            show_gui_popup("Error",t("ERROR_EMPTY_DATA"))
             return None
 
         if vars and any(col not in df.columns for col in vars):
-            show_gui_popup(t("ERROR_COLUMN_NOT_FOUND"))
+            show_gui_popup("Error",t("ERROR_COLUMN_NOT_FOUND"))
             return None
 
         if not show:
@@ -603,7 +603,7 @@ def pairplot(df: pd.DataFrame,
             return g.figure
             
     except Exception as e:
-        show_gui_popup(t("ERROR_PLOT_GENERATION").format(str(e)))
+        show_gui_popup("Error",t("ERROR_PLOT_GENERATION").format(str(e)))
         return None
 
 
@@ -620,11 +620,11 @@ def countplot(df: pd.DataFrame,
 ):
     try:
         if df.empty:
-            show_gui_popup(t("ERROR_EMPTY_DATA"))
+            show_gui_popup("Error",t("ERROR_EMPTY_DATA"))
             return None
 
         if (x and x not in df.columns) or (y and y not in df.columns) or (hue and hue not in df.columns):
-            show_gui_popup(t("ERROR_COLUMN_NOT_FOUND"))
+            show_gui_popup("Error",t("ERROR_COLUMN_NOT_FOUND"))
             return None
 
         if not show:
@@ -661,7 +661,7 @@ def countplot(df: pd.DataFrame,
             return fig
             
     except Exception as e:
-        show_gui_popup(t("ERROR_PLOT_GENERATION").format(str(e)))
+        show_gui_popup("Error",t("ERROR_PLOT_GENERATION").format(str(e)))
         return None
 
 
@@ -677,7 +677,7 @@ def lmplot(df: pd.DataFrame,
 ):
     try:
         if any(col not in df.columns for col in ([x, y] + ([hue] if hue else []))):
-            show_gui_popup(t("ERROR_COLUMN_NOT_FOUND"))
+            show_gui_popup("Error",t("ERROR_COLUMN_NOT_FOUND"))
             return None
 
         if not show:
@@ -698,7 +698,7 @@ def lmplot(df: pd.DataFrame,
             return g.fig
             
     except Exception as e:
-        show_gui_popup(t("ERROR_PLOT_GENERATION").format(str(e)))
+        show_gui_popup("Error",t("ERROR_PLOT_GENERATION").format(str(e)))
         return None
 
 
@@ -715,7 +715,7 @@ def jointplot(df: pd.DataFrame,
 ):
     try:
         if any(col not in df.columns for col in [x, y]):
-            show_gui_popup(t("ERROR_COLUMN_NOT_FOUND"))
+            show_gui_popup("Error",t("ERROR_COLUMN_NOT_FOUND"))
             return None
 
         if not show:
@@ -742,7 +742,7 @@ def jointplot(df: pd.DataFrame,
             return g.fig
             
     except Exception as e:
-        show_gui_popup(t("ERROR_PLOT_GENERATION").format(str(e)))
+        show_gui_popup("Error",t("ERROR_PLOT_GENERATION").format(str(e)))
         return None
 
 
@@ -759,11 +759,11 @@ def swarmplot(df: pd.DataFrame,
 ):
     try:
         if df.empty:
-            show_gui_popup(t("ERROR_EMPTY_DATA"))
+            show_gui_popup("Error",t("ERROR_EMPTY_DATA"))
             return None
 
         if (x and x not in df.columns) or (y and y not in df.columns) or (hue and hue not in df.columns):
-            show_gui_popup(t("ERROR_COLUMN_NOT_FOUND"))
+            show_gui_popup("Error",t("ERROR_COLUMN_NOT_FOUND"))
             return None
 
         if not show:
@@ -800,7 +800,7 @@ def swarmplot(df: pd.DataFrame,
             return fig
             
     except Exception as e:
-        show_gui_popup(t("ERROR_PLOT_GENERATION").format(str(e)))
+        show_gui_popup("Error",t("ERROR_PLOT_GENERATION").format(str(e)))
         return None
 
 
@@ -815,7 +815,7 @@ def regplot(df: pd.DataFrame,
 ):
     try:
         if any(col not in df.columns for col in [x, y]):
-            show_gui_popup(t("ERROR_COLUMN_NOT_FOUND"))
+            show_gui_popup("Error",t("ERROR_COLUMN_NOT_FOUND"))
             return None
 
         if not show:
@@ -840,7 +840,7 @@ def regplot(df: pd.DataFrame,
             return fig
             
     except Exception as e:
-        show_gui_popup(t("ERROR_PLOT_GENERATION").format(str(e)))
+        show_gui_popup("Error",t("ERROR_PLOT_GENERATION").format(str(e)))
         return None
 
 
@@ -857,11 +857,11 @@ def barplot(df: pd.DataFrame,
 ):
     try:
         if df.empty:
-            show_gui_popup(t("ERROR_EMPTY_DATA"))
+            show_gui_popup("Error",t("ERROR_EMPTY_DATA"))
             return None
 
         if (x and x not in df.columns) or (y and y not in df.columns) or (hue and hue not in df.columns):
-            show_gui_popup(t("ERROR_COLUMN_NOT_FOUND"))
+            show_gui_popup("Error",t("ERROR_COLUMN_NOT_FOUND"))
             return None
 
         if not show:
@@ -898,7 +898,7 @@ def barplot(df: pd.DataFrame,
             return fig
             
     except Exception as e:
-        show_gui_popup(t("ERROR_PLOT_GENERATION").format(str(e)))
+        show_gui_popup("Error",t("ERROR_PLOT_GENERATION").format(str(e)))
         return None
 
 
@@ -915,11 +915,11 @@ def stripplot(df: pd.DataFrame,
 ):
     try:
         if df.empty:
-            show_gui_popup(t("ERROR_EMPTY_DATA"))
+            show_gui_popup("Error",t("ERROR_EMPTY_DATA"))
             return None
 
         if (x and x not in df.columns) or (y and y not in df.columns) or (hue and hue not in df.columns):
-            show_gui_popup(t("ERROR_COLUMN_NOT_FOUND"))
+            show_gui_popup("Error",t("ERROR_COLUMN_NOT_FOUND"))
             return None
 
         if not show:
@@ -958,5 +958,5 @@ def stripplot(df: pd.DataFrame,
             return fig
             
     except Exception as e:
-        show_gui_popup(t("ERROR_PLOT_GENERATION").format(str(e)))
+        show_gui_popup("Error",t("ERROR_PLOT_GENERATION").format(str(e)))
         return None
