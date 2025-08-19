@@ -36,6 +36,7 @@ def collect_all_imports(target_dir="helper"):
             if file.endswith(".py"):
                 path = os.path.join(root, file)
                 all_imports.update(find_imports_in_file(path))
+                all_imports.discard("sklearn")
     return sorted(all_imports)
 
 # Packages you know are needed from PyPI (standard lib ones serán ignorados por pip)
@@ -49,11 +50,11 @@ def is_stdlib(module_name):
 
 
 # Only include external dependencies
-install_requires = [pkg for pkg in raw_deps if not is_stdlib(pkg) and pkg not in internal_modules]
+install_requires = [pkg for pkg in raw_deps if not is_stdlib(pkg) and pkg not in internal_modules].remove("sklearn")
 
 setup(
     name="pyhelper-tools-jbhm",
-    version="1.1.3",
+    version="1.1.4",
     description="A centralized data-handling toolkit for Python developers",
     author="Juan Braian Hernandez Morani",
     long_description=long_description,
