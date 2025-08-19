@@ -1,7 +1,7 @@
 from .core import *
 from .submodules import *
 
-__version__ ="1.1.2" 
+__version__ ="1.1.3" 
 __name__ = "pyhelper-tools-jbhm"
 
 import inspect
@@ -38,6 +38,7 @@ from .submodules import __all__ as submodules_all
 
 _exported_names.update(submodules_all)
 
+
 _other_exports = {
     "sys",
     "ast",
@@ -59,9 +60,11 @@ _other_exports = {
     "time",
     "os",
     "filedialog",
+    "scikit-learn"
 }
 
 _other_exports = _other_exports - _exported_names
 _exported_names.update(_other_exports)
+_exported_names.discard("sklearn")
 
 __all__ = sorted(_exported_names)
