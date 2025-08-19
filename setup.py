@@ -53,7 +53,7 @@ install_requires = [pkg for pkg in raw_deps if not is_stdlib(pkg) and pkg not in
 
 setup(
     name="pyhelper-tools-jbhm",
-    version="1.1.0",
+    version="1.1.1",
     description="A centralized data-handling toolkit for Python developers",
     author="Juan Braian Hernandez Morani",
     long_description=long_description,
