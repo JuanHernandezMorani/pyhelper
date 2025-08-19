@@ -50,7 +50,15 @@ def is_stdlib(module_name):
 
 
 # Only include external dependencies
-install_requires = [pkg for pkg in raw_deps if not is_stdlib(pkg) and pkg not in internal_modules].remove("sklearn")
+processed_deps = []
+for pkg in raw_deps:
+    if not is_stdlib(pkg) and pkg not in internal_modules:
+        if pkg == 'sklearn':
+            processed_deps.append('scikit-learn')
+        else:
+            processed_deps.append(pkg)
+
+install_requires = processed_deps
 
 setup(
     name="pyhelper-tools-jbhm",
