@@ -1331,30 +1331,6 @@
     "ja": "データとオプションの多項式次数を含む回帰モデルのフィットをプロットします",
     "ar": "يرسم البيانات ونموذج الانحدار مع ترتيب متعدد الحدود اختياري"
   },
-  "distplot": {
-    "en": "Creates a histogram with optional kernel density estimation",
-    "es": "Crea un histograma con estimación de densidad kernel opcional",
-    "fr": "Crée un histogramme avec estimation de densité kernel optionnelle",
-    "de": "Erstellt ein Histogramm mit optionaler Kernel-Dichteschätzung",
-    "it": "Crea un istogramma con stima della densità kernel opzionale",
-    "pt": "Cria um histograma com estimativa de densidade kernel opcional",
-    "ru": "Создает гистограмму с дополнительной оценкой плотности ядра",
-    "zh": "创建带有可选核密度估计的直方图",
-    "ja": "オプションのカーネル密度推定を含むヒストグラムを作成します",
-    "ar": "ينشئ مدرج تكراري مع تقدير كثافة النواة اختياري"
-  },
-  "distplot_description": {
-    "en": "Visualizes the distribution of a univariate set of observations.",
-    "es": "Visualiza la distribución de un conjunto univariado de observaciones.",
-    "fr": "Visualise la distribution d'un ensemble univarié d'observations.",
-    "de": "Visualisiert die Verteilung einer univariaten Menge von Beobachtungen.",
-    "it": "Visualizza la distribuzione di un insieme univariato di osservazioni.",
-    "pt": "Visualiza a distribuição de um conjunto univariado de observações.",
-    "ru": "Визуализирует распределение одномерного набора наблюдений.",
-    "zh": "可视化一组单变量观察值的分布。",
-    "ja": "単一変数の観測値セットの分布を視覚化します",
-    "ar": "يتصور توزيع مجموعة أحادية المتغير من الملاحظات"
-  },
   "barplot": {
     "en": "Creates a bar plot with optional error bars and grouping",
     "es": "Crea un gráfico de barras con barras de error opcionales y agrupación",

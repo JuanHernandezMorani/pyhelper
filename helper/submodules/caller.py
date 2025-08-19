@@ -1,4 +1,4 @@
-from ..core import time, Path, os, json, ET, csv, show_gui_popup, t
+from ..core import time, Path, os, json, ET, csv, show_gui_popup, t, pd
 
 
 def call(
@@ -59,13 +59,12 @@ def call(
 
 def read(file_path: Path, ext: str):
     if ext == "json":
-        with open(file_path, encoding="utf-8") as f:
-            return json.load(f)
+        return pd.read_json(file_path)
     elif ext == "csv":
-        with open(file_path, encoding="utf-8") as f:
-            return list(csv.DictReader(f))
+        return pd.read_csv(file_path)
     elif ext == "xml":
-        tree = ET.parse(file_path)
-        return tree.getroot()
+        return pd.read_xml(file_path)
+    elif ext == "html":
+        return pd.read_html(file_path)
     else:
         raise ValueError(t("unsupported_file_type").format(ext=ext))

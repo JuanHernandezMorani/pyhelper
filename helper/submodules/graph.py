@@ -1,14 +1,7 @@
 from ..core import pd, BIG_SIZE, NORMAL_SIZE, plt, format_number, sns, mpl, Optional, show_gui_popup, t, np, Union, List, Dict
 
 
-def hbar(data: pd.Series,
-    title: str,
-    xlabel: str,
-    ylabel: str,
-    save_path: Optional[str] = None,
-    show: bool = True,
-    color: Union[str, List[str]] = "skyblue",
-    **kwargs
+def hbar(data: pd.Series, title: str, xlabel: str, ylabel: str, save_path: Optional[str] = None, show: bool = True, color: Union[str, List[str]] = "skyblue", **kwargs
 ):
     try:
         if data.empty:
@@ -187,7 +180,12 @@ def boxplot(df: pd.DataFrame,
         
         if color and not hue:
             sns.boxplot(data=df, x=x, y=y, color=color)
-        else:
+        else:            
+            if palette is not None:
+                if hue is None:
+                    hue = x
+                    kwargs["legend"] = False
+                kwargs["palette"] = palette
             sns.boxplot(data=df, x=x, y=y, hue=hue, palette=palette)
             
         plt.title(title)
@@ -534,6 +532,11 @@ def violinplot(df: pd.DataFrame,
         if color and not hue:
             sns.violinplot(data=df, x=x, y=y, color=color, **kwargs)
         else:
+            if palette is not None:
+                if hue is None:
+                    hue = x
+                    kwargs["legend"] = False
+                kwargs["palette"] = palette
             sns.violinplot(data=df, x=x, y=y, hue=hue, palette=palette, **kwargs)
             
         plt.title(title)
@@ -588,7 +591,7 @@ def pairplot(df: pd.DataFrame,
         )
         
         if title:
-            g.fig.suptitle(title, y=1.02)
+            g.figure.suptitle(title, y=1.02)
 
         if save_path:
             plt.savefig(save_path, bbox_inches="tight")
@@ -597,7 +600,7 @@ def pairplot(df: pd.DataFrame,
             plt.show()
             return None
         else:
-            return g.fig
+            return g.figure
             
     except Exception as e:
         show_gui_popup(t("ERROR_PLOT_GENERATION").format(str(e)))
@@ -631,7 +634,12 @@ def countplot(df: pd.DataFrame,
         
         if color and not hue:
             sns.countplot(data=df, x=x, y=y, color=color, **kwargs)
-        else:
+        else:            
+            if palette is not None:
+                if hue is None:
+                    hue = x
+                    kwargs["legend"] = False
+                kwargs["palette"] = palette
             sns.countplot(data=df, x=x, y=y, hue=hue, palette=palette, **kwargs)
             
         plt.title(title)
@@ -678,7 +686,7 @@ def lmplot(df: pd.DataFrame,
         g = sns.lmplot(data=df, x=x, y=y, hue=hue, palette=palette, **kwargs)
         
         if title:
-            g.fig.suptitle(title, y=1.02)
+            g.figure.suptitle(title, y=1.02)
 
         if save_path:
             plt.savefig(save_path, bbox_inches="tight")
@@ -722,7 +730,7 @@ def jointplot(df: pd.DataFrame,
             g = sns.jointplot(data=df, x=x, y=y, color=color, kind=kind, **kwargs)
         
         if title:
-            g.fig.suptitle(title, y=1.02)
+            g.figure.suptitle(title, y=1.02)
 
         if save_path:
             plt.savefig(save_path, bbox_inches="tight")
@@ -765,7 +773,12 @@ def swarmplot(df: pd.DataFrame,
         
         if color and not hue:
             sns.swarmplot(data=df, x=x, y=y, color=color, **kwargs)
-        else:
+        else:            
+            if palette is not None:
+                if hue is None:
+                    hue = x
+                    kwargs["legend"] = False
+                kwargs["palette"] = palette
             sns.swarmplot(data=df, x=x, y=y, hue=hue, palette=palette, **kwargs)
             
         plt.title(title)
@@ -831,42 +844,6 @@ def regplot(df: pd.DataFrame,
         return None
 
 
-def distplot(data: Union[pd.Series, np.ndarray, List[float]],
-    title: str = "",
-    save_path: Optional[str] = None,
-    show: bool = True,
-    color: Optional[str] = None,
-    **kwargs
-):
-    try:
-        if len(data) == 0:
-            show_gui_popup(t("ERROR_EMPTY_DATA"))
-            return None
-
-        if not show:
-            mpl.use("Agg")
-
-        fig = plt.figure(figsize=kwargs.get('figsize', NORMAL_SIZE))
-        
-        sns.distplot(data, color=color if color else 'blue', **kwargs)
-            
-        plt.title(title)
-        plt.grid(True, alpha=0.3)
-        plt.tight_layout()
-        if save_path:
-            plt.savefig(save_path, bbox_inches="tight")
-
-        if show:
-            plt.show()
-            return None
-        else:
-            return fig
-            
-    except Exception as e:
-        show_gui_popup(t("ERROR_PLOT_GENERATION").format(str(e)))
-        return None
-
-
 def barplot(df: pd.DataFrame,
     x: Optional[str] = None,
     y: Optional[str] = None,
@@ -895,6 +872,11 @@ def barplot(df: pd.DataFrame,
         if color and not hue:
             sns.barplot(data=df, x=x, y=y, color=color, **kwargs)
         else:
+            if palette is not None:
+                if hue is None:
+                    hue = x
+                    kwargs["legend"] = False
+                kwargs["palette"] = palette
             sns.barplot(data=df, x=x, y=y, hue=hue, palette=palette, **kwargs)
             
         plt.title(title)
@@ -945,9 +927,16 @@ def stripplot(df: pd.DataFrame,
 
         fig = plt.figure(figsize=kwargs.get('figsize', BIG_SIZE))
         
+        
+        
         if color and not hue:
             sns.stripplot(data=df, x=x, y=y, color=color, **kwargs)
         else:
+            if palette is not None:
+                if hue is None:
+                    hue = x
+                    kwargs["legend"] = False
+                kwargs["palette"] = palette
             sns.stripplot(data=df, x=x, y=y, hue=hue, palette=palette, **kwargs)
             
         plt.title(title)

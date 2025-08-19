@@ -58,10 +58,7 @@ BTN_BG = "#3d3d3d"
 HIGHLIGHT_COLOR = "#4e7cad"
 
 
-config = {
-    "verbose": True,
-    "default_timeout": 5,
-}
+config = {"verbose": True, "default_timeout": 5, "counter": 0}
 
 
 def show_gui_popup(
@@ -252,13 +249,11 @@ def show_gui_popup(
                 except Exception as e:
                     print(f"{gui_error}: {str(e)}")
 
-        # Schedule the GUI to run in the next event loop iteration
         window.after(100, run_in_jupyter)
     else:
-        # Standard CLI execution
+
         window.mainloop()
 
-    # Cleanup
     if current_fig is not None:
         plt.close(current_fig)
 
@@ -327,78 +322,229 @@ def register(name=None):
     return wrapper
 
 
+def fig_to_img(fig):
+    """Convierte una figura matplotlib a una imagen para mostrar en otro gráfico"""
+    fig.canvas.draw()
+    img = np.frombuffer(fig.canvas.tostring_rgb(), dtype=np.uint8)
+    img = img.reshape(fig.canvas.get_width_height()[::-1] + (3,))
+    return img
+
+
 def generate_all_previews(preview_data):
-    """Función auxiliar para generar todos los previews en un solo gráfico"""
     import matplotlib.pyplot as plt
     from matplotlib.gridspec import GridSpec
+    import numpy as np
 
-    # Textos traducidos
-    preview_title = t("function_preview_title")  # "Preview de {function}"
-    non_graph_preview = t(
-        "non_graph_preview_available"
-    )  # "Preview no gráfico disponible"
-    preview_error = t("preview_error_message")  # "Error en preview:\n{error}"
+    preview_title = t("function_preview_title")
+    preview_error = t("preview_error_message")
 
-    fig = plt.figure(figsize=(12, 8), tight_layout=True)
-    gs = GridSpec(len(preview_data), 1, figure=fig)
-
-    for idx, (func_name, data) in enumerate(preview_data.items()):
-        ax = fig.add_subplot(gs[idx])
-        ax.set_title(preview_title.format(function=func_name), fontsize=10)
-
+    # Filtrar solo las funciones que devuelven gráficos
+    graph_previews = {}
+    for func_name, data in preview_data.items():
         try:
-            # Ejecutar la función de preview y capturar la figura si existe
             result = data["preview_func"]()
             if hasattr(result, "figure"):
-                result.figure.clf()
-                plt.close(result.figure)
-                ax.imshow(result.canvas.renderer.buffer_rgba())
-            else:
-                ax.text(0.5, 0.5, non_graph_preview, ha="center", va="center")
+                graph_previews[func_name] = data
+        except:
+            pass
+
+    num_funcs = len(graph_previews)
+    if num_funcs == 0:
+        return None
+
+    # Cada gráfico ocupa 6 de alto y 8 de ancho
+    rows = (num_funcs + 1) // 2
+    fig_height = rows * 6
+    fig_width = 18  # ancho generoso
+    fig = plt.figure(figsize=(fig_width, fig_height), tight_layout=True)
+    gs = GridSpec(rows, 2, figure=fig)
+
+    for idx, (func_name, data) in enumerate(graph_previews.items()):
+        ax = fig.add_subplot(gs[idx // 2, idx % 2])
+
+        try:
+            result = data["preview_func"]()
+
+            if hasattr(result, "figure"):
+                result.canvas.draw()
+                img = np.frombuffer(result.canvas.tostring_rgb(), dtype=np.uint8)
+                img = img.reshape(result.canvas.get_width_height()[::-1] + (3,))
+                ax.imshow(img)
                 ax.axis("off")
+                plt.close(result.figure)
+
         except Exception as e:
             ax.text(
-                0.5,
-                0.5,
+                0.5, 0.5,
                 preview_error.format(error=str(e)),
-                ha="center",
-                va="center",
-                color="red",
+                ha="center", va="center", color="red"
             )
             ax.axis("off")
 
-    return fig
+        ax.set_title(f"{func_name}", fontsize=12)
 
+    return fig
 
 def help(type: str = None):
 
+    from .submodules import (
+        hbar,
+        vbar,
+        pie,
+        normalize,
+        get_moda,
+        get_media,
+        get_median,
+        boxplot,
+        get_rank,
+        get_var,
+        get_desv,
+        histo,
+        disp,
+        table,
+        conditional,
+        heatmap,
+        call,
+        Switch,
+        scatter,
+        lineplot,
+        kdeplot,
+        violinplot,
+        pairplot,
+        countplot,
+        lmplot,
+        jointplot,
+        swarmplot,
+        regplot,
+        barplot,
+        stripplot,
+    )
+
+    # Translation strings
+    preview_error_text = t("preview_error")
+    gui_error_text = t("error_in_gui")
+    error_text = t("help_error")
+    function_preview_title = t("function_preview_title")
+    preview_error_msg = t("preview_error_message")
+    async_preview_note = t("async_preview_not_available")
     preview_text = t("preview")
     example_text = t("example")
     description = t("description")
-    preview_error_text = t("preview_error")
-    gui_error_text = t("error_in_gui")
     available_funcs_text = t("help_available_functions")
     usage_text = t("help_usage")
-    error_text = t("help_error")
     all_title_text = t("title_all")
-    function_preview_title = t("function_preview_title")  # "Preview de {function}"
-    non_graph_preview = t("non_graph_preview_available")
-    preview_error_msg = t("preview_error_message")
-    async_preview_note = t("async_preview_not_available")
-
-    from . import ALL_FUNCTIONS
-
-    globals().update(ALL_FUNCTIONS)
-
-    def call_func(func_name, *args, **kwargs):
-        return ALL_FUNCTIONS[func_name](*args, **kwargs)
 
     help_map = {
+        "get_moda": {
+            description: t("get_moda"),
+            example_text: "get_moda(np.array([1, 2, 2, 3, 3, 3]), with_repetition=True, decimals=2)",
+            preview_text: lambda: show_gui_popup(
+                title="Moda",
+                content=get_moda(
+                    np.array([1, 2, 2, 3, 3, 3]), with_repetition=True, decimals=2
+                ),
+                preview_mode=True,
+            ),
+        },
+        "get_media": {
+            description: t("get_media"),
+            example_text: "get_media(np.array([10, 20, 30, 40]), nan=False, decimals=2)",
+            preview_text: lambda: show_gui_popup(
+                title="Media",
+                content=get_media(np.array([10, 20, 30, 40]), nan=False, decimals=2),
+                preview_mode=True,
+            ),
+        },
+        "get_median": {
+            description: t("get_median"),
+            example_text: "get_median(np.array([10, 20, 30, 40]), nan=False, decimals=2)",
+            preview_text: lambda: show_gui_popup(
+                title="Mediana",
+                content=get_median(np.array([10, 20, 30, 40]), nan=False, decimals=2),
+                preview_mode=True,
+            ),
+        },
+        "get_rank": {
+            description: t("get_rank"),
+            example_text: 'get_rank(pd.DataFrame({"A": [10, 20, 30]}), "A", decimals=2)',
+            preview_text: lambda: show_gui_popup(
+                title="Rank",
+                content=get_rank(pd.DataFrame({"A": [10, 20, 30]}), "A", decimals=2),
+                preview_mode=True,
+            ),
+        },
+        "get_var": {
+            description: t("get_var"),
+            example_text: 'get_var(pd.DataFrame({"A": [10, 20, 30]}), "A", decimals=2)',
+            preview_text: lambda: show_gui_popup(
+                title="Varianza",
+                content=get_var(pd.DataFrame({"A": [10, 20, 30]}), "A", decimals=2),
+                preview_mode=True,
+            ),
+        },
+        "get_desv": {
+            description: t("get_desv"),
+            example_text: 'get_desv(pd.DataFrame({"A": [10, 20, 30]}), "A", decimals=2)',
+            preview_text: lambda: show_gui_popup(
+                title="Desviación Estándar",
+                content=get_desv(pd.DataFrame({"A": [10, 20, 30]}), "A", decimals=2),
+                preview_mode=True,
+            ),
+        },
+        "disp": {
+            description: t("disp"),
+            example_text: 'disp(pd.DataFrame({"A": [10, 20, 30]}), "A")',
+            preview_text: lambda: show_gui_popup(
+                title="Disp",
+                content=disp(pd.DataFrame({"A": [10, 20, 30]}), "A"),
+                preview_mode=True,
+            ),
+        },
+        "normalize": {
+            description: t("normalize"),
+            example_text: "normalize(np.array([1, 2, 3, 4, 5]))",
+            preview_text: lambda: show_gui_popup(
+                title="Normalize",
+                content=normalize(np.array([1, 2, 3, 4, 5])),
+                preview_mode=True,
+            ),
+        },
+        "conditional": {
+            description: t("conditional"),
+            example_text: """
+conditional(
+    pd.DataFrame({"A": [1, 2, 3, 4]}),
+    conditions=[lambda df: df["A"] < 3, lambda df: df["A"] >= 3],
+    results=["Low", "High"],
+    column_name="Category"
+)
+    """,
+            preview_text: lambda: (
+                lambda df: show_gui_popup(
+                    title="Conditional Example",
+                    content=pd.concat(
+                        [
+                            pd.DataFrame({"Antes": df["A"]}),
+                            conditional(
+                                df.copy(),
+                                conditions=[
+                                    lambda df: df["A"] < 3,
+                                    lambda df: df["A"] >= 3,
+                                ],
+                                results=["Low", "High"],
+                                column_name="Category",
+                            ),
+                        ],
+                        axis=1,
+                    ),
+                    preview_mode=True,
+                )
+            )(pd.DataFrame({"A": [1, 2, 3, 4]})),
+        },
         "hbar": {
             description: t("hbar"),
             example_text: 'hbar(pd.Series([30, 70], index=["A", "B"]), title="My Chart", xlabel="Categories", ylabel="Values")',
-            preview_text: lambda: call_func(
-                "hbar",
+            preview_text: lambda: hbar(
                 pd.Series([30, 70], index=["A", "B"]),
                 title="My Chart",
                 xlabel="Categories",
@@ -409,8 +555,7 @@ def help(type: str = None):
         "vbar": {
             description: t("vbar"),
             example_text: 'vbar(pd.Series([30, 70], index=["A", "B"]), title="Vertical Chart", xlabel="Categories", ylabel="Values")',
-            preview_text: lambda: call_func(
-                "vbar",
+            preview_text: lambda: vbar(
                 pd.Series([30, 70], index=["A", "B"]),
                 title="Vertical Chart",
                 xlabel="Categories",
@@ -420,217 +565,73 @@ def help(type: str = None):
         },
         "pie": {
             description: t("pie"),
-            example_text: 'pie(pd.Series([50, 50], index=["Cats", "Dogs"]), title="Pets")',
-            preview_text: lambda: call_func(
-                "pie",
-                pd.Series([50, 50], index=["Cats", "Dogs"]),
+            example_text: 'pie([50, 50], ["Cats", "Dogs"], title="Pets")',
+            preview_text: lambda: pie(
+                [50, 50],
+                ["Cats", "Dogs"],
                 title="Pets",
                 show=IN_JUPYTER,
             ),
         },
-        "normalize": {
-            description: t("normalize"),
-            example_text: 'normalize(pd.DataFrame({"A": [1, 2, 3], "B": [4, 5, 6]}), columns=["A", "B"])',
-            preview_text: lambda: call_func(
-                "disp",
-                call_func(
-                    "normalize",
-                    pd.DataFrame({"A": [1, 2, 3], "B": [4, 5, 6]}),
-                    columns=["A", "B"],
-                ),
-            ),
-        },
-        "get_moda": {
-            description: t("get_moda"),
-            example_text: "get_moda(pd.Series([1, 2, 2, 3]))",
-            preview_text: lambda: print(
-                "Moda:", call_func("get_moda", pd.Series([1, 2, 2, 3]))
-            ),
-        },
-        "get_media": {
-            description: t("get_media"),
-            example_text: "get_media(pd.Series([10, 20, 30]))",
-            preview_text: lambda: print(
-                "Media:", call_func("get_media", pd.Series([10, 20, 30]))
-            ),
-        },
-        "get_median": {
-            description: t("get_median"),
-            example_text: "get_median(pd.Series([10, 20, 30]))",
-            preview_text: lambda: print(
-                "Median:", call_func("get_median", pd.Series([10, 20, 30]))
-            ),
-        },
         "boxplot": {
             description: t("boxplot"),
-            example_text: 'boxplot(pd.DataFrame({"Values": [10, 20, 30, 40, 50]}))',
-            preview_text: lambda: call_func(
-                "boxplot",
-                pd.DataFrame({"Values": [10, 20, 30, 40, 50]}),
+            example_text: 'boxplot(pd.DataFrame({"Values": [10, 20, 30]}), y="Values", title="Box Plot")',
+            preview_text: lambda: boxplot(
+                pd.DataFrame({"Values": [10, 20, 30]}),
+                y="Values",
+                title="Box Plot",
                 show=IN_JUPYTER,
-            ),
-        },
-        "get_rank": {
-            description: t("get_rank"),
-            example_text: 'get_rank(pd.DataFrame({"Values": [10, 30, 20]}), "Values")',
-            preview_text: lambda: print(
-                "Rank:",
-                call_func("get_rank", pd.DataFrame({"Values": [10, 30, 20]}), "Values"),
-            ),
-        },
-        "get_var": {
-            description: t("get_var"),
-            example_text: 'get_var(pd.DataFrame({"Values": [10, 20, 30]}), "Values")',
-            preview_text: lambda: print(
-                "Varianza:",
-                call_func("get_var", pd.DataFrame({"Values": [10, 20, 30]}), "Values"),
-            ),
-        },
-        "get_desv": {
-            description: t("get_desv"),
-            example_text: 'get_desv(pd.DataFrame({"Values": [10, 20, 30]}), "Values")',
-            preview_text: lambda: print(
-                "Desviación estándar:",
-                call_func("get_desv", pd.DataFrame({"Values": [10, 20, 30]}), "Values"),
             ),
         },
         "histo": {
             description: t("histo"),
-            example_text: 'histo(pd.DataFrame({"Values": [1, 2, 2, 3, 3, 3, 4, 4, 5]}))',
-            preview_text: lambda: call_func(
-                "histo",
-                pd.DataFrame({"Values": [1, 2, 2, 3, 3, 3, 4, 4, 5]}),
+            example_text: 'histo(pd.DataFrame({"Values": [1,2,2,3,3,3,4]}), column="Values", bins=5, title="Histogram")',
+            preview_text: lambda: histo(
+                pd.DataFrame({"Values": [1, 2, 2, 3, 3, 3, 4]}),
+                column="Values",
+                bins=5,
+                title="Histogram",
                 show=IN_JUPYTER,
-            ),
-        },
-        "disp": {
-            description: t("disp"),
-            example_text: 'disp(pd.DataFrame({"X": [1, 2, 3], "Y": [4, 5, 6]}))',
-            preview_text: lambda: call_func(
-                "disp", pd.DataFrame({"X": [1, 2, 3], "Y": [4, 5, 6]})
-            ),
-        },
-        "table": {
-            description: t("table"),
-            example_text: 'table(pd.DataFrame({"A": [1, 2], "B": [3, 4]}))',
-            preview_text: lambda: call_func(
-                "table", pd.DataFrame({"A": [1, 2], "B": [3, 4]}), show=IN_JUPYTER
-            ),
-        },
-        "conditional": {
-            description: t("conditional"),
-            example_text: 'conditional(pd.DataFrame({"A": [1, 2, 3]}), "A", lambda x: x > 1)',
-            preview_text: lambda: call_func(
-                "conditional", pd.DataFrame({"A": [1, 2, 3]}), "A", lambda x: x > 1
             ),
         },
         "heatmap": {
             description: t("heatmap"),
-            example_text: 'heatmap(pd.DataFrame({"X": ["A", "A", "B"], "Y": ["C", "D", "C"], "Value": [1, 2, 3]}), "X", "Y", "Value")',
-            preview_text: lambda: call_func(
-                "heatmap",
+            example_text: """
+heatmap(
+    pd.DataFrame({"X": ["A", "A", "B"], "Y": ["C", "D", "C"], "Value": [1, 2, 3]}),
+    index_col="X", column_col="Y", value_col="Value", title="Heatmap"
+)
+        """,
+            preview_text: lambda: heatmap(
                 pd.DataFrame(
                     {"X": ["A", "A", "B"], "Y": ["C", "D", "C"], "Value": [1, 2, 3]}
                 ),
-                "X",
-                "Y",
-                "Value",
+                index_col="X",
+                column_col="Y",
+                value_col="Value",
+                title="Heatmap",
                 show=IN_JUPYTER,
             ),
         },
-        "call": {
-            description: t("call"),
-            example_text: 'call("test", "csv")',
-            preview_text: lambda: print("Resultado:", call_func("call", "test", "csv")),
-        },
-        "switch": {
-            description: t("switch"),
-            example_text: """
-# Ejemplo 1: Switch básico
-result = Switch(5)(
-    lambda x: x > 0, lambda: "Positive",
-    lambda x: x < 0, lambda: "Negative",
-    "default", lambda: "Zero"
-)
-# Output: "Positive"
-
-# Ejemplo 2: Formato de diccionario
-result_dict = Switch(5)({
-    "cases": [
-        {"case": lambda x: x > 10, "then": lambda: "Greater than 10"},
-        {"case": lambda x: x > 0, "then": lambda: "Positive"}
-    ],
-    "default": lambda: "Zero"
-})
-# Output: "Positive"
-
-# Ejemplo 3: Múltiples condiciones
-print(Switch(3)(
-    lambda x: x == 1, lambda: "One",
-    lambda x: x in range(2, 5), lambda: "Between 2 and 4",
-    lambda x: x > 10, lambda: "Greater than 10",
-    "default", lambda: "Other value"
-))
-# Output: "Between 2 and 4"
-    """,
-            preview_text: lambda: call_func("Switch", 5)(
-                lambda x: x > 0,
-                lambda: print(t("switch_preview_positive")),
-                "default",
-                lambda: print(t("switch_preview_zero")),
-            ),
-        },
-        "async_switch": {
-            description: t("async_switch"),
-            example_text: """
-async def async_positive():
-    await asyncio.sleep(0.1)
-    return "Async Positive"
-
-async def main_async():
-    result = await AsyncSwitch(5)(
-        lambda x: x > 0, async_positive,
-        "default", lambda: "Default"
-    )
-    print(result)  # Output: "Async Positive"
-
-asyncio.run(main_async())
-    """,
-            preview_text: lambda: print(t("async_preview_not_available")),
-        },
-        "t": {
-            description: t("t"),
-            example_text: 't("hello")',
-            preview_text: lambda: print(call_func("t", "hello")),
-        },
-        "show_gui_popup": {
-            description: t("show_gui_popup"),
-            example_text: "show_gui_popup(title, content, fig=None, plot_function=None, plot_args=None)",
-            preview_text: lambda: call_func(
-                "show_gui_popup",
-                "Title",
-                "Content",
-                "plot_function=lambda: (plt.figure(), plt.plot([1,2,3], [1,4,9])",
-                "preview_mode=True)",
-            ),
-        },
-        "load_user_translations": {
-            description: t("load_user_translations"),
-            example_text: 'load_user_translations({"es": {"hello": "hola"}})',
-            preview_text: lambda: call_func(
-                "load_user_translations", {"es": {"hello": "hola"}}
+        "table": {
+            description: t("table"),
+            example_text: 'table(pd.DataFrame({"A": [1, 2], "B": [3, 4]}), col_labels=["A", "B"], title="Table")',
+            preview_text: lambda: table(
+                pd.DataFrame({"A": [1, 2], "B": [3, 4]}),
+                col_labels=["A", "B"],
+                title="Table",
+                show=IN_JUPYTER,
             ),
         },
         "scatter": {
-            description: t("scatter_description"),
+            description: t("scatter"),
             example_text: 'scatter(df, x="age", y="income", hue="gender", title="Age vs Income")',
-            preview_text: lambda: call_func(
-                "scatter",
+            preview_text: lambda: scatter(
                 pd.DataFrame(
                     {
-                        "age": [25, 30, 35, 40, 45, 50],
-                        "income": [40000, 45000, 60000, 80000, 75000, 90000],
-                        "gender": ["M", "F", "M", "F", "M", "F"],
+                        "age": [25, 30, 35, 40],
+                        "income": [40000, 45000, 60000, 80000],
+                        "gender": ["M", "F", "M", "F"],
                     }
                 ),
                 x="age",
@@ -641,15 +642,14 @@ asyncio.run(main_async())
             ),
         },
         "lineplot": {
-            description: t("lineplot_description"),
+            description: t("lineplot"),
             example_text: 'lineplot(df, x="year", y="sales", hue="product", title="Sales Trend")',
-            preview_text: lambda: call_func(
-                "lineplot",
+            preview_text: lambda: lineplot(
                 pd.DataFrame(
                     {
-                        "year": [2018, 2019, 2020, 2021, 2022],
-                        "sales": [100, 120, 150, 180, 200],
-                        "product": ["A", "A", "B", "B", "B"],
+                        "year": [2018, 2019, 2020, 2021],
+                        "sales": [100, 120, 150, 180],
+                        "product": ["A", "A", "B", "B"],
                     }
                 ),
                 x="year",
@@ -660,106 +660,23 @@ asyncio.run(main_async())
             ),
         },
         "kdeplot": {
-            description: t("kdeplot_description"),
+            description: t("kdeplot"),
             example_text: 'kdeplot(df, column="age", title="Age Distribution")',
-            preview_text: lambda: call_func(
-                "kdeplot",
-                pd.DataFrame({"age": [25, 30, 35, 40, 45, 50, 55, 60]}),
+            preview_text: lambda: kdeplot(
+                pd.DataFrame({"age": [25, 30, 35, 40]}),
                 column="age",
                 title="Age Distribution",
                 show=IN_JUPYTER,
             ),
         },
         "violinplot": {
-            description: t("violinplot_description"),
-            example_text: 'violinplot(df, x="category", y="value", title="Distribution by Category")',
-            preview_text: lambda: call_func(
-                "violinplot",
+            description: t("violinplot"),
+            example_text: 'violinplot(df, x="category", y="value", title="Value Distribution")',
+            preview_text: lambda: violinplot(
                 pd.DataFrame(
                     {
-                        "category": ["A", "A", "B", "B", "C", "C"],
-                        "value": [10, 12, 15, 18, 8, 11],
-                    }
-                ),
-                x="category",
-                y="value",
-                title="Distribution by Category",
-                show=IN_JUPYTER,
-            ),
-        },
-        "pairplot": {
-            description: t("pairplot_description"),
-            example_text: 'pairplot(df[numeric_cols], title="Relationships between Numeric Variables")',
-            preview_text: lambda: call_func(
-                "pairplot",
-                pd.DataFrame(
-                    {
-                        "age": [25, 30, 35, 40],
-                        "income": [40000, 45000, 60000, 80000],
-                        "score": [80, 85, 90, 95],
-                    }
-                ),
-                title="Relationships between Variables",
-                show=IN_JUPYTER,
-            ),
-        },
-        "countplot": {
-            description: t("countplot_description"),
-            example_text: 'countplot(df, x="category", title="Count by Category")',
-            preview_text: lambda: call_func(
-                "countplot",
-                pd.DataFrame({"category": ["A", "B", "A", "C", "B", "A"]}),
-                x="category",
-                title="Count by Category",
-                show=IN_JUPYTER,
-            ),
-        },
-        "lmplot": {
-            description: t("lmplot_description"),
-            example_text: 'lmplot(df, x="age", y="income", hue="gender", title="Income by Age")',
-            preview_text: lambda: call_func(
-                "lmplot",
-                pd.DataFrame(
-                    {
-                        "age": [25, 30, 35, 40, 45, 50],
-                        "income": [40000, 45000, 60000, 80000, 75000, 90000],
-                        "gender": ["M", "F", "M", "F", "M", "F"],
-                    }
-                ),
-                x="age",
-                y="income",
-                hue="gender",
-                title="Income by Age",
-                show=IN_JUPYTER,
-            ),
-        },
-        "jointplot": {
-            description: t("jointplot_description"),
-            example_text: 'jointplot(df, x="age", y="income", kind="scatter", title="Age vs Income")',
-            preview_text: lambda: call_func(
-                "jointplot",
-                pd.DataFrame(
-                    {
-                        "age": [25, 30, 35, 40, 45, 50],
-                        "income": [40000, 45000, 60000, 80000, 75000, 90000],
-                    }
-                ),
-                x="age",
-                y="income",
-                kind="scatter",
-                title="Age vs Income",
-                show=IN_JUPYTER,
-            ),
-        },
-        "swarmplot": {
-            description: t("swarmplot_description"),
-            example_text: 'swarmplot(df, x="category", y="value", title="Value Distribution")',
-            preview_text: lambda: call_func(
-                "swarmplot",
-                pd.DataFrame(
-                    {
-                        "category": ["A", "A", "B", "B", "C", "C"],
-                        "value": [10, 12, 15, 18, 8, 11],
+                        "category": ["A", "A", "B", "B"],
+                        "value": [10, 12, 15, 18],
                     }
                 ),
                 x="category",
@@ -768,59 +685,122 @@ asyncio.run(main_async())
                 show=IN_JUPYTER,
             ),
         },
-        "regplot": {
-            description: t("regplot_description"),
-            example_text: 'regplot(df, x="age", y="income", title="Income by Age")',
-            preview_text: lambda: call_func(
-                "regplot",
+        "pairplot": {
+            description: t("pairplot"),
+            example_text: 'pairplot(df, vars=["age", "income"], title="Pairplot Example")',
+            preview_text: lambda: pairplot(
                 pd.DataFrame(
                     {
-                        "age": [25, 30, 35, 40, 45, 50],
-                        "income": [40000, 45000, 60000, 80000, 75000, 90000],
+                        "age": [25, 30, 35, 40],
+                        "income": [40000, 45000, 60000, 80000],
+                    }
+                ),
+                vars=["age", "income"],
+                title="Pairplot Example",
+                show=IN_JUPYTER,
+            ),
+        },
+        "countplot": {
+            description: t("countplot"),
+            example_text: 'countplot(df, x="category", title="Category Count")',
+            preview_text: lambda: countplot(
+                pd.DataFrame({"category": ["A", "B", "A", "C"]}),
+                x="category",
+                title="Category Count",
+                show=IN_JUPYTER,
+            ),
+        },
+        "lmplot": {
+            description: t("lmplot"),
+            example_text: 'lmplot(df, x="age", y="income", hue="gender", title="Linear Model")',
+            preview_text: lambda: lmplot(
+                pd.DataFrame(
+                    {
+                        "age": [25, 30, 35, 40],
+                        "income": [40000, 45000, 60000, 80000],
+                        "gender": ["M", "F", "M", "F"],
                     }
                 ),
                 x="age",
                 y="income",
-                title="Income by Age",
+                hue="gender",
+                title="Linear Model",
                 show=IN_JUPYTER,
             ),
         },
-        "distplot": {
-            description: t("distplot_description"),
-            example_text: 'distplot(df["age"], title="Age Distribution")',
-            preview_text: lambda: call_func(
-                "distplot",
-                pd.Series([25, 30, 35, 40, 45, 50, 55, 60]),
-                title="Age Distribution",
-                show=IN_JUPYTER,
-            ),
-        },
-        "barplot": {
-            description: t("barplot_description"),
-            example_text: 'barplot(df, x="category", y="value", title="Average Value by Category")',
-            preview_text: lambda: call_func(
-                "barplot",
-                pd.DataFrame({"category": ["A", "B", "C"], "value": [10, 15, 8]}),
-                x="category",
-                y="value",
-                title="Average Value by Category",
-                show=IN_JUPYTER,
-            ),
-        },
-        "stripplot": {
-            description: t("stripplot_description"),
-            example_text: 'stripplot(df, x="category", y="value", title="Value by Category")',
-            preview_text: lambda: call_func(
-                "stripplot",
+        "jointplot": {
+            description: t("jointplot"),
+            example_text: 'jointplot(df, x="age", y="income", kind="scatter", title="Joint Plot")',
+            preview_text: lambda: jointplot(
                 pd.DataFrame(
                     {
-                        "category": ["A", "A", "B", "B", "C", "C"],
-                        "value": [10, 12, 15, 18, 8, 11],
+                        "age": [25, 30, 35, 40],
+                        "income": [40000, 45000, 60000, 80000],
+                    }
+                ),
+                x="age",
+                y="income",
+                kind="scatter",
+                title="Joint Plot",
+                show=IN_JUPYTER,
+            ),
+        },
+        "swarmplot": {
+            description: t("swarmplot"),
+            example_text: 'swarmplot(df, x="category", y="value", title="Swarm Plot")',
+            preview_text: lambda: swarmplot(
+                pd.DataFrame(
+                    {
+                        "category": ["A", "A", "B", "B"],
+                        "value": [10, 12, 15, 18],
                     }
                 ),
                 x="category",
                 y="value",
-                title="Value by Category",
+                title="Swarm Plot",
+                show=IN_JUPYTER,
+            ),
+        },
+        "regplot": {
+            description: t("regplot"),
+            example_text: 'regplot(df, x="age", y="income", title="Regression Plot")',
+            preview_text: lambda: regplot(
+                pd.DataFrame(
+                    {
+                        "age": [25, 30, 35, 40],
+                        "income": [40000, 45000, 60000, 80000],
+                    }
+                ),
+                x="age",
+                y="income",
+                title="Regression Plot",
+                show=IN_JUPYTER,
+            ),
+        },
+        "barplot": {
+            description: t("barplot"),
+            example_text: 'barplot(df, x="category", y="value", title="Bar Plot")',
+            preview_text: lambda: barplot(
+                pd.DataFrame({"category": ["A", "B", "C"], "value": [10, 15, 8]}),
+                x="category",
+                y="value",
+                title="Bar Plot",
+                show=IN_JUPYTER,
+            ),
+        },
+        "stripplot": {
+            description: t("stripplot"),
+            example_text: 'stripplot(df, x="category", y="value", title="Strip Plot")',
+            preview_text: lambda: stripplot(
+                pd.DataFrame(
+                    {
+                        "category": ["A", "A", "B", "B"],
+                        "value": [10, 12, 15, 18],
+                    }
+                ),
+                x="category",
+                y="value",
+                title="Strip Plot",
                 show=IN_JUPYTER,
             ),
         },
@@ -831,75 +811,74 @@ asyncio.run(main_async())
     if type is None:
         if IN_JUPYTER:
             display(Markdown(f"**{available_funcs_text}**"))
-            for func in sorted(help_map.keys()):
+            for func in functions:
                 display(Markdown(f"- `{func}`"))
             display(Markdown(f"\n*{usage_text}*"))
         else:
-            func_list = "\n".join([f"- {func}" for func in sorted(help_map.keys())])
+            func_list = "\n".join(f"- {func}" for func in functions)
             show_gui_popup(
                 "Help", f"{available_funcs_text}\n{func_list}\n\n{usage_text}"
             )
         return
 
-    elif not isinstance(type, str):
+    if not isinstance(type, str):
         msg = t("error_type")
         if IN_JUPYTER:
             display(Markdown(f"**Error:** {msg}"))
         else:
-            messagebox.showerror(gui_error_text, msg)
+            show_gui_popup(title=gui_error_text, content=msg)
         return
 
     type = type.lower()
 
     if type == "all":
-        full_doc = ""
+        full_doc = []
         preview_data = {}
 
         for func_name in functions:
-            doc = t(func_name)
             entry = help_map.get(func_name, {})
+            doc = entry.get(description, "")
             example = entry.get(example_text, "")
 
-            # Construir documentación básica
-            full_doc += f"\n**{func_name.upper()}**\n```python\n{doc.strip()}\n```\n"
+            func_doc = f"{func_name.upper()}\n\n{doc}\n\nExample:\n{example}"
+            full_doc.append(func_doc)
 
-            # Si hay ejemplo, agregarlo
-            if example:
-                full_doc += f"\n**{example_text}:**\n```python\n{example}\n```\n"
-
-            # Preparar datos para preview si existe
             if preview_text in entry:
                 preview_data[func_name] = {
                     example_text: example,
                     "preview_func": entry[preview_text],
                 }
 
-        if IN_JUPYTER:
-            display(Markdown(full_doc))
+        full_doc_text = (
+            "\n\n"
+            + ("=" * 50).join("\n\n")
+            + "\n\n".join(full_doc)
+            + "\n\n"
+            + ("=" * 50)
+        )
 
-            # Mostrar previews en Jupyter
+        if IN_JUPYTER:
+            from IPython.display import display, Markdown
+            import matplotlib.pyplot as plt
+
+            display(Markdown(full_doc_text))
             for func_name, data in preview_data.items():
-                display(
-                    Markdown(
-                        f"\n**{function_preview_title.format(function=func_name)}:**"
-                    )
-                )
+                display(Markdown(f"**Preview for {func_name}**"))
                 try:
-                    data["preview_func"]()
+                    result = data["preview_func"]()
+                    if hasattr(result, "figure"):
+                        display(result.figure)
+                        plt.close(result.figure)
+                    else:
+                        display(Markdown(f"```\n{str(result)}\n```"))
                 except Exception as e:
-                    display(
-                        Markdown(f"```\n{preview_error_msg.format(error=str(e))}\n```")
-                    )
+                    display(Markdown(f"**Error in preview:**\n```\n{str(e)}\n```"))
         else:
-            # En CLI usar show_gui_popup con pestañas
-            def wrapped_preview_function():
-                return generate_all_previews(preview_data)
 
             show_gui_popup(
                 all_title_text,
-                full_doc.replace("**", "").replace("```python", "").replace("```", ""),
-                plot_function=wrapped_preview_function,
-                plot_args={},  # Eliminamos el parámetro que causaba el problema
+                full_doc_text,
+                plot_function=lambda: generate_all_previews(preview_data),
             )
         return
 
@@ -910,6 +889,8 @@ asyncio.run(main_async())
         preview_func = entry.get(preview_text)
 
         if IN_JUPYTER:
+            from IPython.display import display, Markdown
+
             output = f"**{type.upper()}**\n```python\n{doc.strip()}\n```"
             if example:
                 output += f"\n\n**{example_text}:**\n```python\n{example}\n```"
@@ -922,7 +903,7 @@ asyncio.run(main_async())
                 except Exception as e:
                     display(Markdown(f"**{preview_error_text}:**\n```\n{str(e)}\n```"))
         else:
-            full_text = f"{doc.strip()}"
+            full_text = doc.strip()
             if example:
                 full_text += f"\n\n{example_text}:\n{example}"
 
@@ -933,12 +914,16 @@ asyncio.run(main_async())
                     if hasattr(result, "figure"):
                         fig = result.figure
                 except Exception as e:
+                    from tkinter import messagebox
+
                     messagebox.showerror(f"{preview_error_text} {type}", str(e))
 
             show_gui_popup(type.upper(), full_text, fig=fig)
     else:
         error_msg = error_text.format(type)
         if IN_JUPYTER:
+            from IPython.display import display, Markdown
+
             display(Markdown(f"**{error_msg}**"))
         else:
             show_gui_popup(gui_error_text, error_msg)

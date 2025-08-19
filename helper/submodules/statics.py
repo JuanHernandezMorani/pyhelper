@@ -1,9 +1,7 @@
 from ..core import pd, np, format_number, Union, List, show_gui_popup, t
 
 
-def get_moda(
-    data: np.ndarray, with_repetition: bool = False, decimals: int = 2
-) -> Union[float, List[Union[float, int]]]:
+def get_moda(data: np.ndarray, with_repetition: bool = False, decimals: int = 2) -> Union[float, List[Union[float, int]]]:
     try:
         data_no_nan = data[~np.isnan(data)]
 
