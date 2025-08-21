@@ -3,4 +3,6 @@ ipywidgets
 matplotlib
 numpy
 pandas
+pyswitch
+scipy
 seaborn

@@ -1,7 +1,7 @@
 from .core import *
 from .submodules import *
 
-__version__ ="1.1.4" 
+__version__ ="1.1.5" 
 __name__ = "pyhelper-tools-jbhm"
 
 import inspect

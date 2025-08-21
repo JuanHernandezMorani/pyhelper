@@ -62,7 +62,7 @@ install_requires = processed_deps
 
 setup(
     name="pyhelper-tools-jbhm",
-    version="1.1.4",
+    version="1.1.5",
     description="A centralized data-handling toolkit for Python developers",
     author="Juan Braian Hernandez Morani",
     long_description=long_description,

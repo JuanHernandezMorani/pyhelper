@@ -1,4 +1,4 @@
-from ..core import asyncio, Callable, pd, np, re, inspect
+from ..core import Callable, pd, np, re, inspect
 
 class BaseSwitch:
     """Clase base con la lógica común para ambos tipos de switch"""
