@@ -1,4 +1,8 @@
-include README.md
-include README.*.md
-include translations.json
+include readme README.md
+include LICENSE
+include example example_use.py
+include example test.csv
+recursive-include readme *.md
+recursive-include readme *.*.md
 recursive-include helper/submodules *.py
+recursive-include helper/lang *.json

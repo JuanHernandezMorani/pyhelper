@@ -1,5 +1,6 @@
 IPython
 PyPDF2
+geopandas
 ipywidgets
 matplotlib
 numpy

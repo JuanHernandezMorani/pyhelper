@@ -573,10 +573,7 @@ def generate_all_previews(preview_data):
 
 def help(type: str = None):
     from .submodules import (
-        hbar, vbar, pie, normalize, get_moda, get_media, get_median, boxplot,
-        get_rank, get_var, get_desv, histo, disp, table, conditional, heatmap,
-        call, Switch, scatter, lineplot, kdeplot, violinplot, pairplot,
-        countplot, lmplot, jointplot, swarmplot, regplot, barplot, stripplot
+        hbar, vbar, pie, normalize, get_moda, get_media, get_median, table, Switch
     )
 
     # Translation strings usando Switch
@@ -604,17 +601,357 @@ def help(type: str = None):
         )
 
     help_map = {
-        "get_moda": {
-            translated["description"]: t("get_moda"),
-            translated["example"]: "get_moda(np.array([1, 2, 2, 3, 3, 3]), with_repetition=True, decimals=2)",
-            translated["preview"]: lambda: show_gui_popup(
-                title="Moda",
-                content=get_moda(np.array([1, 2, 2, 3, 3, 3]), with_repetition=True, decimals=2),
-                preview_mode=True,
-            ),
-        },
-        # ... (resto del help_map se mantiene igual por brevedad)
-    }
+    # Funciones de statics.py
+    "get_moda": {
+       translated["description"]: t("get_moda_description"),
+        translated["example"]: "get_moda(np.array([1, 2, 2, 3, 3, 3]), with_repetition=True, decimals=2)",
+        translated["preview"]: lambda: show_gui_popup(
+            title="Moda",
+            content=str(get_moda(np.array([1, 2, 2, 3, 3, 3]), with_repetition=True, decimals=2)),
+            preview_mode=True,
+        ),
+    },
+    "get_media": {
+       translated["description"]: t("get_media_description"),
+        translated["example"]: "get_media(np.array([1, 2, 3, 4, 5]), nan=False, decimals=2)",
+        translated["preview"]: lambda: show_gui_popup(
+            title="Media",
+            content=str(get_media(np.array([1, 2, 3, 4, 5]), nan=False, decimals=2)),
+            preview_mode=True,
+        ),
+    },
+    "get_median": {
+       translated["description"]: t("get_median_description"),
+        translated["example"]: "get_median(np.array([1, 2, 3, 4, 5]), nan=False, decimals=2)",
+        translated["preview"]: lambda: show_gui_popup(
+            title="Mediana",
+            content=str(get_median(np.array([1, 2, 3, 4, 5]), nan=False, decimals=2)),
+            preview_mode=True,
+        ),
+    },
+    "get_rank": {
+       translated["description"]: t("get_rank_description"),
+        translated["example"]: "get_rank(df, 'column_name', decimals=2)",
+        translated["preview"]: lambda: None,  # Necesita un DataFrame real
+    },
+    "get_var": {
+       translated["description"]: t("get_var_description"),
+        translated["example"]: "get_var(df, 'column_name', decimals=2)",
+        translated["preview"]: lambda: None,  # Necesita un DataFrame real
+    },
+    "get_desv": {
+       translated["description"]: t("get_desv_description"),
+        translated["example"]: "get_desv(df, 'column_name', decimals=2)",
+        translated["preview"]: lambda: None,  # Necesita un DataFrame real
+    },
+    "disp": {
+       translated["description"]: t("disp_description"),
+        translated["example"]: "disp(df, 'column_name', condition=df['col'] > 0)",
+        translated["preview"]: lambda: None,  # Necesita un DataFrame real
+    },
+    
+    # Funciones de caller.py
+    "call": {
+       translated["description"]: t("call_description"),
+        translated["example"]: "call('filename', type='csv', path='./data', timeout=5)",
+        translated["preview"]: lambda: None,  # Necesita archivos reales
+    },
+    
+    # Funciones de checker.py
+    "check_syntax": {
+       translated["description"]: t("check_syntax_description"),
+        translated["example"]: "check_syntax('my_script.py')",
+        translated["preview"]: lambda: None,  # Necesita un archivo real
+    },
+    
+    # Funciones de DBManager.py
+    "createDB": {
+       translated["description"]: t("createDB_description"),
+        translated["example"]: "db = createDB(config)",
+        translated["preview"]: lambda: None,  # Necesita configuración de BD
+    },
+    "DataBase.exportData": {
+       translated["description"]: t("exportData_description"),
+        translated["example"]: "db.exportData(table_names='all', format_type='csv')",
+        translated["preview"]: lambda: None,  # Necesita conexión a BD
+    },
+    "DataBase.addTable": {
+       translated["description"]: t("addTable_description"),
+        translated["example"]: "db.addTable('new_table', {'col1': 'int', 'col2': 'str'})",
+        translated["preview"]: lambda: None,  # Necesita conexión a BD
+    },
+    "DataBase.mergeTable": {
+       translated["description"]: t("mergeTable_description"),
+        translated["example"]: "db.mergeTable('table1', 'table2', on=['id'])",
+        translated["preview"]: lambda: None,  # Necesita conexión a BD
+    },
+    "DataBase.join": {
+       translated["description"]: t("join_description"),
+        translated["example"]: "db.join('inner', 'table1', 'table2', on=['id'])",
+        translated["preview"]: lambda: None,  # Necesita conexión a BD
+    },
+    "DataBase.drop": {
+       translated["description"]: t("drop_description"),
+        translated["example"]: "db.drop('table1', 'table2', cascade=True)",
+        translated["preview"]: lambda: None,  # Necesita conexión a BD
+    },
+    "DataBase.cascadeDelete": {
+       translated["description"]: t("cascadeDelete_description"),
+        translated["example"]: "db.cascadeDelete('table', 'id = 5')",
+        translated["preview"]: lambda: None,  # Necesita conexión a BD
+    },
+    "DataBase.recursiveQuery": {
+       translated["description"]: t("recursiveQuery_description"),
+        translated["example"]: "db.recursiveQuery('employees', 'manager_id IS NULL', 'manager_id = employee_id')",
+        translated["preview"]: lambda: None,  # Necesita conexión a BD
+    },
+    "DataBase.windowFunction": {
+       translated["description"]: t("windowFunction_description"),
+        translated["example"]: "db.windowFunction('sales', 'ROW_NUMBER', ['region'], ['date'])",
+        translated["preview"]: lambda: None,  # Necesita conexión a BD
+    },
+    "DataBase.executeRawSQL": {
+       translated["description"]: t("executeRawSQL_description"),
+        translated["example"]: "db.executeRawSQL('SELECT * FROM table WHERE condition')",
+        translated["preview"]: lambda: None,  # Necesita conexión a BD
+    },
+    "DataBase.show": {
+       translated["description"]: t("show_description"),
+        translated["example"]: "db.show(table_names='all', limit=100)",
+        translated["preview"]: lambda: None,  # Necesita conexión a BD
+    },
+    
+    # Funciones de graph.py
+    "hbar": {
+       translated["description"]: t("hbar_description"),
+        translated["example"]: "hbar(data_series, 'Title', 'X Label', 'Y Label', color='skyblue')",
+        translated["preview"]: lambda: hbar(
+            pd.Series([10, 20, 30], index=['A', 'B', 'C']),
+            "Ejemplo HBar", "Valores", "Categorías", show=False
+        ),
+    },
+    "vbar": {
+       translated["description"]: t("vbar_description"),
+        translated["example"]: "vbar(data_series, 'Title', 'X Label', 'Y Label', color='skyblue')",
+        translated["preview"]: lambda: vbar(
+            pd.Series([10, 20, 30], index=['A', 'B', 'C']),
+            "Ejemplo VBar", "Categorías", "Valores", show=False
+        ),
+    },
+    "pie": {
+       translated["description"]: t("pie_description"),
+        translated["example"]: "pie([30, 40, 30], ['A', 'B', 'C'], 'Título del Gráfico')",
+        translated["preview"]: lambda: pie(
+            [30, 40, 30], ['A', 'B', 'C'], "Ejemplo Pie", show=False
+        ),
+    },
+    "boxplot": {
+       translated["description"]: t("boxplot_description"),
+        translated["example"]: "boxplot(df, x='category', y='value', hue='group')",
+        translated["preview"]: lambda: None,  # Necesita DataFrame real
+    },
+    "histo": {
+       translated["description"]: t("histo_description"),
+        translated["example"]: "histo(df, 'column_name', bins=20, title='Histograma')",
+        translated["preview"]: lambda: None,  # Necesita DataFrame real
+    },
+    "heatmap": {
+       translated["description"]: t("heatmap_description"),
+        translated["example"]: "heatmap(df, index_col='row', column_col='col', value_col='value')",
+        translated["preview"]: lambda: None,  # Necesita DataFrame real
+    },
+    "table": {
+       translated["description"]: t("table_description"),
+        translated["example"]: "table(data_matrix, col_labels=['Col1', 'Col2', 'Col3'])",
+        translated["preview"]: lambda: table(
+            [[1, 2, 3], [4, 5, 6], [7, 8, 9]],
+            col_labels=['A', 'B', 'C'],
+            title="Tabla Ejemplo",
+            show=False
+        ),
+    },
+    "scatter": {
+       translated["description"]: t("scatter_description"),
+        translated["example"]: "scatter(df, x='x_col', y='y_col', hue='category')",
+        translated["preview"]: lambda: None,  # Necesita DataFrame real
+    },
+    "lineplot": {
+       translated["description"]: t("lineplot_description"),
+        translated["example"]: "lineplot(df, x='x_col', y='y_col', hue='category')",
+        translated["preview"]: lambda: None,  # Necesita DataFrame real
+    },
+    "kdeplot": {
+       translated["description"]: t("kdeplot_description"),
+        translated["example"]: "kdeplot(df, 'column_name', hue='category')",
+        translated["preview"]: lambda: None,  # Necesita DataFrame real
+    },
+    "jointplot": {
+       translated["description"]: t("jointplot_description"),
+        translated["example"]: "jointplot(df, x='x_col', y='y_col', hue='category')",
+        translated["preview"]: lambda: None,  # Necesita DataFrame real
+    },
+    "violinplot": {
+       translated["description"]: t("violinplot_description"),
+        translated["example"]: "violinplot(df, x='category', y='value', hue='group')",
+        translated["preview"]: lambda: None,  # Necesita DataFrame real
+    },
+    "pairplot": {
+       translated["description"]: t("pairplot_description"),
+        translated["example"]: "pairplot(df, vars=['col1', 'col2', 'col3'], hue='category')",
+        translated["preview"]: lambda: None,  # Necesita DataFrame real
+    },
+    "countplot": {
+       translated["description"]: t("countplot_description"),
+        translated["example"]: "countplot(df, x='category_column')",
+        translated["preview"]: lambda: None,  # Necesita DataFrame real
+    },
+    "lmplot": {
+       translated["description"]: t("lmplot_description"),
+        translated["example"]: "lmplot(df, x='x_col', y='y_col', hue='category')",
+        translated["preview"]: lambda: None,  # Necesita DataFrame real
+    },
+    "swarmplot": {
+       translated["description"]: t("swarmplot_description"),
+        translated["example"]: "swarmplot(df, x='category', y='value', hue='group')",
+        translated["preview"]: lambda: None,  # Necesita DataFrame real
+    },
+    "regplot": {
+       translated["description"]: t("regplot_description"),
+        translated["example"]: "regplot(df, x='x_col', y='y_col')",
+        translated["preview"]: lambda: None,  # Necesita DataFrame real
+    },
+    "barplot": {
+       translated["description"]: t("barplot_description"),
+        translated["example"]: "barplot(df, x='category', y='value', hue='group')",
+        translated["preview"]: lambda: None,  # Necesita DataFrame real
+    },
+    "stripplot": {
+       translated["description"]: t("stripplot_description"),
+        translated["example"]: "stripplot(df, x='category', y='value', hue='group')",
+        translated["preview"]: lambda: None,  # Necesita DataFrame real
+    },
+    
+    # Funciones de manager.py
+    "normalize": {
+       translated["description"]: t("normalize_description"),
+        translated["example"]: "normalize(np.array([1, 2, 3, 4, 5]))",
+        translated["preview"]: lambda: show_gui_popup(
+            title="Normalize",
+            content=str(normalize(np.array([1, 2, 3, 4, 5]))),
+            preview_mode=True,
+        ),
+    },
+    "conditional": {
+       translated["description"]: t("conditional_description"),
+        translated["example"]: "conditional(df, [df['col'] > 0], ['positive'], 'result_col')",
+        translated["preview"]: lambda: None,  # Necesita DataFrame real
+    },
+    "convert_file": {
+       translated["description"]: t("convert_file_description"),
+        translated["example"]: "convert_file('input.shp', 'output.csv')",
+        translated["preview"]: lambda: None,  # Necesita archivos reales
+    },
+    
+    # Funciones de pyswitch.py
+    "Switch": {
+       translated["description"]: t("Switch_description"),
+        translated["example"]: "Switch(value)(case1, action1, case2, action2, 'default', default_action)",
+        translated["preview"]: lambda: show_gui_popup(
+            title="Switch Example",
+            content=str(Switch(2)(1, "Uno", 2, "Dos", "default", "Otro")),
+            preview_mode=True,
+        ),
+    },
+    "switch": {
+       translated["description"]: t("switch_description"),
+        translated["example"]: "switch(value, case1, action1, case2, action2, 'default', default_action)",
+        translated["preview"]: lambda: show_gui_popup(
+            title="switch Example",
+            content=str(switch(2, 1, "Uno", 2, "Dos", "default", "Otro")),
+            preview_mode=True,
+        ),
+    },
+    "AsyncSwitch": {
+       translated["description"]: t("AsyncSwitch_description"),
+        translated["example"]: "await AsyncSwitch(value)(case1, action1, case2, action2, 'default', default_action)",
+        translated["preview"]: lambda: show_gui_popup(
+            title="AsyncSwitch",
+            content="Función asíncrona - no se puede previsualizar directamente",
+            preview_mode=True,
+        ),
+    },
+    "async_switch": {
+       translated["description"]: t("async_switch_description"),
+        translated["example"]: "await async_switch(value, case1, action1, case2, action2, 'default', default_action)",
+        translated["preview"]: lambda: show_gui_popup(
+            title="async_switch",
+            content="Función asíncrona - no se puede previsualizar directamente",
+            preview_mode=True,
+        ),
+    },
+    
+    # Funciones de core.py
+    "config": {
+       translated["description"]: t("config_description"),
+        translated["example"]: "config['verbose'] = False",
+        translated["preview"]: lambda: show_gui_popup(
+            title="Config",
+            content=str(config),
+            preview_mode=True,
+        ),
+    },
+    "fig_to_img": {
+       translated["description"]: t("fig_to_img_description"),
+        translated["example"]: "image_array = fig_to_img(figure)",
+        translated["preview"]: lambda: None,  # Necesita una figura real
+    },
+    "format_number": {
+       translated["description"]: t("format_number_description"),
+        translated["example"]: "format_number(1234.5678, decimals=2)",
+        translated["preview"]: lambda: show_gui_popup(
+            title="Format Number",
+            content=format_number(1234.5678, decimals=2),
+            preview_mode=True,
+        ),
+    },
+    "load_user_translations": {
+       translated["description"]: t("load_user_translations_description"),
+        translated["example"]: "load_user_translations('my_translations.json')",
+        translated["preview"]: lambda: None,  # Necesita archivo de traducciones
+    },
+    "register": {
+       translated["description"]: t("register_description"),
+        translated["example"]: "@register('my_function')\ndef my_function(): ...",
+        translated["preview"]: lambda: show_gui_popup(
+            title="Register",
+            content="Decorador para registrar funciones en el REGISTRY global",
+            preview_mode=True,
+        ),
+    },
+    "set_language": {
+       translated["description"]: t("set_language_description"),
+        translated["example"]: "set_language('es')",
+        translated["preview"]: lambda: None,  # Cambia configuración global
+    },
+    "show_gui_popup": {
+       translated["description"]: t("show_gui_popup_description"),
+        translated["example"]: "show_gui_popup('Título', 'Contenido del mensaje')",
+        translated["preview"]: lambda: show_gui_popup(
+            title="show_gui_popup Example",
+            content="Esta es una demostración de show_gui_popup",
+            preview_mode=True,
+        ),
+    },
+    "t": {
+       translated["description"]: t("t_description"),
+        translated["example"]: "translated_text = t('key_name')",
+        translated["preview"]: lambda: show_gui_popup(
+            title="Translation Function",
+            content=f"Ejemplo: {t('help_available_functions')}",
+            preview_mode=True,
+        ),
+    },
+}
 
     functions = sorted(help_map.keys())
 
