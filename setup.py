@@ -62,13 +62,25 @@ install_requires = processed_deps
 
 setup(
     name="pyhelper-tools-jbhm",
-    version="1.1.5",
-    description="A centralized data-handling toolkit for Python developers",
+    version="2.0.0-beta",
+    description="A centralized toolkit for Python developers",
     author="Juan Braian Hernandez Morani",
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=find_packages(),
-    package_data={"helper": ["translations.json"]},
+    package_data={"helper": [
+        "lang/en.json",
+        "lang/es.json",
+        "lang/fr.json",
+        "lang/de.json",
+        "lang/ru.json",
+        "lang/tr.json",
+        "lang/zh.json",
+        "lang/it.json",
+        "lang/pt.json",
+        "lang/sv.json",
+        "lang/ja.json",
+        "lang/ar.json",]},
     include_package_data=True,
     install_requires=install_requires,
     python_requires=">=3.8"

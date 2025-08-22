@@ -127,8 +127,11 @@ def hbar(
                 formatted_text,
                 va="center",
             )
+        try:
+            plt.tight_layout()
+        except Exception:
+            None
 
-        plt.tight_layout()
         return _save_and_show_fig(fig, save_path, show)
 
     except Exception as e:
@@ -197,7 +200,9 @@ def pie(
 
         fig, ax = plt.subplots(figsize=kwargs.get("figsize", NORMAL_SIZE))
 
-        use_labels = Switch(len(etiquetas))((lambda x: x <= 10, True), "default", False)
+        use_labels = Switch(len(etiquetas))(
+            lambda x: x <= 10, lambda: True, 
+            "default", lambda: False)
 
         labels = etiquetas if use_labels else None
 
@@ -289,8 +294,12 @@ def boxplot(
             plt.xlabel(x)
         if y:
             plt.ylabel(y)
-        if hue:
-            plt.legend(title=hue)
+        try:
+            if hue:
+                plt.legend(title=hue)
+        except Exception:
+            None
+
         plt.grid(True, alpha=0.4)
         plt.tight_layout()
         return _save_and_show_fig(fig, save_path, show)
@@ -654,7 +663,10 @@ def violinplot(
         if y:
             plt.ylabel(y)
         if hue:
-            plt.legend(title=hue)
+            try:
+                plt.legend(title=hue)
+            except Exception:
+                None
         else:
             hue = x
         plt.grid(True, alpha=0.3)

@@ -959,6 +959,48 @@
     "pt": "Pré-visualização",
     "sv": "Förhandsgranska"
   },
+  "light_theme": {
+    "en": "Light Theme",
+    "es": "Tema Claro",
+    "fr": "Thème Clair",
+    "de": "Heller Modus",
+    "ru": "Светлая тема",
+    "tr": "Açık Tema",
+    "zh": "浅色主题",
+    "it": "Tema Chiaro",
+    "pt": "Tema Claro",
+    "sv": "Ljust tema",
+    "ja": "ライトテーマ",
+    "ar": "المظهر الفاتح"
+  },
+  "dark_theme": {
+    "en": "Dark Theme",
+    "es": "Tema Oscuro",
+    "fr": "Thème Sombre",
+    "de": "Dunkler Modus",
+    "ru": "Тёмная тема",
+    "tr": "Koyu Tema",
+    "zh": "深色主题",
+    "it": "Tema Scuro",
+    "pt": "Tema Escuro",
+    "sv": "Mörkt tema",
+    "ja": "ダークテーマ",
+    "ar": "المظهر الداكن"
+  },
+  "settings": {
+    "en": "Settings",
+    "es": "Ajustes",
+    "fr": "Paramètres",
+    "de": "Einstellungen",
+    "ru": "Настройки",
+    "tr": "Ayarlar",
+    "zh": "设置",
+    "it": "Impostazioni",
+    "pt": "Configurações",
+    "sv": "Inställningar",
+    "ja": "設定",
+    "ar": "الإعدادات"
+  },
   "error_in_gui": {
     "en": "Error in GUI",
     "es": "Error en la interfaz",

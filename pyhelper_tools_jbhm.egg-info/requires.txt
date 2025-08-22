@@ -1,4 +1,5 @@
 IPython
+PyPDF2
 ipywidgets
 matplotlib
 numpy
@@ -6,3 +7,5 @@ pandas
 pyswitch
 scipy
 seaborn
+simpledbf
+sqlalchemy
