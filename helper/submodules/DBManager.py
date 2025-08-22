@@ -1,7 +1,23 @@
-from ..core import (Dict, List, Optional, Column, pd, 
-                    Path, Union, MetaData, Table, create_engine, json, 
-                    plt, text,SQLAlchemyError,sessionmaker, show_gui_popup,
-                    sa,filedialog)
+from ..core import (
+    Dict,
+    List,
+    Optional,
+    Column,
+    pd,
+    Path,
+    Union,
+    MetaData,
+    Table,
+    create_engine,
+    json,
+    plt,
+    text,
+    SQLAlchemyError,
+    sessionmaker,
+    show_gui_popup,
+    sa,
+    filedialog,
+)
 from .pyswitch import Switch
 
 
@@ -122,7 +138,8 @@ class DataBase:
                         if isinstance(value, (int, float)):
                             values.append(str(value))
                         else:
-                            values.append(f"'{str(value).replace("'", "''")}'")
+                            escaped_value = str(value).replace("'", "''")
+                            values.append(f"'{escaped_value}'")
 
                 if columns:
                     insert_stmt = f"INSERT INTO {table_name} ({', '.join(columns)}) VALUES ({', '.join(values)});\n"
@@ -654,14 +671,17 @@ class DataBase:
             self.session.close()
         if self.engine:
             self.engine.dispose()
-    
-    def show(self, table_names: Union[str, List[str]] = 'all', 
-         where_condition: Optional[Union[str, Dict[str, str]]] = None,
-         columns: Optional[Union[List[str], Dict[str, List[str]]]] = None,
-         limit: int = 1000) -> None:
+
+    def show(
+        self,
+        table_names: Union[str, List[str]] = "all",
+        where_condition: Optional[Union[str, Dict[str, str]]] = None,
+        columns: Optional[Union[List[str], Dict[str, List[str]]]] = None,
+        limit: int = 1000,
+    ) -> None:
         """
         Muestra las tablas y datos de la base de datos en una interfaz gráfica.
-    
+
         Args:
             table_names: Nombre de tabla(s) a mostrar o 'all' para toda la BD
             where_condition: Condición WHERE para filtrar datos
@@ -670,73 +690,79 @@ class DataBase:
         """
         try:
             # Determinar qué tablas mostrar
-            if table_names == 'all':
+            if table_names == "all":
                 table_names = self._get_all_tables()
             elif isinstance(table_names, str):
                 table_names = [table_names]
-        
+
             if not table_names:
                 show_gui_popup("Database Info", "No hay tablas en la base de datos.")
                 return
-        
+
             # Construir contenido para mostrar
             content = f"Base de datos: {self.config['db_name']}\n"
             content += f"Tablas encontradas: {len(table_names)}\n\n"
-        
-        # Obtener datos de cada tabla
+
+            # Obtener datos de cada tabla
             table_data = {}
             for table_name in table_names:
                 table_cols = self._get_columns_for_table(columns, table_name)
                 table_where = self._get_where_for_table(where_condition, table_name)
-                
+
                 cols = "*" if not table_cols else ", ".join(table_cols)
                 query = f"SELECT {cols} FROM {table_name}"
                 if table_where:
                     query += f" WHERE {table_where}"
                 query += f" LIMIT {limit}"
-            
+
                 df = pd.read_sql(query, self.engine)
                 table_data[table_name] = df
-            
+
                 # Añadir información de la tabla al contenido
                 content += f"Tabla: {table_name}\n"
                 content += f"Registros: {len(df)}\n"
                 content += f"Columnas: {', '.join(df.columns)}\n\n"
-        
+
             # Función para generar vista previa de los datos
             def generate_preview():
                 fig, axes = plt.subplots(1, len(table_names), figsize=(15, 8))
                 if len(table_names) == 1:
                     axes = [axes]
-            
+
                 for i, (table_name, df) in enumerate(table_data.items()):
                     if i >= len(axes):
                         break
-                
+
                     # Mostrar información básica de la tabla
                     ax = axes[i]
-                    ax.axis('off')
-                    ax.set_title(f"Tabla: {table_name}\nRegistros: {len(df)}", fontsize=12)
-                
+                    ax.axis("off")
+                    ax.set_title(
+                        f"Tabla: {table_name}\nRegistros: {len(df)}", fontsize=12
+                    )
+
                     if not df.empty:
                         # Crear una tabla con los primeros 5 registros
-                        table_data_preview = [df.columns.tolist()] + df.head(5).values.tolist()
-                        table = ax.table(cellText=table_data_preview, 
-                                        cellLoc='left', 
-                                        loc='center')
+                        table_data_preview = [df.columns.tolist()] + df.head(
+                            5
+                        ).values.tolist()
+                        table = ax.table(
+                            cellText=table_data_preview, cellLoc="left", loc="center"
+                        )
                         table.auto_set_font_size(False)
                         table.set_fontsize(8)
                         table.scale(1, 1.5)
-            
+
                 plt.tight_layout()
                 return fig
-        
+
             # Función para exportar datos
             def export_data(format_type):
                 try:
                     output_path = filedialog.asksaveasfilename(
                         defaultextension=f".{format_type}",
-                        filetypes=[(f"{format_type.upper()} files", f"*.{format_type}")]
+                        filetypes=[
+                            (f"{format_type.upper()} files", f"*.{format_type}")
+                        ],
                     )
                     if output_path:
                         self.exportData(
@@ -745,21 +771,23 @@ class DataBase:
                             format_type=format_type,
                             where_condition=where_condition,
                             columns=columns,
-                            separate_files=False
+                            separate_files=False,
                         )
-                        show_gui_popup("Éxito", f"Datos exportados correctamente a {output_path}")
+                        show_gui_popup(
+                            "Éxito", f"Datos exportados correctamente a {output_path}"
+                        )
                 except Exception as e:
                     show_gui_popup("Error", f"Error al exportar datos: {str(e)}")
-        
+
             # Mostrar en la interfaz gráfica
             show_gui_popup(
                 title="Database Explorer",
                 content=content,
                 fig=generate_preview(),
                 export_callback=export_data,
-                table_data=table_data
+                table_data=table_data,
             )
-        
+
         except Exception as e:
             show_gui_popup("Error", f"Error mostrando datos: {str(e)}")
 
