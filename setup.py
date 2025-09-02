@@ -3,6 +3,7 @@ import os
 import sys
 import ast
 from pathlib import Path
+import importlib.util
 
 # -------------------------------
 # Configuración general
@@ -35,20 +36,23 @@ LANGUAGES = [
 lang_files = [f"lang/{lang}.json" for lang in LANGUAGES]
 
 # -------------------------------
-# Recolector de dependencias
+# Función para detectar librerías estándar
 # -------------------------------
-try:
-    import stdlib_list
-    STD_LIB = set(stdlib_list.stdlib_list(sys.version[:3]))
-except ImportError:
-    # Fallback manual básico
-    STD_LIB = {
-        "sys","os","re","math","ast","json","time","typing","threading","subprocess",
-        "csv","datetime","inspect","struct","pathlib","collections","asyncio","platform",
-        "logging","functools","itertools","traceback","queue","concurrent","http",
-        "email","unittest","argparse","shutil","signal","ctypes","socket","multiprocessing",
-        "uuid","hashlib","copy","contextlib","tempfile","glob","importlib"
-    }
+def is_stdlib(module_name):
+    """Retorna True si el módulo es parte de la librería estándar de Python."""
+    try:
+        spec = importlib.util.find_spec(module_name)
+        return spec is not None and 'site-packages' not in (spec.origin or '')
+    except Exception:
+        return False
+
+# -------------------------------
+# Módulos internos
+# -------------------------------
+INTERNAL_MODULES = {
+    "core","submodules","helper","shared","statics","timer","manager","graph","caller","checker",
+    "DBManager","pyswitch","progress_bar","complexity_analyzer"
+}
 
 NAME_MAP = {
     "sklearn": "scikit-learn",
@@ -57,11 +61,9 @@ NAME_MAP = {
     "sqlalchemy": "SQLAlchemy",
 }
 
-INTERNAL_MODULES = {
-    "core","submodules","helper","shared","statics","timer","manager","graph","caller","checker",
-    "DBManager","pyswitch","progress_bar","complexity_analyzer"
-}
-
+# -------------------------------
+# Recolector de imports
+# -------------------------------
 def find_imports_in_file(filepath):
     with open(filepath, "r", encoding="utf-8") as f:
         src = f.read()
@@ -134,11 +136,14 @@ def collect_all_imports(target_dir="helper"):
                     conditional_map.setdefault(pkg, set()).update(platforms)
     return sorted(raw_imports), conditional_map
 
+# -------------------------------
+# Generación de requirements
+# -------------------------------
 raw_deps, conditional_map = collect_all_imports("helper")
 
 base_requires = []
 for pkg in raw_deps:
-    if pkg in STD_LIB or pkg in INTERNAL_MODULES:
+    if is_stdlib(pkg) or pkg in INTERNAL_MODULES:
         continue
     base_requires.append(NAME_MAP.get(pkg, pkg))
 
@@ -146,7 +151,7 @@ base_requires.append("stdlib-list")
 
 platform_marker_deps = []
 for pkg, platforms in conditional_map.items():
-    if pkg in STD_LIB or pkg in INTERNAL_MODULES:
+    if is_stdlib(pkg) or pkg in INTERNAL_MODULES:
         continue
     pip_name = NAME_MAP.get(pkg, pkg)
     platforms = [p.lower() for p in platforms]
@@ -161,7 +166,8 @@ if "psycopg2" in base_requires:
     base_requires = ["psycopg2-binary" if p == "psycopg2" else p for p in base_requires]
 
 install_requires = sorted(set(base_requires + platform_marker_deps))
-install_requires.remove("pkgutil")
+if "pkgutil" in install_requires:
+    install_requires.remove("pkgutil")
 
 extras_require = {
     "linux": ["pyamdgpuinfo"],
