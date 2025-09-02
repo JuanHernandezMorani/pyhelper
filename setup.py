@@ -2,13 +2,12 @@ from setuptools import setup, find_packages
 import os
 import sys
 import ast
-import importlib.util
 from pathlib import Path
 
 # -------------------------------
 # Configuración general
 # -------------------------------
-VERSION = "3.0.0"
+VERSION = "3.0.1"
 PACKAGE_NAME = "pyhelper-tools-jbhm"
 DESCRIPTION = "A centralized toolkit for Python developers"
 AUTHOR = "Juan Braian Hernandez Morani"
@@ -38,9 +37,18 @@ lang_files = [f"lang/{lang}.json" for lang in LANGUAGES]
 # -------------------------------
 # Recolector de dependencias
 # -------------------------------
-STD_LIB = set(sys.stdlib_module_names) if hasattr(sys, "stdlib_module_names") else {
-    "sys","os","re","math","ast","json","time","typing","threading","subprocess","csv","datetime","inspect","struct","pathlib"
-}
+try:
+    import stdlib_list
+    STD_LIB = set(stdlib_list.stdlib_list(sys.version[:3]))
+except ImportError:
+    # Fallback manual básico
+    STD_LIB = {
+        "sys","os","re","math","ast","json","time","typing","threading","subprocess",
+        "csv","datetime","inspect","struct","pathlib","collections","asyncio","platform",
+        "logging","functools","itertools","traceback","queue","concurrent","http",
+        "email","unittest","argparse","shutil","signal","ctypes","socket","multiprocessing",
+        "uuid","hashlib","copy","contextlib","tempfile","glob","importlib"
+    }
 
 NAME_MAP = {
     "sklearn": "scikit-learn",
@@ -133,6 +141,8 @@ for pkg in raw_deps:
     if pkg in STD_LIB or pkg in INTERNAL_MODULES:
         continue
     base_requires.append(NAME_MAP.get(pkg, pkg))
+
+base_requires.append("stdlib-list")
 
 platform_marker_deps = []
 for pkg, platforms in conditional_map.items():
