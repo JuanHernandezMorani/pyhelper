@@ -7,7 +7,7 @@ from pathlib import Path
 # -------------------------------
 # Configuración general
 # -------------------------------
-VERSION = "3.0.1"
+VERSION = "3.0.2"
 PACKAGE_NAME = "pyhelper-tools-jbhm"
 DESCRIPTION = "A centralized toolkit for Python developers"
 AUTHOR = "Juan Braian Hernandez Morani"
@@ -161,6 +161,7 @@ if "psycopg2" in base_requires:
     base_requires = ["psycopg2-binary" if p == "psycopg2" else p for p in base_requires]
 
 install_requires = sorted(set(base_requires + platform_marker_deps))
+install_requires.remove("pkgutil")
 
 extras_require = {
     "linux": ["pyamdgpuinfo"],

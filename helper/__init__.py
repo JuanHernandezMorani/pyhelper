@@ -1,7 +1,7 @@
 import importlib
 import pkgutil
 
-__version__ = "3.0.1"
+__version__ = "3.0.2"
 
 # Mapeo de nombres ya cargados (para cache)
 _loaded_attrs = {}
