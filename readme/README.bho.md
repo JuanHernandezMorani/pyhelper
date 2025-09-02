@@ -1,288 +1,214 @@
 # हेल्पर लाइब्रेरी के बा।
 
-[![लाइसेंस: एमआईटी] (https://img.shields.io/badge/license-mit-yellow.svg)] (लाइसेंस)  
-[![pypi] (https://img.shields.io/pypi/v/pyhelper-tools-jbhm?style=for-the-badge&label=pypi&coler=blue)] (https://pypi.org/ppylypl-tools-jbhm/)  
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![PyPI](https://img.shields.io/pypi/v/pyhelper-tools-jbhm?style=for-the-badge&label=PyPI&color=blue)](https://pypi.org/project/pyhelper-tools-jbhm/) के बा।
 
 ## 🌍 उपलब्ध भाषा के बारे में जानकारी दिहल गइल बा।
 
-[![en](https://img.shields.io/badge/lang-en-red.svg)](readme.md)  
-[![es] (https://img.shields.io/badge/lang-es-yellow.svg)](readme.es.md)  
-[![fr] (https://img.shields.io/badge/lang-fr-blue.svg)](readme.fr.md)  
-[![de](https://img.shields.io/badge/lang-de-green.svg)](readme.de.md)  
-[![RU] (https://img.shields.io/badge/lang-ru-purple.svg)](readme.ru.md)  
-[![TR] (https://img.shields.io/badge/lang-tr-orange.svg)](readme.tr.md)  
-[![ZH] (https://img.shields.io/badge/lang-zh-black.svg)](readme.zh.md)  
-[![इट] (https://img.shields.io/badge/lang-it-lightsgre.svg)](readme.it.md)  
-[![pt] (https://img.shields.io/badge/lang-pt-brightgreen.svg)](readme.pt.md)  
-[![SV] (https://img.shields.io/badge/lang-sv-blue.svg)](readme.sv.md)  
-[![ja] (https://img.shields.io/badge/lang-ja-red.svg)](readme.ja.md)  
-[![एआर] (https://img.shields.io/badge/lang-ar-brown.svg)](readme.ar.md)  
-[![af] (https://img.shields.io/badge/lang-af-orange.svg)](readme.af.md)  
-[![sq] (https://img.shields.io/badge/lang-sq-blue.svg)](readme.sq.md)  
-[![am](https://img.shields.io/badge/lang-am-green.svg)](readme.am.md)  
-[![HI] (https://img.shields.io/badge/lang-hy-red.svg)](readme.hy.md)  
-[![As](https://img.shields.io/badge/lang-as-purple.svg)](readme.as.md)  
-[![अय](https://img.shields.io/badge/lang-ay-brown.svg)] (रीडम.एय.एमडी)  
-[![az] (https://img.shields.io/badge/lang-az-lighblue.svg)](readme.az.md)  
-[![BM] (https://img.shields.io/badge/lang-bm-darkgreen.svg)](readme.bm.md)  
-[![EU] (https://img.shields.io/badge/lang-eu-pink.svg)] (readme.eu.md)  
-[![be] (https://img.shields.io/badge/lang-be-darkblue.svg)](readme.be.md)  
-[![bn] (https://img.shields.io/badge/lang-bn-teal.svg)](readme.bn.md)  
-[![भो] (https://img.shields.io/badge/lang-bho-orange.svg)](readme.bho.md)  
-[![BS] (https://img.shields.io/badge/lang-bs-purple.svg)](readme.bm.md)  
-[![BG] (https://img.shields.io/badge/lang-bg-green.svg)] (रीडम.बीजी.एमडी)  
-[![CA] (https://img.shields.io/badge/lang-ca-yellow.svg)](readme.ca.md)  
-[![CEB] (https://img.shields.io/badge/lang-ceb-blue.svg)](readme.ceb.md)  
-[![NY] (https://img.shields.io/badge/lang-ny-red.svg)](readme.ny.md)  
-[![को] (https://img.shields.io/badge/lang-co-green.svg)](readme.co.md)  
-[![hr] (https://img.shields.io/badge/lang-hr-blue.svg)] (रीडम.एचआर.एमडी)  
-[![CS] (https://img.shields.io/badge/lang-cs-red.svg)](readme.cs.md)  
-[![दा] (https://img.shields.io/badge/lang-da-purple.svg)](readme.da.md)  
-[![DV] (https://img.shields.io/badge/lang-dv-orange.svg)](readme.dv.md)  
-[![DOI] (https://img.shields.io/badge/lang-doi-brown.svg)](readme.doi.md)  
-[![nl] (https://img.shields.io/badge/lang-nl-orange.svg)](readme.nl.md)  
-[![EO] (https://img.shields.io/badge/lang-eo-green.svg)](readme.eo.md)  
-[![ET] (https://img.shields.io/badge/lang-et-blue.svg)](readme.et.md)  
-[![ईई] (https://img.shields.io/badge/lang-ee-red.svg)](readme.ee.md)  
-[![TL] (https://img.shields.io/badge/lang-tl-purple.svg)](readme.tl.md)  
-[![fi] (https://img.shields.io/badge/lang-fi-blue.svg)](readme.fi.md)  
-[![fy] (https://img.shields.io/badge/lang-fy-orange.svg)] (रीडम.fy.md)  
-[![GL] (https://img.shields.io/badge/lang-gl-green.svg)] (readme.gl.md)  
-[![ka] (https://img.shields.io/badge/lang-ka-red.svg)](readme.ka.md)  
-[![el] (https://img.shields.io/badge/lang-el-blue.svg)](readme.el.md)  
-[![GN] (https://img.shields.io/badge/lang-gn-purple.svg)](readme.gn.md)  
-[![गु] (https://img.shields.io/badge/lang-gu-orange.svg)](readme.gu.md)  
-[![ht] (https://img.shields.io/badge/lang-ht-green.svg)](readme.ht.md)  
-[![हा](https://img.shields.io/badge/lang-ha-blue.svg)](readme.ha.md)  
-[![HAW](https://img.shields.io/badge/lang-how-red.svg)](readme.how.md)  
-[![IW] (https://img.shields.io/badge/lang-iw-purple.svg)](readme.iw.md)  
-[![HI] (https://img.shields.io/badge/lang-hi-orange.svg)](readme.hi.md)  
-[![हमएन] (https://img.shields.io/badge/lang-hmn-green.svg)](readme.hmn.md)  
-[![HU](https://img.shields.io/badge/lang-hu-blue.svg)](readme.hu.md)  
-[![Is](https://img.shields.io/badge/lang-is-red.svg)](readme.is.md)  
-[![IG] (https://img.shields.io/badge/lang-ig-purple.svg)](readme.ig.md)  
-[![ILO] (https://img.shields.io/badge/lang-ilo-orange.svg)](readme.ilo.md)  
-[![ID] (https://img.shields.io/badge/lang-id-green.svg)](readme.id.md)  
-[![GA] (https://img.shields.io/badge/lang-ga-blue.svg)](readme.ga.md)  
-[![JW] (https://img.shields.io/badge/lang-jw-red.svg)](readme.jw.md)  
-[![kn] (https://img.shields.io/badge/lang-kn-purple.svg)](readme.kn.md)  
-[![kk] (https://img.shields.io/badge/lang-kk-orange.svg)](readme.kk.md)
+Pyhelper **131 भाषा तक ले बिल्ट-इन अनुवाद देला** जवना में शामिल बा:
 
-[![km] (https://img.shields.io/badge/lang-km-green.svg)](readme.km.md)  
-[![RW] (https://img.shields.io/badge/lang-rw-blue.svg)](readme.rw.md)  
-[![गोम] (https://img.shields.io/badge/lang-gom-red.svg)](readme.gom.md)  
-[![को] (https://img.shields.io/badge/lang-ko-purple.svg)](readme.ko.md)  
-[![KRI] (https://img.shields.io/badge/lang-kri-orange.svg)](readme.kri.md)  
-[![कु] (https://img.shields.io/badge/lang-ku-green.svg)](readme.ku.md)  
-[![CKB] (https://img.shields.io/badge/lang-ckb-blue.svg)] (readme.ckb.md)  
-[![ky] (https://img.shields.io/badge/lang-ky-red.svg)](readme.ky.md)  
-[![LO] (https://img.shields.io/badge/lang-lo-purple.svg)](readme.lo.md)  
-[![ला](https://img.shields.io/badge/lang-la-orange.svg)](readme.la.md)  
-[![lv] (https://img.shields.io/badge/lang-lv-green.svg)](readme.lv.md)  
-[![ln] (https://img.shields.io/badge/lang-ln-blue.svg)](readme.ln.md)  
-[![lt] (https://img.shields.io/badge/lang-lt-red.svg)](readme.lt.md)  
-[![lg] (https://img.shields.io/badge/lang-lg-purple.svg)](readme.lg.md)  
-[![lb] (https://img.shields.io/badge/lang-lb-orange.svg)] (रीडम.एलबी.एमडी)  
-[![MK] (https://img.shields.io/badge/lang-mk-green.svg)](readme.mk.md)  
-[![mai] (https://img.shields.io/badge/lang-mai-blue.svg)](readme.mai.md)  
-[![mg] (https://img.shields.io/badge/lang-mg-red.svg)] (readme.mg.md)  
-[![ms] (https://img.shields.io/badge/lang-ms-purple.svg)](readme.ms.md)  
-[![ml] (https://img.shields.io/badge/lang-ml-orange.svg)] (readme.ml.md)  
-[![mt] (https://img.shields.io/badge/lang-mt-green.svg)](readme.mt.md)  
-[![MI](https://img.shields.io/badge/lang-mi-blue.svg)](readme.mi.md)  
-[![MR] (https://img.shields.io/badge/lang-mr-red.svg)] (रीडम.एमआर.एमडी)  
-[![लस] (https://img.shields.io/badge/lang-lus-purple.svg)](readme.lus.md)  
-[![mn] (https://img.shields.io/badge/lang-mn-orange.svg)] (readme.mn.md)  
-[![हमार](https://img.shields.io/badge/lang-my-green.svg)](readme.my.md)  
-[![NE](https://img.shields.io/badge/lang-ne-blue.svg)](readme.ne.md)  
-[![ना] (https://img.shields.io/badge/lang-no-red.svg)](readme.no.md)  
-[![या] (https://img.shields.io/badge/lang-or-purple.svg)](readme.or.md)  
-[![OM](https://img.shields.io/badge/lang-om-orange.svg)] (रीडम.ओएम.एमडी)  
-[![PS] (https://img.shields.io/badge/lang-ps-green.svg)](readme.ps.md)  
-[![FA] (https://img.shields.io/badge/lang-fa-blue.svg)](readme.fa.md)  
-[![qu] (https://img.shields.io/badge/lang-qu-red.svg)](readme.qu.md)  
-[![रो] (https://img.shields.io/badge/lang-ro-purple.svg)](readme.ro.md)  
-[![SM] (https://img.shields.io/badge/lang-sm-orange.svg)](readme.sm.md)  
-[![Sa] (https://img.shields.io/badge/lang-sa-green.svg)](readme.sa.md)  
-[![GD] (https://img.shields.io/badge/lang-gd-blue.svg)](readme.gd.md)  
-[![NSO] (https://img.shields.io/badge/lang-nso-red.svg)](readme.nso.md)  
-[![st] (https://img.shields.io/badge/lang-st-purple.svg)] (readme.st.md)  
-[![SN] (https://img.shields.io/badge/lang-sn-orange.svg)](readme.sn.md)  
-[![SD] (https://img.shields.io/badge/lang-sd-green.svg)](readme.sd.md)  
-[![SI] (https://img.shields.io/badge/lang-si-blue.svg)](readme.si.md)  
-[![SK] (https://img.shields.io/badge/lang-sk-red.svg)](readme.sk.md)  
-[![SL] (https://img.shields.io/badge/lang-sl-purple.svg)](readme.sl.md)  
-[![so](https://img.shields.io/badge/lang-so-orange.svg)] (रीडम.सो.एमडी)  
-[![SU] (https://img.shields.io/badge/lang-su-green.svg)] (रीडम.सु.एमडी)  
-[![SW] (https://img.shields.io/badge/lang-sw-blue.svg)](readme.sw.md)  
-[![tg] (https://img.shields.io/badge/lang-tg-red.svg)](readme.tg.md)  
-[![TA] (https://img.shields.io/badge/lang-ta-purple.svg)](readme.ta.md)  
-[![TT] (https://img.shields.io/badge/lang-tt-orange.svg)](readme.tt.md)  
-[![te] (https://img.shields.io/badge/lang-te-green.svg)] (readme.te.md)  
-[![Th] (https://img.shields.io/badge/lang-th-blue.svg)](readme.th.md)  
-[![ti] (https://img.shields.io/badge/lang-ti-red.svg)](readme.ti.md)  
-[![TS] (https://img.shields.io/badge/lang-ts-purple.svg)](readme.ts.md)  
-[![tk] (https://img.shields.io/badge/lang-tk-orange.svg)](readme.tk.md)  
-[![AK] (https://img.shields.io/badge/lang-ak-green.svg)] (readme.ak.md)  
-[![यूके] (https://img.shields.io/badge/lang-uk-blue.svg)] (readme.uk.md)  
-[![ur](https://img.shields.io/badge/lang-ur-red.svg)](readme.ur.md)  
-[![UG](https://img.shields.io/badge/lang-ug-purple.svg)](readme.ug.md)  
-[![उज] (https://img.shields.io/badge/lang-uz-orange.svg)](readme.uz.md)  
-[![vi] (https://img.shields.io/badge/lang-vi-green.svg)](readme.vi.md)  
-[![cy] (https://img.shields.io/badge/lang-cy-blue.svg)] (रीडम.सी.
-
-[![xh] (https://img.shields.io/badge/lang-xh-red.svg)](readme.xh.md)  
-[![yi](https://img.shields.io/badge/lang-yi-purple.svg)](readme.yi.md)  
-[![yo] (https://img.shields.io/badge/lang-yo-orange.svg)](readme.yo.md)  
-[![zu] (https://img.shields.io/badge/lang-zu-green.svg)](readme.zu.md)
+[![en](https://img.shields.io/badge/lang-en-red.svg)](readme/README.md) [![es](https://img.shields.io/badge/lang-es-yellow.svg)](readme/README.es.md) [![fr](https://img.shields.io/badge/lang-fr-blue.svg)](readme/README.fr.md) [![de](https://img.shields.io/badge/lang-de-green.svg)](readme/README.de.md) [![ru](https://img.shields.io/badge/lang-ru-purple.svg)](readme/README.ru.md) [![tr](https://img.shields.io/badge/lang-tr-orange.svg)](readme/README.tr.md) [![zh](https://img.shields.io/badge/lang-zh-black.svg)](readme/README.zh.md) [![it](https://img.shields.io/badge/lang-it-lightgrey.svg)](readme/README.it.md) [![pt](https://img.shields.io/badge/lang-pt-brightgreen.svg)](readme/README.pt.md) [![sv](https://img.shields.io/badge/lang-sv-blue.svg)](readme/README.sv.md)  
+[![ja](https://img.shields.io/badge/lang-ja-red.svg)](readme/README.ja.md) [![ar](https://img.shields.io/badge/lang-ar-brown.svg)](readme/README.ar.md) [![af](https://img.shields.io/badge/lang-af-orange.svg)](readme/README.af.md) [![sq](https://img.shields.io/badge/lang-sq-blue.svg)](readme/README.sq.md) [![am](https://img.shields.io/badge/lang-am-green.svg)](readme/README.am.md) [![hy](https://img.shields.io/badge/lang-hy-red.svg)](readme/README.hy.md) [![as](https://img.shields.io/badge/lang-as-purple.svg)](readme/README.as.md) [![ay](https://img.shields.io/badge/lang-ay-brown.svg)](readme/README.ay.md) [![az](https://img.shields.io/badge/lang-az-lightblue.svg)](readme/README.az.md) [![bm](https://img.shields.io/badge/lang-bm-darkgreen.svg)](readme/README.bm.md)  
+[![eu](https://img.shields.io/badge/lang-eu-pink.svg)](readme/README.eu.md) [![be](https://img.shields.io/badge/lang-be-darkblue.svg)](readme/README.be.md) [![bn](https://img.shields.io/badge/lang-bn-teal.svg)](readme/README.bn.md) [![bho](https://img.shields.io/badge/lang-bho-orange.svg)](readme/README.bho.md) [![bs](https://img.shields.io/badge/lang-bs-purple.svg)](readme/README.bm.md) [![bg](https://img.shields.io/badge/lang-bg-green.svg)](readme/README.bg.md) [![ca](https://img.shields.io/badge/lang-ca-yellow.svg)](readme/README.ca.md) [![ceb](https://img.shields.io/badge/lang-ceb-blue.svg)](readme/README.ceb.md) [![ny](https://img.shields.io/badge/lang-ny-red.svg)](readme/README.ny.md) [![co](https://img.shields.io/badge/lang-co-green.svg)](readme/README.co.md)  
+[![hr](https://img.shields.io/badge/lang-hr-blue.svg)](readme/README.hr.md) [![cs](https://img.shields.io/badge/lang-cs-red.svg)](readme/README.cs.md) [![da](https://img.shields.io/badge/lang-da-purple.svg)](readme/README.da.md) [![dv](https://img.shields.io/badge/lang-dv-orange.svg)](readme/README.dv.md) [![doi](https://img.shields.io/badge/lang-doi-brown.svg)](readme/README.doi.md) [![nl](https://img.shields.io/badge/lang-nl-orange.svg)](readme/README.nl.md) [![eo](https://img.shields.io/badge/lang-eo-green.svg)](readme/README.eo.md) [![et](https://img.shields.io/badge/lang-et-blue.svg)](readme/README.et.md) [![ee](https://img.shields.io/badge/lang-ee-red.svg)](readme/README.ee.md) [![tl](https://img.shields.io/badge/lang-tl-purple.svg)](readme/README.tl.md)  
+[![fi](https://img.shields.io/badge/lang-fi-blue.svg)](readme/README.fi.md) [![fy](https://img.shields.io/badge/lang-fy-orange.svg)](readme/README.fy.md) [![gl](https://img.shields.io/badge/lang-gl-green.svg)](readme/README.gl.md) [![ka](https://img.shields.io/badge/lang-ka-red.svg)](readme/README.ka.md) [![el](https://img.shields.io/badge/lang-el-blue.svg)](readme/README.el.md) [![gn](https://img.shields.io/badge/lang-gn-purple.svg)](readme/README.gn.md) [![gu](https://img.shields.io/badge/lang-gu-orange.svg)](readme/README.gu.md) [![ht](https://img.shields.io/badge/lang-ht-green.svg)](readme/README.ht.md) [![ha](https://img.shields.io/badge/lang-ha-blue.svg)](readme/README.ha.md) [![haw](https://img.shields.io/badge/lang-haw-red.svg)](readme/README.haw.md)  
+[![iw](https://img.shields.io/badge/lang-iw-purple.svg)](readme/README.iw.md) [![hi](https://img.shields.io/badge/lang-hi-orange.svg)](readme/README.hi.md) [![hmn](https://img.shields.io/badge/lang-hmn-green.svg)](readme/README.hmn.md) [![hu](https://img.shields.io/badge/lang-hu-blue.svg)](readme/README.hu.md) [![is](https://img.shields.io/badge/lang-is-red.svg)](readme/README.is.md) [![ig](https://img.shields.io/badge/lang-ig-purple.svg)](readme/README.ig.md) [![ilo](https://img.shields.io/badge/lang-ilo-orange.svg)](readme/README.ilo.md) [![id](https://img.shields.io/badge/lang-id-green.svg)](readme/README.id.md) [![ga](https://img.shields.io/badge/lang-ga-blue.svg)](readme/README.ga.md) π__111_  
+[![kn](https://img.shields.io/badge/lang-kn-purple.svg)](readme/README.kn.md) [![kk](https://img.shields.io/badge/lang-kk-orange.svg)](readme/README.kk.md) [![km](https://img.shields.io/badge/lang-km-green.svg)](readme/README.km.md) [![rw](https://img.shields.io/badge/lang-rw-blue.svg)](readme/README.rw.md) [![gom](https://img.shields.io/badge/lang-gom-red.svg)](readme/README.gom.md) [![ko](https://img.shields.io/badge/lang-ko-purple.svg)](readme/README.ko.md) [![kri](https://img.shields.io/badge/lang-kri-orange.svg)](readme/README.kri.md) [![ku](https://img.shields.io/badge/lang-ku-green.svg)](readme/README.ku.md) [![ckb](https://img.shields.io/badge/lang-ckb-blue.svg)](readme/README.ckb.md) π__101_  
+[![lo](https://img.shields.io/badge/lang-lo-purple.svg)](readme/README.lo.md) [![la](https://img.shields.io/badge/lang-la-orange.svg)](readme/README.la.md) [![lv](https://img.shields.io/badge/lang-lv-green.svg)](readme/README.lv.md) [![ln](https://img.shields.io/badge/lang-ln-blue.svg)](readme/README.ln.md) [![lt](https://img.shields.io/badge/lang-lt-red.svg)](readme/README.lt.md) [![lg](https://img.shields.io/badge/lang-lg-purple.svg)](readme/README.lg.md) [![lb](https://img.shields.io/badge/lang-lb-orange.svg)](readme/README.lb.md) [![mk](https://img.shields.io/badge/lang-mk-green.svg)](readme/README.mk.md) [![mai](https://img.shields.io/badge/lang-mai-blue.svg)](readme/README.mai.md) [![mg](https://img.shields.io/badge/lang-mg-red.svg)](readme/README.mg.md)  
+[![ms](https://img.shields.io/badge/lang-ms-purple.svg)](readme/README.ms.md) [![ml](https://img.shields.io/badge/lang-ml-orange.svg)](readme/README.ml.md) [![mt](https://img.shields.io/badge/lang-mt-green.svg)](readme/README.mt.md) [![mi](https://img.shields.io/badge/lang-mi-blue.svg)](readme/README.mi.md) [![mr](https://img.shields.io/badge/lang-mr-red.svg)](readme/README.mr.md) [![lus](https://img.shields.io/badge/lang-lus-purple.svg)](readme/README.lus.md) [![mn](https://img.shields.io/badge/lang-mn-orange.svg)](readme/README.mn.md) [![my](https://img.shields.io/badge/lang-my-green.svg)](readme/README.my.md) [![ne](https://img.shields.io/badge/lang-ne-blue.svg)](readme/README.ne.md) [![no](https://img.shields.io/badge/lang-no-red.svg)](readme/README.no.md) [![or](https://img.shields.io/badge/lang-or-purple.svg)](readme/README.or.md)  
+[![om](https://img.shields.io/badge/lang-om-orange.svg)](readme/README.om.md) [![ps](https://img.shields.io/badge/lang-ps-green.svg)](readme/README.ps.md) [![fa](https://img.shields.io/badge/lang-fa-blue.svg)](readme/README.fa.md) [![qu](https://img.shields.io/badge/lang-qu-red.svg)](readme/README.qu.md) [![ro](https://img.shields.io/badge/lang-ro-purple.svg)](readme/README.ro.md) [![sm](https://img.shields.io/badge/lang-sm-orange.svg)](readme/README.sm.md) [![sa](https://img.shields.io/badge/lang-sa-green.svg)](readme/README.sa.md) [![gd](https://img.shields.io/badge/lang-gd-blue.svg)](readme/README.gd.md) [![nso](https://img.shields.io/badge/lang-nso-red.svg)](readme/README.nso.md) [![st](https://img.shields.io/badge/lang-st-purple.svg)](readme/README.st.md) [![sn](https://img.shields.io/badge/lang-sn-orange.svg)](readme/README.sn.md)  
+[![sd](https://img.shields.io/badge/lang-sd-green.svg)](readme/README.sd.md) [![si](https://img.shields.io/badge/lang-si-blue.svg)](readme/README.si.md) [![sk](https://img.shields.io/badge/lang-sk-red.svg)](readme/README.sk.md) [![sl](https://img.shields.io/badge/lang-sl-purple.svg)](readme/README.sl.md) [![so](https://img.shields.io/badge/lang-so-orange.svg)](readme/README.so.md) [![su](https://img.shields.io/badge/lang-su-green.svg)](readme/README.su.md) [![sw](https://img.shields.io/badge/lang-sw-blue.svg)](readme/README.sw.md) [![tg](https://img.shields.io/badge/lang-tg-red.svg)](readme/README.tg.md) [![ta](https://img.shields.io/badge/lang-ta-purple.svg)](readme/README.ta.md) [![tt](https://img.shields.io/badge/lang-tt-orange.svg)](readme/README.tt.md) [![te](https://img.shields.io/badge/lang-te-green.svg)](readme/README.te.md)  
+[![th](https://img.shields.io/badge/lang-th-blue.svg)](readme/README.th.md) [![ti](https://img.shields.io/badge/lang-ti-red.svg)](readme/README.ti.md) [![ts](https://img.shields.io/badge/lang-ts-purple.svg)](readme/README.ts.md) [![tk](https://img.shields.io/badge/lang-tk-orange.svg)](readme/README.tk.md) [![ak](https://img.shields.io/badge/lang-ak-green.svg)](readme/README.ak.md) [![uk](https://img.shields.io/badge/lang-uk-blue.svg)](readme/README.uk.md) [![ur](https://img.shields.io/badge/lang-ur-red.svg)](readme/README.ur.md) [![ug](https://img.shields.io/badge/lang-ug-purple.svg)](readme/README.ug.md) [![uz](https://img.shields.io/badge/lang-uz-orange.svg)](readme/README.uz.md) [![vi](https://img.shields.io/badge/lang-vi-green.svg)](readme/README.vi.md) [![cy](https://img.shields.io/badge/lang-cy-blue.svg)](readme/README.cy.md)  
+[![xh](https://img.shields.io/badge/lang-xh-red.svg)](readme/README.xh.md) [![yi](https://img.shields.io/badge/lang-yi-purple.svg)](readme/README.yi.md) [![yo](https://img.shields.io/badge/lang-yo-orange.svg)](readme/README.yo.md) [![zu](https://img.shields.io/badge/lang-zu-green.svg)](readme/README.zu.md) के बा।
 
 --- 1999 के बा।
 
-## 📖 के बारे में जानकारी दिहल गइल बा।
-
-**पाइहेल्पर** एगो बहुमुखी पायथन टूलकिट ह जवन **डेटा विश्लेषण, विजुअलाइजेशन, सांख्यिकीय संचालन, आ उपयोगिता कार्यप्रवाह** के सरल बनावे खातिर बनावल गइल बा.  
-ई अकादमिक, शोध, आ प्रोफेशनल प्रोजेक्ट सभ में सहजता से एकीकरण करे ला, जेह से रउआँ के बॉयलरप्लेट कोड के बजाय अंतर्दृष्टि पर फोकस कइल जा सके ला।
-
-प्रमुख फायदा बा:
-- 🧮 बिल्ट-इन **आँकड़े और गणित उपयोगिता**
-- 📊 के उपयोग में आसान **डेटा विजुअलाइजेशन रैपर**
-- 🗂 सुलभ **फाइल हैंडलिंग अउर खोज**
-- 🔍 **सिंटैक्स वैलिडेशन** पायथन फाइल खातिर
-- 🌍 **मल्टी-लैंग्वेज सपोर्ट** रेडी-टू-यूज अनुवाद के साथ
-- 🚀 **फास्ट प्रोटोटाइपिंग** आ **शिक्षा के उद्देश्य से अनुकूलित**
-
---- 1999 के बा।
-
-## ✨ फीचर बा .
-
-### 📊 डेटा विजुअलाइजेशन के बारे में जानकारी दिहल गइल बा।
-- क्षैतिज अउर ऊर्ध्वाधर बार चार्ट (`HBAR`, `vbar`)
-- पाई चार्ट (`पाई`) के बा।
-- बॉक्स प्लॉट (`बॉक्सप्लॉट`) के बा।
-- हिस्टोग्राम (`हिस्टो`) के बा।
-- हीटमैप (`हीटमैप`) के बा।
-- डेटा टेबल (`टेबल`) के बा।
-- उन्नत विजुअलाइजेशन (बिखरल, वायलिन, केडीई, जोड़ीप्लॉट, आदि)
-
-### 📈 सांख्यिकीय विश्लेषण के बा
-- केंद्रीय प्रवृत्ति के मापदंड: 1।  
-  `get_media`, `get_मीडियन`, `get_moda`
-- फैलाव के मापदंड: 1।  
-  `get_rank`, `get_var`, `get_desv`, `डिस्प`
-- डेटा सामान्यीकरण (`सामान्य`)
-- आउटलइयर डिटेक्शन (आईक्यूआर एंड जेड-स्कोर विधि)
-- सशर्त डेटा रूपांतरण (`सशर्त`) के बा।
-
-### 🛠 उपयोगिता के बारे में जानकारी दिहल गइल बा।
-- फाइल के खोज आ लोड हो रहल बा (`कॉल`)
-- बढ़ावल **स्विच / एसिंकस्विच** सिस्टम
-- वाक्य रचना के जांच आ विश्लेषण (`पाइथॉनफाइलचेकर`, `चेक_सिंटैक्स`)
-- संदर्भ के साथ त्रुटि रिपोर्टिंग के बा
-- एकीकृत मदद प्रणाली (`मदद`, पूर्वावलोकन, डॉक्स)
-
-### 🌍 बहु-भाषा के समर्थन बा
-- **12 भाषा के लिए बिल्ट-इन अनुवाद**
-- `load_user_translations()` के साथ विस्तारित बा।
-- `set_language (लैंग_कोड)` के साथ गतिशील चयन बा।
-- अंग्रेजी में डिफ़ॉल्ट फॉलबैक बा
-
---- 1999 के बा।
 
 ## 🚀 इंस्टॉलेशन के बा
 
 PYPI से इंस्टॉल करीं:
 
-```बैश 1999 के बा।
-पिप इंस्टॉल करीं पाइहेलर-टूल्स-जेबीएचएम
-``` के बा .
+```bash
+pip install pyhelper-tools-jbhm
+``` के बा।
 
 --- 1999 के बा।
 
-## 🔧 प्रयोग के उदाहरण बा
+## 📖 के बारे में जानकारी दिहल गइल बा।
 
-### भाषा सेट करे के बा .
-```पाइथन के बा .
-से हेल्पर आयात set_language
+**पाइहेल्पर** एगो बहुमुखी Python टूलकिट ह जवन **डेटा विश्लेषण, विजुअलाइजेशन, सांख्यिकीय संचालन, आ उपयोगिता कार्यप्रवाह ** के सरल बनावे खातिर बनावल गइल बा।  
+ई अकादमिक, शोध, आ प्रोफेशनल प्रोजेक्ट सभ में सहजता से एकीकरण करे ला, जेह से रउआँ के बॉयलरप्लेट कोड के बजाय अंतर्दृष्टि पर फोकस कइल जा सके ला।
 
-set_language("en") # भोजपुरी
-set_language("es") # स्पेनिश के बा।
-set_language("fr") # फ्रेंच 2019 के बा।
-set_language("de") # जर्मन के बा।
-set_language("ru") # रूसी के बा।
-set_language("tr") # तुर्की के बा।
-set_language("zh") # चीनी बा।
-set_language("it") # इटैलियन
-set_language("pt") # पुर्तगाली 1999 के बा।
-set_language("sv") # स्वीडिश के बा।
-set_language("ja") # जापानी बा।
-set_language("ar") # अरबी के बा।
-# ... 100+ भाषा के समर्थन
-``` के बा .
+प्रमुख फायदा बा:
+- 🧮 बिल्ट-इन **आँकड़े और गणित उपयोगिता** 
+- 📊 के उपयोग में आसान **डेटा विजुअलाइजेशन रैपर** 
+- 🗂 सुलभ **फाइल हैंडलिंग अउर खोज** 
+- 🔍 **सिंटैक्स वैलिडेशन** Python फाइल के लिए बा।
+- 🌍 **मल्टी-लैंग्वेज सपोर्ट** रेडी-टू-यूज अनुवाद के साथ
+- 🚀 के लिए अनुकूलित **फास्ट प्रोटोटाइपिंग** और**शिक्षा** 
+
+--- 1999 के बा।
+
+## ✨ प्रमुख विशेषता के बा
+
+### 📊 डेटा विजुअलाइजेशन के बारे में जानकारी दिहल गइल बा।
+- बार चार्ट: क्षैतिज अउर ऊर्ध्वाधर (`hbar`, `vbar`)  
+- वितरण प्लॉट: हिस्टोग्राम (`histo`), बॉक्स प्लॉट (`boxplot`), केडीई प्लॉट (`kdeplot`)  
+- तुलनात्मक प्लॉट: वायलिन, झुंड, पट्टी प्लॉट के बा  
+- सहसंबंध विश्लेषण: हीटमैप (`heatmap`), बिखरल प्लॉट (`scatter`)  
+- उन्नत विजुअलाइजेशन: जोड़ी प्लॉट, संयुक्त प्लॉट, रिग्रेशन प्लॉट  
+- डेटा टेबल: फॉर्मेट कइल तालिका (`table`) के प्रदर्शित करेला  
+
+### 📈 सांख्यिकीय विश्लेषण के बा
+- **सेंट्रल प्रवृत्ति** : औसत (`get_media`), माध्यिका (`get_median`), मोड (`get_moda`)  
+- **डिस्पर्सन** : रेंज (`get_rank`), भिन्नता (`get_var`), मानक विचलन (`get_desv`)  
+- **विश्लेषण** : फैलाव रिपोर्ट (`disp`), आईक्यूआर गणना, सामान्यीकरण, सशर्त रूपांतरण  
+- **आउटलियर डिटेक्शन** : आईक्यूआर आ जेड-स्कोर के तरीका  
+
+### 🗂️ फाइल प्रबंधन के बारे में जानकारी दिहल गइल बा।
+- `call()` (auto-detect CSV, JSON, XML, etc.) के साथ स्मार्ट डिस्कवरी बा।  
+- मल्टी-फॉर्मेट सपोर्ट (CSV, JSON, XML, PDF, spatial data) बा।  
+- `DataBase` क्लास के साथ एसक्यूएल डेटाबेस प्रबंधन  
+- रूपांतरण उपयोगिता (`convert_file`) के बा।  
+
+### 🛠️ डेवलपर टूल के बारे में जानकारी दिहल गइल बा।
+- स्विच सिस्टम (`Switch`, `AsyncSwitch`) के बा।  
+- वाक्य रचना (`check_syntax`, `PythonFileChecker`) के जांच कइल जा रहल बा।  
+- समृद्ध त्रुटि रिपोर्टिंग (multi-language) बा।  
+- एकीकृत मदद प्रणाली (`help`) बा।  
+
+### 🌍 अंतर्राष्ट्रीयकरण के बारे में जानकारी दिहल गइल बा।
+- 100+ बिल्ट-इन अनुवाद बा।  
+- कस्टम अनुवाद लोड करे के बा  
+- रनटाइम भाषा स्विचिंग (`set_language() `)  
+- Automatic English fallback  
+
+---
+
+## Dependencies (handled automatically):
+
+- pandas, numpy (data manipulation)
+
+- matplotlib, seaborn (visualization)
+
+- scikit-learn (statistics)
+
+- sqlalchemy (database)
+
+- geopandas (spatial data)
+
+---
+
+## 🔧 Usage Examples
+
+### Set language 
+
+**support for up to 131 languages** 
+```python
+from helper import set_language
+
+set_language("en")  # English
+set_language("es")  # Spanish
+set_language("fr")  # French
+set_language("de")  # German
+set_language("ru")  # Russian
+set_language("tr")  # Turkish
+set_language("zh")  # Chinese
+set_language("it")  # Italian
+set_language("pt")  # Portuguese
+set_language("sv")  # Swedish
+set_language("ja")  # Japanese
+set_language("ar")  # Arabic
+...
+```
+
 
 ### मूलभूत आँकड़ा बा .
-```पाइथन के बा .
-एचपी के रूप में इम्पोर्ट हेल्पर के बा
+```python
+import helper as hp
 
-डेटा = [1, 2, 2, 3, 4, 5] के बा।
+data = [1, 2, 2, 3, 4, 5]
 
-print(hp.get_media (डेटा)) # के मतलब बा।
-print(hp.get_मीडियन (डेटा)) # मीडियन बा।
-प्रिंट (एचपी.गेट_मोडा (डेटा)) # मोड बा।
-``` के बा .
+print(hp.get_media(data))   # Mean
+print(hp.get_median(data))  # Median
+print(hp.get_moda(data))    # Mode
+``` के बा।
 
 ### विजुअलाइजेशन के बारे में बतावल गइल बा।
-```पाइथन के बा .
-एचपी के रूप में इम्पोर्ट हेल्पर के बा
-helper.submodules से ग्राफ के जीआर के रूप में आयात करीं
+```python
+import helper as hp
 
-df = hp.pd.dataframe ({"मान": [5, 3, 7, 2, 9]})
-gr.histo(df, "मूल्य", bins=5, title="नमूना हिस्टोग्राम")
-``` के बा .
+df = hp.pd.DataFrame({"values": [5, 3, 7, 2, 9]})
+hp.histo(df, "values", bins=5, title="Sample Histogram")
+``` के बा।
 
 ### फाइल हैंडलिंग के बा
-```पाइथन के बा .
-से हेल्पर आयात कॉल 2019 के बा।
+```python
+from helper import call
 
-data = call("my_data", type="csv") # एगो CSV फाइल के स्वचालित रूप से खोज के लोड करे ला
-``` के बा .
+data = call(name="my_data", type="csv")  # Finds and loads a CSV file automatically
+``` के बा।
 
 ### # कस्टम अनुवाद के बारे में जानकारी दिहल गइल बा।
-```पाइथन के बा .
-हेल्पर से load_user_translations के आयात करीं
+```python
+from helper import load_user_translations
 
-# lang.json से कस्टम अनुवाद लोड करीं
-load_user_translations("कस्टम/लैंग.जेसन") के बा।
-``` के बा .
+# Load custom translations from lang.json
+load_user_translations("custom/lang.json")
+``` के बा।
+
+### वाक्य रचना के मान्यता दिहल गइल बा
+```python
+from helper import run
+
+run("./path/to/my_script.py")
+#Show gui pop up with results
+``` के बा।
 
 --- 1999 के बा।
 
 ## 📂 परियोजना के संरचना के बारे में जानकारी दिहल गइल बा।
 
-``` के बा .
-सहायक/ के बा।
- ├── core.py # मुख्य कार्य बा।
- ├── लैंग/ # अनुवाद फाइल (json)
- ├── सबमॉड्यूल/ के बा।
- │ ├── ग्राफ.पीवाई # विजुअलाइजेशन फंक्शन बा।
- │ ├── statics.py # सांख्यिकीय कार्य
- │ ├── Utils.py # उपयोगिता सहायक
- └── __init__.py के बा।
-``` के बा .
+```
+helper/
+├── core.py
+├── __init__.py
+├── lang/
+│   ├── en.json
+│   ├── es.json
+│   └── ... (100+ files)
+└── submodules/
+    ├── graph.py
+    ├── statics.py
+    ├── utils.py
+    ├── caller.py
+    ├── checker.py
+    ├── manager.py
+    ├── pyswitch.py
+    ├── shared.py
+    └── DBManager.py
+``` के बा।
 
 --- 1999 के बा।
 
-## 🤝 योगदान देवे वाला बा
+## 📜 License के बा।
 
-योगदान के स्वागत बा!  
-कृपया मुद्दा खोलीं, सुधार के सुझाव दीं, भा [गिथब रिपोजिटरी](https://github.com/jbhmdev/pyhelper-tools) पर पुल अनुरोध जमा करीं।
-
---- 1999 के बा।
-
-## 📜 लाइसेंस बा
-
-ई प्रोजेक्ट **एमआईटी लाइसेंस** के तहत लाइसेंस प्राप्त बा।  
-विस्तार से जाने खातिर [लाइसेंस](लाइसेंस) फाइल देखल जाव।
+ई प्रोजेक्ट **MIT License** के तहत लाइसेंस प्राप्त बा।  
+विस्तार से जाने खातिर [LICENSE](LICENSE) फाइल देखल जाव।
 
 --- 1999 के बा।
 
-⚡ **पाइहेलर** के साथ आपन पायथन वर्कफ़्लो के सुपरचार्ज करे खातिर तैयार बा? आज ही खोजल शुरू करीं!
+## 🔮 रोडमैप के बा।
+
+- अतिरिक्त विजुअलाइजेशन के प्रकार बा .
+
+- विस्तारित डेटाबेस समर्थन (NoSQL, graph databases) बा।
+
+- मशीन लर्निंग एकीकरण के बा .
+
+- वेब आधारित इंटरफेस के बा .
+
+- प्लगइन सिस्टम के बा .
+
+--- 1999 के बा।
+
+⚡ **पाइहेलर** के साथ आपन Python वर्कफ़्लो के सुपरचार्ज करे खातिर तैयार बा? आज ही खोजल शुरू करीं!

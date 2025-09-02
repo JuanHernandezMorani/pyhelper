@@ -1,21 +1,14 @@
-from ..core import (
-    pd,
-    BIG_SIZE,
-    NORMAL_SIZE,
-    plt,
-    format_number,
-    sns,
-    mpl,
-    Optional,
-    show_gui_popup,
-    t,
-    np,
-    Union,
-    List,
-)
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import matplotlib as mpl
+from typing import Optional, Union, List
+from .shared import BIG_SIZE, NORMAL_SIZE, format_number, show_gui_popup, t
 from .pyswitch import Switch
 
-# Configuración global para modo no interactivo
+
+
 _non_interactive_mode = False
 
 
@@ -481,7 +474,7 @@ def scatter(
 
         fig = plt.figure(figsize=kwargs.get("figsize", BIG_SIZE))
 
-        # Lógica mejorada para seleccionar el tipo de plot
+
         if hue:
             sns.scatterplot(data=df, x=x, y=y, hue=hue, palette=palette, **kwargs)
         elif color:
@@ -525,7 +518,7 @@ def lineplot(
 
         fig = plt.figure(figsize=kwargs.get("figsize", BIG_SIZE))
 
-        # Lógica mejorada para seleccionar el tipo de plot
+
         if hue:
             sns.lineplot(data=df, x=x, y=y, hue=hue, palette=palette, **kwargs)
             plt.legend(title=hue)
@@ -567,7 +560,7 @@ def kdeplot(
 
         fig = plt.figure(figsize=kwargs.get("figsize", NORMAL_SIZE))
 
-        # Lógica mejorada para seleccionar el tipo de plot
+
         if hue:
             sns.kdeplot(data=df, x=column, hue=hue, palette=palette, **kwargs)
         elif color:
@@ -606,7 +599,7 @@ def jointplot(
         if not show:
             _set_non_interactive_mode(True)
 
-        # Lógica mejorada para seleccionar el tipo de plot
+
         if hue:
             g = _create_jointplot_with_hue(df, x, y, hue, **kwargs)
         elif color:

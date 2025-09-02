@@ -1,4 +1,8 @@
-from ..core import (pd, np, format_number, Union, List, show_gui_popup, t)
+import pandas as pd
+import numpy as np
+from typing import Union, List
+from .shared import format_number, show_gui_popup, t
+
 
 
 def get_moda(data: np.ndarray, with_repetition: bool = False, decimals: int = 2) -> Union[float, List[Union[float, int]]]:
@@ -101,3 +105,27 @@ def disp(df: pd.DataFrame, column: str, condition: pd.Series = None) -> dict:
             "varianza": np.nan,
             "desviacion estandar": np.nan
         }
+    
+def IQR(df: pd.DataFrame, column: str = None):
+    if column is None:
+        return err("not_none_allowed")
+    
+    q1 = None
+    q3 = None
+    iqr = None
+    lower_bound = None
+    upper_bound = None
+    
+    try:
+        q1 = df[column].quantile(0.25)
+        q3 = df[column].quantile(0.75)
+    except ValueError as e:
+        return print(e)
+    
+    if not q1 is None and not q3 is None:
+        iqr = q3 - q1
+        lower_bound = q1 - 1.5 * iqr
+        upper_bound = q3 + 1.5 * iqr
+        outliers_iqr = df[(df[column] < lower_bound) | (df[column] > upper_bound)]
+        show_gui_popup(t("iqr_method"),f"Q1: {q1}, Q3: {q3}, IQR: {iqr}\n{t("lower_bound")}: {lower_bound}, {t("upper_bound")}: {upper_bound}\n{t("outliers_iqr")}: {outliers_iqr}")
+  

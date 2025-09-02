@@ -1,4 +1,8 @@
-from ..core import (Callable, pd, np, re, inspect, Any, Dict, List)
+from typing import Callable, Any, Dict, List
+import pandas as pd
+import numpy as np
+import re
+import inspect
 
 class BaseSwitch:
     """Clase base con la lógica común para ambos tipos de switch"""
@@ -37,14 +41,14 @@ class BaseSwitch:
         """Convierte formato de diccionario a pares de casos"""
         pairs = []
         try:
-            # Formato con claves 'cases' y 'default'
+
             if 'cases' in case_dict:
                 for case in case_dict.get('cases', []):
                     pairs.extend([case['case'], case['then']])
                 if 'default' in case_dict:
                     pairs.extend(['default', case_dict['default']])
             
-            # Formato directo con claves como casos
+
             else:
                 for case_key, action in case_dict.items():
                     if case_key == "default":
@@ -62,15 +66,15 @@ class BaseSwitch:
         if not cases:
             raise ValueError("At least one case must be provided")
             
-        # Formato de diccionario único
+
         if len(cases) == 1 and isinstance(cases[0], dict):
             return self._convert_dict_to_pairs(cases[0])
         
-        # Formato de pares ya convertido
+
         if len(cases) == 1 and isinstance(cases[0], (list, tuple)):
             return list(cases[0])
         
-        # Formato de pares tradicional
+
         return list(cases)
 
     def _validate_cases(self, cases: List) -> None:
@@ -78,12 +82,12 @@ class BaseSwitch:
         if len(cases) % 2 != 0:
             raise ValueError("Cases must be defined in pairs: (condition, action)")
         
-        # Verificar que no haya múltiples defaults
+
         default_count = cases.count('default')
         if default_count > 1:
             raise ValueError("Only one default case is allowed")
         
-        # Verificar que el default esté en posición correcta
+
         if 'default' in cases:
             default_index = cases.index('default')
             if default_index % 2 != 0:
@@ -147,7 +151,7 @@ class Switch(BaseSwitch):
                     if not self.match_all:
                         return result
 
-            # Manejo del caso default
+
             if not matched_any or self.match_all:
                 default_result = self._handle_default(parsed_cases, matched_any)
                 if default_result is not None:
@@ -216,7 +220,7 @@ class AsyncSwitch(BaseSwitch):
                     if not self.match_all:
                         return result
 
-            # Manejo del caso default
+
             if not matched_any or self.match_all:
                 default_result = await self._handle_default(parsed_cases, matched_any)
                 if default_result is not None:
@@ -259,7 +263,7 @@ class AsyncSwitch(BaseSwitch):
             raise
 
 
-# Función wrapper para sintaxis más natural
+
 def switch(value: Any, *cases: Any, **kwargs: Any) -> Any:
     """Función wrapper para uso más natural del switch"""
     return Switch(value, **kwargs)(*cases)

@@ -1,9 +1,14 @@
-from ..core import np, show_gui_popup, pd, Path, gpd, warnings, Optional, Union, ET, re, PdfReader, struct
+import numpy as np
+import pandas as pd
+from pathlib import Path
+import geopandas as gpd
+import warnings
+from typing import Optional, Union
+import xml.etree.ElementTree as ET
+import re, struct
+from PyPDF2 import PdfReader
+from .shared import show_gui_popup
 
-
-# Ignorar warnings específicos
-warnings.filterwarnings("ignore", category=RuntimeWarning)
-warnings.filterwarnings("ignore", category=UserWarning)
 
 def normalize(data: np.ndarray):
     """Normaliza un array entre 0 y 1 usando min-max scaling."""
@@ -29,7 +34,7 @@ def conditional(df, conditions, results, column_name):
     except Exception as e:
         show_gui_popup(title="Error", content=str(e))
 
-# Funciones de handlers optimizadas
+
 def convert_atx_to_csv(input_path: Union[str, Path], output_path: Union[str, Path]) -> None:
     """Convierte archivo ATX a CSV."""
     try:
@@ -85,13 +90,13 @@ def convert_dbf_to_csv(input_path: Union[str, Path], output_path: Union[str, Pat
         if not input_path.exists():
             raise FileNotFoundError(f"Archivo no encontrado: {input_path}")
         
-        # Intentar con simpledbf primero
+
         try:
             from simpledbf import Dbf5
             dbf = Dbf5(str(input_path), codec="latin1")
             df = dbf.to_dataframe()
         except ImportError:
-            # Fallback a pandas
+
             df = pd.read_csv(input_path, engine="python", encoding="latin1")
         except Exception as e:
             raise ValueError(f"Error al leer DBF: {e}")
@@ -99,7 +104,7 @@ def convert_dbf_to_csv(input_path: Union[str, Path], output_path: Union[str, Pat
         if df.empty:
             raise ValueError(f"El DBF {input_path.name} está vacío")
 
-        # Convertir bytes a strings
+
         for col in df.columns:
             if df[col].dtype == object and isinstance(df[col].iloc[0], bytes):
                 df[col] = df[col].apply(lambda x: x.decode('latin1', errors='ignore'))
@@ -191,7 +196,7 @@ def convert_sbx_to_csv(input_path: Union[str, Path], output_path: Union[str, Pat
         header_size = 100
         records = []
 
-        # Detectar formato automáticamente
+
         formats = {
             8: ('<2i', ["offset", "length"], "Offset/Length"),
             16: ('<4i', ["i1", "i2", "i3", "i4"], "4 enteros"),
@@ -235,7 +240,7 @@ def convert_shp_to_csv(input_path: Union[str, Path], output_path: Union[str, Pat
         if not input_path.exists():
             raise FileNotFoundError(f"Archivo no encontrado: {input_path}")
 
-        # Leer shapefile
+
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             gdf = gpd.read_file(input_path)
@@ -243,7 +248,7 @@ def convert_shp_to_csv(input_path: Union[str, Path], output_path: Union[str, Pat
         if gdf.empty:
             raise ValueError(f"El shapefile {input_path.name} está vacío")
 
-        # Procesar geometrías
+
         gdf['geometry'] = gdf.make_valid()
         valid_geoms = gdf.geometry.notna() & ~gdf.is_empty & gdf.is_valid
         gdf = gdf[valid_geoms]
@@ -251,7 +256,7 @@ def convert_shp_to_csv(input_path: Union[str, Path], output_path: Union[str, Pat
         if gdf.empty:
             raise ValueError("Todas las geometrías son inválidas")
 
-        # Calcular propiedades
+
         utm_crs = gdf.estimate_utm_crs()
         gdf = gdf.to_crs(utm_crs)
         
@@ -269,7 +274,7 @@ def convert_shp_to_csv(input_path: Union[str, Path], output_path: Union[str, Pat
 
         gdf['geometry_type'] = gdf.geometry.geom_type
         
-        # Exportar sin columna geometry
+
         keep_cols = [c for c in gdf.columns if c != 'geometry']
         df = pd.DataFrame(gdf)[keep_cols]
         
@@ -332,7 +337,7 @@ def convert_xml_to_csv(input_path: Union[str, Path], output_path: Union[str, Pat
     except Exception as e:
         raise RuntimeError(f"Error procesando XML {input_path.name}: {e}")
 
-# Diccionario de conversores para fácil acceso
+
 CONVERTERS = {
     '.atx': convert_atx_to_csv,
     '.cpg': convert_cpg_to_csv,

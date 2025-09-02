@@ -2,11 +2,13 @@ import os
 import importlib
 import inspect
 from typing import Set, Dict, Any
+from .shared import t
+
+__version__ = "3.0.0"
 
 _submodules_dir = os.path.dirname(__file__)
 
 _EXCLUDED_FUNCTIONS = {}
-
 
 def _is_exportable(name: str, obj: Any) -> bool:
     return (
@@ -14,6 +16,26 @@ def _is_exportable(name: str, obj: Any) -> bool:
         and not name.startswith("_")
         and name not in _EXCLUDED_FUNCTIONS
         and inspect.getmodule(obj) is not None
+    )
+
+def package_info():
+    
+    # Obtener la configuración de módulos desde las traducciones
+    modules_config = t("package_info", return_raw=True).get("modules", {})
+    
+    # Construir la lista de módulos
+    modules_list = "\n".join([
+        f"- {module_name}: {module_desc}"
+        for module_name, module_desc in modules_config.items()
+    ])
+    
+    # Usar la plantilla con variables
+    return t("package_info", 
+        package=__package__,
+        version=__version__,
+        description=t("package_info", return_raw=True).get("description", ""),
+        modules_list=modules_list,
+        function_count=len(__all__)
     )
 
 

@@ -1,288 +1,214 @@
 Biblioteko # Helper
 
-[! [Permesilo: MIT] (https://img.shields.io/badge/license-mit-yellow.svg)] (Permesilo)  
-[! [Pypi] (https://img.shields.io/pypi/v/pyhelper-tools-jbhm?style=for-the-badge&label=pypi&color=blue)] (https://pypi.org/project/pyhelper-tools-jbhm/)  
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![PyPI](https://img.shields.io/pypi/v/pyhelper-tools-jbhm?style=for-the-badge&label=PyPI&color=blue)](https://pypi.org/project/pyhelper-tools-jbhm/)
 
 ## 🌍 disponeblaj lingvoj
 
-[! [EN] (https://img.shields.io/badge/lang-en-red.svg)] (readme.md)  
-[! [ES] (https://img.shields.io/badge/lang-es-yellow.svg)] (readme.es.md)  
-[! [Fr] (https://img.shields.io/badge/lang-fr-blue.svg)] (readme.fr.md)  
-[! [DE] (https://img.shields.io/badge/lang-de-green.svg)] (readme.de.md)  
-[! [Ru] (https://img.shields.io/badge/lang-ru-purple.svg)] (readme.ru.md)  
-[! [Tr] (https://img.shields.io/badge/lang-tr-orange.svg)] (readme.tr.md)  
-[! [ZH] (https://img.shields.io/badge/lang-zh-black.svg)] (readme.zh.md)  
-[! [Ĝi] (https://img.shields.io/badge/lang-it-lightgrey.svg)] (readme.it.md)  
-[! [PT] (https://img.shields.io/badge/lang-pt-brrightgreen.svg)] (readme.pt.md)  
-[! [SV] (https://img.shields.io/badge/lang-sv-blue.svg)] (readme.sv.md)  
-[! [JA] (https://img.shields.io/badge/lang-ja-red.svg)] (readme.ja.md)  
-[! [AR] (https://img.shields.io/badge/lang-ar-brown.svg)] (readme.ar.md)  
-[! [AF] (https://img.shields.io/badge/lang-af-orange.svg)] (readme.af.md)  
-[! [SQ] (https://img.shields.io/badge/lang-sq-blue.svg)] (readme.sq.md)  
-[! [Am] (https://img.shields.io/badge/lang-am-green.svg)] (readme.am.md)  
-[! [Hy] (https://img.shields.io/badge/lang-hy-red.svg)] (readme.hy.md)  
-[! [AS] (https://img.shields.io/badge/lang-as-purple.svg)] (readme.as.md)  
-[! [Ay] (https://img.shields.io/badge/lang-ay--brun.svg)] (readme.ay.md)  
-[! [AZ] (https://img.shields.io/badge/lang-az-lightblue.svg)] (readme.az.md)  
-[! [BM] (https://img.shields.io/badge/lang-bm-darkgreen.svg)] (readme.bm.md)  
-[! [EU] (https://img.shields.io/badge/lang-eu-pink.svg)] (readme.eu.md)  
-[! [Be] (https://img.shields.io/badge/lang-be-darkblue.svg)] (readme.be.md)  
-[! [Bn] (https://img.shields.io/badge/lang-bn-teal.svg)] (readme.bn.md)  
-[! [BHO] (https://img.shields.io/badge/lang-bho-orange.svg)] (readme.bho.md)  
-[! [BS] (https://img.shields.io/badge/lang-bs-purple.svg)] (readme.bm.md)  
-[! [BG] (https://img.shields.io/badge/lang-bg-green.svg)] (readme.bg.md)  
-[! [CA] (https://img.shields.io/badge/lang-ca-yellow.svg)] (readme.ca.md)  
-[! [CEB] (https://img.shields.io/badge/lang-ceb-blue.svg)] (readme.ceb.md)  
-[! [NY] (https://img.shields.io/badge/lang-ny-red.svg)] (readme.ny.md)  
-[! [Co] (https://img.shields.io/badge/lang-co-green.svg)] (readme.co.md)  
-[! [HR] (https://img.shields.io/badge/lang-hr-blue.svg)] (readme.hr.md)  
-[! [CS] (https://img.shields.io/badge/lang-cs-red.svg)] (readme.cs.md)  
-[! [DA] (https://img.shields.io/badge/lang-da-purple.svg)] (readme.da.md)  
-[! [DV] (https://img.shields.io/badge/lang-dv-orange.svg)] (readme.dv.md)  
-[! [doi] (https://img.shields.io/badge/lang-doi-brown.svg)] (readme.doi.md)  
-[! [NL] (https://img.shields.io/badge/lang-nl-orange.svg)] (readme.nl.md)  
-[! [EO] (https://img.shields.io/badge/lang-eo-green.svg)] (readme.eo.md)  
-[! [ET] (https://img.shields.io/badge/lang-et-blue.svg)] (readme.et.md)  
-[! [ee] (https://img.shields.io/badge/lang-ee-red.svg)] (readme.ee.md)  
-[! [TL] (https://img.shields.io/badge/lang-tl-purple.svg)] (readme.tl.md)  
-[! [Fi] (https://img.shields.io/badge/lang-fi-blue.svg)] (readme.fi.md)  
-[! [fy] (https://img.shields.io/badge/lang-fy-orange.svg)] (readme.fy.md)  
-[! [Gl] (https://img.shields.io/badge/lang-gl-green.svg)] (readme.gl.md)  
-[! [KA] (https://img.shields.io/badge/lang-ka-red.svg)] (readme.ka.md)  
-[! [El] (https://img.shields.io/badge/lang-el-blue.svg)] (readme.el.md)  
-[! [GN] (https://img.shields.io/badge/lang-gn-purple.svg)] (readme.gn.md)  
-[! [Gu] (https://img.shields.io/badge/lang-gu-orange.svg)] (readme.gu.md)  
-[! [HT] (https://img.shields.io/badge/lang-ht-green.svg)] (readme.ht.md)  
-[! [Ha] (https://img.shields.io/badge/lang-ha-blue.svg)] (readme.ha.md)  
-[! [Haw] (https://img.shields.io/badge/lang-haw-red.svg)] (readme.haw.md)  
-[! [IW] (https://img.shields.io/badge/lang-iw-purple.svg)] (readme.iw.md)  
-[! [Saluton] (https://img.shields.io/badge/lang-hi-orange.svg)] (readme.hi.md)  
-[! [HMN] (https://img.shields.io/badge/lang-hmn-green.svg)] (readme.hmn.md)  
-[! [Hu] (https://img.shields.io/badge/lang-hu-blue.svg)] (readme.hu.md)  
-[! [IS] (https://img.shields.io/badge/lang-is-red.svg)] (readme.is.md)  
-[! [IG] (https://img.shields.io/badge/lang-ig-purple.svg)] (readme.ig.md)  
-[! [ILO] (https://img.shields.io/badge/lang-ilo-orange.svg)] (readme.ilo.md)  
-[! [Id] (https://img.shields.io/badge/lang-id-green.svg)] (readme.id.md)  
-[! [Ga] (https://img.shields.io/badge/lang-ga-blue.svg)] (readme.ga.md)  
-[! [JW] (https://img.shields.io/badge/lang-jw-red.svg)] (readme.jw.md)  
-[! [KN] (https://img.shields.io/badge/lang-kn-purple.svg)] (readme.kn.md)  
-[! [KK] (https://img.shields.io/badge/lang-kk-orange.svg)] (readme.kk.md)
+Pyhelper ofertas enkonstruitajn tradukojn por ĝis ** 131 lingvoj ** inkluzive:
 
-[! [km] (https://img.shields.io/badge/lang-km-green.svg)] (readme.km.md)  
-[! [RW] (https://img.shields.io/badge/lang-rw-blue.svg)] (readme.rw.md)  
-[! [GOM] (https://img.shields.io/badge/lang-gom-red.svg)] (readme.gom.md)  
-[! [Ko] (https://img.shields.io/badge/lang-ko-purple.svg)] (readme.ko.md)  
-[! [Kri] (https://img.shields.io/badge/lang-kri-orange.svg)] (readme.kri.md)  
-[! [Ku] (https://img.shields.io/badge/lang-ku-green.svg)] (readme.ku.md)  
-[! [CKB] (https://img.shields.io/badge/lang-ckb-blue.svg)] (readme.ckb.md)  
-[! [KY] (https://img.shields.io/badge/lang-ky-red.svg)] (readme.ky.md)  
-[! [Lo] (https://img.shields.io/badge/lang-lo-purple.svg)] (readme.lo.md)  
-[! [la] (https://img.shields.io/badge/lang-la-orange.svg)] (readme.la.md)  
-[! [lv] (https://img.shields.io/badge/lang-lv-green.svg)] (readme.lv.md)  
-[! [ln] (https://img.shields.io/badge/lang-ln-blue.svg)] (readme.ln.md)  
-[! [LT] (https://img.shields.io/badge/lang-lt-red.svg)] (readme.lt.md)  
-[! [LG] (https://img.shields.io/badge/lang-lg-purple.svg)] (readme.lg.md)  
-[! [lb] (https://img.shields.io/badge/lang-lb-orange.svg)] (readme.lb.md)  
-[! [Mk] (https://img.shields.io/badge/lang-mk-green.svg)] (readme.mk.md)  
-[! [Mai] (https://img.shields.io/badge/lang-mai-blue.svg)] (readme.mai.md)  
-[! [mg] (https://img.shields.io/badge/lang-mg-red.svg)] (readme.mg.md)  
-[! [MS] (https://img.shields.io/badge/lang-ms-purple.svg)] (readme.ms.md)  
-[! [ML] (https://img.shields.io/badge/lang-ml-orange.svg)] (readme.ml.md)  
-[! [MT] (https://img.shields.io/badge/lang-mt-green.svg)] (readme.mt.md)  
-[! [Mi] (https://img.shields.io/badge/lang-mi-blue.svg)] (readme.mi.md)  
-[! [MR] (https://img.shields.io/badge/lang-mr-red.svg)] (readme.mr.md)  
-[! [lus] (https://img.shields.io/badge/lang-lus-purple.svg)] (readme.lus.md)  
-[! [Mn] (https://img.shields.io/badge/lang-mn-orange.svg)] (readme.mn.md)  
-[! [Mia] (https://img.shields.io/badge/lang-my-green.svg)] (readme.my.md)  
-[! [ne] (https://img.shields.io/badge/lang-ne-blue.svg)] (readme.ne.md)  
-[! [Ne] (https://img.shields.io/badge/lang-no-red.svg)] (readme.no.md)  
-[! [Aŭ] (https://img.shields.io/badge/lang-or-purple.svg)] (readme.or.md)  
-[! [om] (https://img.shields.io/badge/lang-om-orange.svg)] (readme.om.md)  
-[! [PS] (https://img.shields.io/badge/lang-ps-green.svg)] (readme.ps.md)  
-[! [Fa] (https://img.shields.io/badge/lang-fa-blue.svg)] (readme.fa.md)  
-[! [QU] (https://img.shields.io/badge/lang-qu-red.svg)] (readme.qu.md)  
-[! [RO] (https://img.shields.io/badge/lang-ro-purple.svg)] (readme.ro.md)  
-[! [SM] (https://img.shields.io/badge/lang-sm-orange.svg)] (readme.sm.md)  
-[! [SA] (https://img.shields.io/badge/lang-sa-green.svg)] (readme.sa.md)  
-[! [GD] (https://img.shields.io/badge/lang-gd-blue.svg)] (readme.gd.md)  
-[! [NSO] (https://img.shields.io/badge/lang-nso-red.svg)] (readme.nso.md)  
-[! [St] (https://img.shields.io/badge/lang-st-purple.svg)] (readme.st.md)  
-[! [SN] (https://img.shields.io/badge/lang-sn-orange.svg)] (readme.sn.md)  
-[! [SD] (https://img.shields.io/badge/lang-sd-green.svg)] (readme.sd.md)  
-[! [Si] (https://img.shields.io/badge/lang-si-blue.svg)] (readme.si.md)  
-[! [SK] (https://img.shields.io/badge/lang-sk-red.svg)] (readme.sk.md)  
-[! [SL] (https://img.shields.io/badge/lang-sl-purple.svg)] (readme.sl.md)  
-[! [Do] (https://img.shields.io/badge/lang-so-orange.svg)] (readme.so.md)  
-[! [Su] (https://img.shields.io/badge/lang-su-prien.svg)] (readme.su.md)  
-[! [SW] (https://img.shields.io/badge/lang-sw-blue.svg)] (readme.sw.md)  
-[! [TG] (https://img.shields.io/badge/lang-tg-red.svg)] (readme.tg.md)  
-[! [Ta] (https://img.shields.io/badge/lang-ta-purple.svg)] (readme.ta.md)  
-[! [TT] (https://img.shields.io/badge/lang-tt-orange.svg)] (readme.tt.md)  
-[! [TE] (https://img.shields.io/badge/lang-te-green.svg)] (readme.te.md)  
-[! [Th] (https://img.shields.io/badge/lang-th-blue.svg)] (readme.th.md)  
-[! [Ti] (https://img.shields.io/badge/lang-ti-red.svg)] (readme.ti.md)  
-[! [ts] (https://img.shields.io/badge/lang-ts-purple.svg)] (readme.ts.md)  
-[! [tk] (https://img.shields.io/badge/lang-tk-orange.svg)] (readme.tk.md)  
-[! [AK] (https://img.shields.io/badge/lang-ak-green.svg)] (readme.ak.md)  
-[! [UK] (https://img.shields.io/badge/lang-uk-blue.svg)] (readme.uk.md)  
-[! [Ur] (https://img.shields.io/badge/lang-ur-red.svg)] (readme.ur.md)  
-[! [Ug] (https://img.shields.io/badge/lang-ug-purple.svg)] (readme.ug.md)  
-[! [Uz] (https://img.shields.io/badge/lang-uz-orange.svg)] (readme.uz.md)  
-[! [vi] (https://img.shields.io/badge/lang-vi-green.svg)] (readme.vi.md)  
-[! [Cy] (https://img.shields.io/badge/lang-cy-blue.svg)] (readme.cy.md)
-
-[! [XH] (https://img.shields.io/badge/lang-xh-red.svg)] (readme.xh.md)  
-[! [yi] (https://img.shields.io/badge/lang-yi-purple.svg)] (readme.yi.md)  
-[! [Yo] (https://img.shields.io/badge/lang-yo-orange.svg)] (readme.yo.md)  
-[! [zu] (https://img.shields.io/badge/lang-zu-green.svg)] (readme.zu.md)
+[![en](https://img.shields.io/badge/lang-en-red.svg)](readme/README.md) [![es](https://img.shields.io/badge/lang-es-yellow.svg)](readme/README.es.md) [![fr](https://img.shields.io/badge/lang-fr-blue.svg)](readme/README.fr.md) [![de](https://img.shields.io/badge/lang-de-green.svg)](readme/README.de.md) [![ru](https://img.shields.io/badge/lang-ru-purple.svg)](readme/README.ru.md) [![tr](https://img.shields.io/badge/lang-tr-orange.svg)](readme/README.tr.md) [![zh](https://img.shields.io/badge/lang-zh-black.svg)](readme/README.zh.md) [![it](https://img.shields.io/badge/lang-it-lightgrey.svg)](readme/README.it.md) [![pt](https://img.shields.io/badge/lang-pt-brightgreen.svg)](readme/README.pt.md) [![sv](https://img.shields.io/badge/lang-sv-blue.svg)](readme/README.sv.md)  
+[![ja](https://img.shields.io/badge/lang-ja-red.svg)](readme/README.ja.md) [![ar](https://img.shields.io/badge/lang-ar-brown.svg)](readme/README.ar.md) [![af](https://img.shields.io/badge/lang-af-orange.svg)](readme/README.af.md) [![sq](https://img.shields.io/badge/lang-sq-blue.svg)](readme/README.sq.md) [![am](https://img.shields.io/badge/lang-am-green.svg)](readme/README.am.md) [![hy](https://img.shields.io/badge/lang-hy-red.svg)](readme/README.hy.md) [![as](https://img.shields.io/badge/lang-as-purple.svg)](readme/README.as.md) [![ay](https://img.shields.io/badge/lang-ay-brown.svg)](readme/README.ay.md) [![az](https://img.shields.io/badge/lang-az-lightblue.svg)](readme/README.az.md) [![bm](https://img.shields.io/badge/lang-bm-darkgreen.svg)](readme/README.bm.md)  
+[![eu](https://img.shields.io/badge/lang-eu-pink.svg)](readme/README.eu.md) [![be](https://img.shields.io/badge/lang-be-darkblue.svg)](readme/README.be.md) [![bn](https://img.shields.io/badge/lang-bn-teal.svg)](readme/README.bn.md) [![bho](https://img.shields.io/badge/lang-bho-orange.svg)](readme/README.bho.md) [![bs](https://img.shields.io/badge/lang-bs-purple.svg)](readme/README.bm.md) [![bg](https://img.shields.io/badge/lang-bg-green.svg)](readme/README.bg.md) [![ca](https://img.shields.io/badge/lang-ca-yellow.svg)](readme/README.ca.md) [![ceb](https://img.shields.io/badge/lang-ceb-blue.svg)](readme/README.ceb.md) [![ny](https://img.shields.io/badge/lang-ny-red.svg)](readme/README.ny.md) [![co](https://img.shields.io/badge/lang-co-green.svg)](readme/README.co.md)  
+[![hr](https://img.shields.io/badge/lang-hr-blue.svg)](readme/README.hr.md) [![cs](https://img.shields.io/badge/lang-cs-red.svg)](readme/README.cs.md) [![da](https://img.shields.io/badge/lang-da-purple.svg)](readme/README.da.md) [![dv](https://img.shields.io/badge/lang-dv-orange.svg)](readme/README.dv.md) [![doi](https://img.shields.io/badge/lang-doi-brown.svg)](readme/README.doi.md) [![nl](https://img.shields.io/badge/lang-nl-orange.svg)](readme/README.nl.md) [![eo](https://img.shields.io/badge/lang-eo-green.svg)](readme/README.eo.md) [![et](https://img.shields.io/badge/lang-et-blue.svg)](readme/README.et.md) [![ee](https://img.shields.io/badge/lang-ee-red.svg)](readme/README.ee.md) [![tl](https://img.shields.io/badge/lang-tl-purple.svg)](readme/README.tl.md)  
+[![fi](https://img.shields.io/badge/lang-fi-blue.svg)](readme/README.fi.md) [![fy](https://img.shields.io/badge/lang-fy-orange.svg)](readme/README.fy.md) [![gl](https://img.shields.io/badge/lang-gl-green.svg)](readme/README.gl.md) [![ka](https://img.shields.io/badge/lang-ka-red.svg)](readme/README.ka.md) [![el](https://img.shields.io/badge/lang-el-blue.svg)](readme/README.el.md) [![gn](https://img.shields.io/badge/lang-gn-purple.svg)](readme/README.gn.md) [![gu](https://img.shields.io/badge/lang-gu-orange.svg)](readme/README.gu.md) [![ht](https://img.shields.io/badge/lang-ht-green.svg)](readme/README.ht.md) [![ha](https://img.shields.io/badge/lang-ha-blue.svg)](readme/README.ha.md) [![haw](https://img.shields.io/badge/lang-haw-red.svg)](readme/README.haw.md)  
+[![iw](https://img.shields.io/badge/lang-iw-purple.svg)](readme/README.iw.md) [![hi](https://img.shields.io/badge/lang-hi-orange.svg)](readme/README.hi.md) [![hmn](https://img.shields.io/badge/lang-hmn-green.svg)](readme/README.hmn.md) [![hu](https://img.shields.io/badge/lang-hu-blue.svg)](readme/README.hu.md) [![is](https://img.shields.io/badge/lang-is-red.svg)](readme/README.is.md) [![ig](https://img.shields.io/badge/lang-ig-purple.svg)](readme/README.ig.md) [![ilo](https://img.shields.io/badge/lang-ilo-orange.svg)](readme/README.ilo.md) [![id](https://img.shields.io/badge/lang-id-green.svg)](readme/README.id.md) [![ga](https://img.shields.io/badge/lang-ga-blue.svg)](readme/README.ga.md) [![jw](https://img.shields.io/badge/lang-jw-red.svg)](readme/README.jw.md)  
+[![kn](https://img.shields.io/badge/lang-kn-purple.svg)](readme/README.kn.md) [![kk](https://img.shields.io/badge/lang-kk-orange.svg)](readme/README.kk.md) [![km](https://img.shields.io/badge/lang-km-green.svg)](readme/README.km.md) [![rw](https://img.shields.io/badge/lang-rw-blue.svg)](readme/README.rw.md) [![gom](https://img.shields.io/badge/lang-gom-red.svg)](readme/README.gom.md) [![ko](https://img.shields.io/badge/lang-ko-purple.svg)](readme/README.ko.md) [![kri](https://img.shields.io/badge/lang-kri-orange.svg)](readme/README.kri.md) [![ku](https://img.shields.io/badge/lang-ku-green.svg)](readme/README.ku.md) [![ckb](https://img.shields.io/badge/lang-ckb-blue.svg)](readme/README.ckb.md) [![ky](https://img.shields.io/badge/lang-ky-red.svg)](readme/README.ky.md)  
+[![lo](https://img.shields.io/badge/lang-lo-purple.svg)](readme/README.lo.md) [![la](https://img.shields.io/badge/lang-la-orange.svg)](readme/README.la.md) [![lv](https://img.shields.io/badge/lang-lv-green.svg)](readme/README.lv.md) [![ln](https://img.shields.io/badge/lang-ln-blue.svg)](readme/README.ln.md) [![lt](https://img.shields.io/badge/lang-lt-red.svg)](readme/README.lt.md) [![lg](https://img.shields.io/badge/lang-lg-purple.svg)](readme/README.lg.md) [![lb](https://img.shields.io/badge/lang-lb-orange.svg)](readme/README.lb.md) [![mk](https://img.shields.io/badge/lang-mk-green.svg)](readme/README.mk.md) [![mai](https://img.shields.io/badge/lang-mai-blue.svg)](readme/README.mai.md) [![mg](https://img.shields.io/badge/lang-mg-red.svg)](readme/README.mg.md)  
+[![ms](https://img.shields.io/badge/lang-ms-purple.svg)](readme/README.ms.md) [![ml](https://img.shields.io/badge/lang-ml-orange.svg)](readme/README.ml.md) [![mt](https://img.shields.io/badge/lang-mt-green.svg)](readme/README.mt.md) [![mi](https://img.shields.io/badge/lang-mi-blue.svg)](readme/README.mi.md) [![mr](https://img.shields.io/badge/lang-mr-red.svg)](readme/README.mr.md) [![lus](https://img.shields.io/badge/lang-lus-purple.svg)](readme/README.lus.md) [![mn](https://img.shields.io/badge/lang-mn-orange.svg)](readme/README.mn.md) [![my](https://img.shields.io/badge/lang-my-green.svg)](readme/README.my.md) [![ne](https://img.shields.io/badge/lang-ne-blue.svg)](readme/README.ne.md) [![no](https://img.shields.io/badge/lang-no-red.svg)](readme/README.no.md) [![or](https://img.shields.io/badge/lang-or-purple.svg)](readme/README.or.md)  
+[![om](https://img.shields.io/badge/lang-om-orange.svg)](readme/README.om.md) [![ps](https://img.shields.io/badge/lang-ps-green.svg)](readme/README.ps.md) [![fa](https://img.shields.io/badge/lang-fa-blue.svg)](readme/README.fa.md) [![qu](https://img.shields.io/badge/lang-qu-red.svg)](readme/README.qu.md) [![ro](https://img.shields.io/badge/lang-ro-purple.svg)](readme/README.ro.md) [![sm](https://img.shields.io/badge/lang-sm-orange.svg)](readme/README.sm.md) [![sa](https://img.shields.io/badge/lang-sa-green.svg)](readme/README.sa.md) [![gd](https://img.shields.io/badge/lang-gd-blue.svg)](readme/README.gd.md) [![nso](https://img.shields.io/badge/lang-nso-red.svg)](readme/README.nso.md) [![st](https://img.shields.io/badge/lang-st-purple.svg)](readme/README.st.md) [![sn](https://img.shields.io/badge/lang-sn-orange.svg)](readme/README.sn.md)  
+[![sd](https://img.shields.io/badge/lang-sd-green.svg)](readme/README.sd.md) [![si](https://img.shields.io/badge/lang-si-blue.svg)](readme/README.si.md) [![sk](https://img.shields.io/badge/lang-sk-red.svg)](readme/README.sk.md) [![sl](https://img.shields.io/badge/lang-sl-purple.svg)](readme/README.sl.md) [![so](https://img.shields.io/badge/lang-so-orange.svg)](readme/README.so.md) [![su](https://img.shields.io/badge/lang-su-green.svg)](readme/README.su.md) [![sw](https://img.shields.io/badge/lang-sw-blue.svg)](readme/README.sw.md) [![tg](https://img.shields.io/badge/lang-tg-red.svg)](readme/README.tg.md) [![ta](https://img.shields.io/badge/lang-ta-purple.svg)](readme/README.ta.md) [![tt](https://img.shields.io/badge/lang-tt-orange.svg)](readme/README.tt.md) [![te](https://img.shields.io/badge/lang-te-green.svg)](readme/README.te.md)  
+[![th](https://img.shields.io/badge/lang-th-blue.svg)](readme/README.th.md) [![ti](https://img.shields.io/badge/lang-ti-red.svg)](readme/README.ti.md) [![ts](https://img.shields.io/badge/lang-ts-purple.svg)](readme/README.ts.md) [![tk](https://img.shields.io/badge/lang-tk-orange.svg)](readme/README.tk.md) [![ak](https://img.shields.io/badge/lang-ak-green.svg)](readme/README.ak.md) [![uk](https://img.shields.io/badge/lang-uk-blue.svg)](readme/README.uk.md) [![ur](https://img.shields.io/badge/lang-ur-red.svg)](readme/README.ur.md) [![ug](https://img.shields.io/badge/lang-ug-purple.svg)](readme/README.ug.md) [![uz](https://img.shields.io/badge/lang-uz-orange.svg)](readme/README.uz.md) [![vi](https://img.shields.io/badge/lang-vi-green.svg)](readme/README.vi.md) [![cy](https://img.shields.io/badge/lang-cy-blue.svg)](readme/README.cy.md)  
+[![xh](https://img.shields.io/badge/lang-xh-red.svg)](readme/README.xh.md) [![yi](https://img.shields.io/badge/lang-yi-purple.svg)](readme/README.yi.md) [![yo](https://img.shields.io/badge/lang-yo-orange.svg)](readme/README.yo.md) [![zu](https://img.shields.io/badge/lang-zu-green.svg)](readme/README.zu.md)
 
 ---
 
-## 📖 Superrigardo
-
-** Pyhelper ** estas vershava python -ilaro desegnita por simpligi ** datuman analizon, bildigon, statistikajn operaciojn kaj utilajn fluojn de laboro **.  
-Ĝi integriĝas perfekte en akademiajn, esplorajn kaj profesiajn projektojn, ebligante vin koncentriĝi pri komprenoj prefere ol kaldrono -kodo.
-
-Ŝlosilaj avantaĝoj:
-- 🧮 Enkonstruitaj ** Statistikoj kaj Matematikaj Utilaĵoj **
--📊 Facile uzebla ** Datumaj vidaj volvaĵoj **
-- 🗂 Handy ** Dosiera uzado kaj serĉado **
-- 🔍 ** Sintaksa Validigo ** Por Python -Dosieroj
--🌍 ** Plurlingva subteno ** kun pretaj uzeblaj tradukoj
-- 🚀 Optimumigita por ** Rapida prototipado ** kaj ** Edukaj celoj **
-
----
-
-## ✨ Trajtoj
-
-### 📊 Datuma Vidigo
-- Horizontalaj & Vertikalaj Trinkejoj (`Hbar`,` vbar`)
-- kukaĵoj (`kukaĵo ')
-- Skatolaj intrigoj (`Boxplot`)
-- Histogramoj (`Histo`)
-- Varmoplatoj (`Heatmap`)
-- Datumaj Tabeloj (`Tabelo`)
-- Altnivelaj Vidigoj (Scatter, Violono, KDE, Paroplot, ktp.)
-
-### 📈 Statistika analizo
-- Mezuroj de centra tendenco:  
-  `get_media`,` get_median`, `get_moda`
-- Mezuroj de disvastiĝo:  
-  `get_rank`,` get_var`, `get_desv`,` disp`
-- Normaligo de datumoj (`normaligi ')
-- Pli frua detekto (IQR & Z-Poentmetodoj)
-- Kondiĉaj datumaj transformoj (`kondiĉa ')
-
-### 🛠 Utilaĵoj
-- Dosiera Malkovro kaj Ŝarĝo (`Voki ')
-- plibonigita ** ŝaltilo / asyncswitch ** sistemo
-- Sintaksa Kontrolado kaj Analizo (`Pythonfilechecker`,` check_syntax`)
-- Erara raportado kun kunteksto
-- Integrita Helpa Sistemo (`Helpo`, Antaŭrigardoj, Dokumentoj)
-
-### 🌍 Multlingva subteno
-- Enkonstruitaj tradukoj por ** 12 lingvoj **
-- Etendebla kun `load_user_translations ()`
-- Dinamika elekto kun `set_language (lang_code)`
-- Defaŭlta falo al la angla
-
----
 
 ## 🚀 Instalado
 
 Instalu de Pypi:
 
-`` `Bash
-pip instali pyhelper-ilojn-jbhm
-`` `
+```bash
+pip install pyhelper-tools-jbhm
+```
 
 ---
 
-## 🔧 uzaj ekzemploj
+## 📖 Superrigardo
 
-### Fiksita Lingvo
-`` `Python
-de Helper Import set_language
+** Pyhelper ** estas vershava Python ilaro desegnita por simpligi ** datuman analizon, bildigon, statistikajn operaciojn kaj utilajn fluojn de laboro ** .  
+Ĝi integriĝas perfekte en akademiajn, esplorajn kaj profesiajn projektojn, ebligante vin koncentriĝi pri komprenoj prefere ol kaldrono -kodo.
 
-set_language ("en") # angla
-set_language ("es") # hispana
-set_language ("fr") # franco
-set_language ("de") # germana
-set_language ("ru") # rusa
-set_language ("tr") # turka
-set_language ("zh") # ĉina
-set_language ("ĝi") # itala
-set_language ("pt") # portugala
-set_language ("sv") # sveda
-set_language ("ja") # japana
-set_language ("ar") # araba
-# ... subteno por 100+ lingvoj
-`` `
+Ŝlosilaj avantaĝoj:
+- 🧮 Enkonstruitaj ** Statistikoj kaj Matematikaj Utilaĵoj ** 
+-📊 Facile uzebla ** Datumaj vidaj volvaĵoj ** 
+- 🗂 Handy ** Dosiera uzado kaj serĉado ** 
+- 🔍 ** Sintaksa Validado ** Por Python -dosieroj
+-🌍 ** Plurlingva subteno ** kun pretaj uzeblaj tradukoj
+- 🚀 Optimumigita por ** Rapida prototipado ** kaj ** Edukado ** 
+
+---
+
+## ✨ Ŝlosilaj Trajtoj
+
+### 📊 Datuma Vidigo
+- Trinkejoj: Horizontala & Vertikala (`hbar`, `vbar`)  
+- Distribuaj intrigoj: Histogramoj (`histo`), skatolaj intrigoj (`boxplot`), KDE -intrigoj (`kdeplot`)  
+- Komparataj intrigoj: violono, svarmo, strioj  
+- Korelacia Analizo: Heatmaps (`heatmap`), disaj intrigoj (`scatter`)  
+- Altnivelaj Vidigoj: Paraj intrigoj, kunaj intrigoj, regresaj intrigoj  
+- Datumaj Tabeloj: Formataj tabloj montras (`table`)  
+
+### 📈 Statistika analizo
+- ** Centra tendenco ** : meznombro (`get_media`), meza (`get_median`), reĝimo (`get_moda`)  
+- ** Dispersio ** : Range (`get_rank`), varianco (`get_var`), norma devio (`get_desv`)  
+- ** Analizo ** : Dispersaj Raportoj (`disp`), IQR -Kalkuloj, Normaligo, Kondiĉaj Transformoj  
+- ** Pli frua detekto ** : IQR kaj Z-Poentmetodoj  
+
+### 🗂️ Dosiera Administrado
+- Smart Discovery kun `call()` (auto-detect CSV, JSON, XML, etc.)  
+- Mult-formata subteno (CSV, JSON, XML, PDF, spatial data)  
+- SQL -datumbazadministrado kun `DataBase` klaso  
+- Konvertaj utilecoj (`convert_file`)  
+
+### 🛠️ Programistoj iloj
+- Ŝaltila sistemo (`Switch`, `AsyncSwitch`)  
+- Sintaksa kontrolado (`check_syntax`, `PythonFileChecker`)  
+- Riĉa erara raportado (multi-language)  
+- Integrita Helpa Sistemo (`help`)  
+
+### 🌍 Internacieco
+- 100+ enkonstruitaj tradukoj  
+- Ŝarĝu kutimajn tradukojn  
+- Runtime Language Switching (`set_language() `)  
+- Automatic English fallback  
+
+---
+
+## Dependencies (handled automatically):
+
+- pandas, numpy (data manipulation)
+
+- matplotlib, seaborn (visualization)
+
+- scikit-learn (statistics)
+
+- sqlalchemy (database)
+
+- geopandas (spatial data)
+
+---
+
+## 🔧 Usage Examples
+
+### Set language 
+
+**support for up to 131 languages** 
+```python
+from helper import set_language
+
+set_language("en")  # English
+set_language("es")  # Spanish
+set_language("fr")  # French
+set_language("de")  # German
+set_language("ru")  # Russian
+set_language("tr")  # Turkish
+set_language("zh")  # Chinese
+set_language("it")  # Italian
+set_language("pt")  # Portuguese
+set_language("sv")  # Swedish
+set_language("ja")  # Japanese
+set_language("ar")  # Arabic
+...
+```
+
 
 ### Baza Statistiko
-`` `Python
-importi helpilon kiel HP
+```python
+import helper as hp
 
-Datumoj = [1, 2, 2, 3, 4, 5]
+data = [1, 2, 2, 3, 4, 5]
 
-print (hp.get_media (datumoj)) # meznombro
-Presi (hp.get_median (datumoj)) # meza
-Presi (hp.get_moda (datumoj)) # reĝimo
-`` `
+print(hp.get_media(data))   # Mean
+print(hp.get_median(data))  # Median
+print(hp.get_moda(data))    # Mode
+```
 
 ### Vidigado
-`` `Python
-importi helpilon kiel HP
-de Helper.SubModules import grafeo kiel GR
+```python
+import helper as hp
 
-df = hp.pd.dataframe ({"valoroj": [5, 3, 7, 2, 9]})
-Gr.Histo (df, "Valoroj", Bins = 5, Titolo = "Specimenogramo")
-`` `
+df = hp.pd.DataFrame({"values": [5, 3, 7, 2, 9]})
+hp.histo(df, "values", bins=5, title="Sample Histogram")
+```
 
 ### uzado de dosieroj
-`` `Python
-De Helpa Importa Voko
+```python
+from helper import call
 
-datumoj = voki ("mia_data", tajpu = "csv") # trovas kaj ŝarĝas CSV -dosieron aŭtomate
-`` `
+data = call(name="my_data", type="csv")  # Finds and loads a CSV file automatically
+```
 
 ### Propraj tradukoj
-`` `Python
-De Helper Import Load_User_Translations
+```python
+from helper import load_user_translations
 
-# Ŝargi Proprajn Tradukojn de Lang.json
-Load_User_Translations ("Custom/Lang.json")
-`` `
+# Load custom translations from lang.json
+load_user_translations("custom/lang.json")
+```
+
+### Sintaksa validumado
+```python
+from helper import run
+
+run("./path/to/my_script.py")
+#Show gui pop up with results
+```
 
 ---
 
 ## 📂 Projekta Strukturo
 
-`` `
-helpanto/
- ├── core.py # ĉefaj funkcioj
- ├── lang/ # tradukdosieroj (JSON)
- ├── submoduloj/
- │ ├── grafe.py # vidaj funkcioj
- │ ├── statics.py # statistikaj funkcioj
- │ ├── utils.py # utilaj helpantoj
- └── __init__.py
-`` `
+```
+helper/
+├── core.py
+├── __init__.py
+├── lang/
+│   ├── en.json
+│   ├── es.json
+│   └── ... (100+ files)
+└── submodules/
+    ├── graph.py
+    ├── statics.py
+    ├── utils.py
+    ├── caller.py
+    ├── checker.py
+    ├── manager.py
+    ├── pyswitch.py
+    ├── shared.py
+    └── DBManager.py
+```
 
 ---
 
-## 🤝 Kontribuado
+## 📜 License
 
-Kontribuoj estas bonvenaj!  
-Bonvolu malfermi aferojn, sugesti plibonigojn aŭ sendi tipajn petojn pri la [GitHub-deponejo] (https://github.com/jbhmdev/pyhelper-tools).
-
----
-
-## 📜 Permesilo
-
-Ĉi tiu projekto estas licencita laŭ la ** MIT -permesilo **.  
-Vidu la dosieron [Permesilo] (Permesilo) por detaloj.
+Ĉi tiu projekto estas rajtigita sub la ** MIT π_4 _ ** .  
+Vidu la dosieron [LICENSE](LICENSE) por detaloj.
 
 ---
 
-⚡ Preta por superŝarĝi viajn python -laborfluojn per ** pyhelper **? Komencu esplori hodiaŭ!
+## 🔮 Roadmap
+
+- Pliaj bildigaj tipoj
+
+- Plilongigita datumbaza subteno (NoSQL, graph databases)
+
+- Maŝina Lernado -Integriĝo
+
+- ret-bazita interfaco
+
+- Kromprogramo
+
+---
+
+⚡ Preta por superŝarĝi viajn Python -fluojn kun ** Pyhelper ** ? Komencu esplori hodiaŭ!

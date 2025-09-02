@@ -1,71 +1,77 @@
-from .core import *
-from .submodules import *
+import importlib
+import pkgutil
 
-__version__ ="2.0.1" 
-__name__ = "pyhelper-tools-jbhm"
+__version__ = "3.0.0"
 
-import inspect
-from typing import Callable
+# Mapeo de nombres ya cargados (para cache)
+_loaded_attrs = {}
 
+# --- Descubrir todos los submódulos (core y submodules) ---
+# Esto recorre helper/ y helper/submodules/
+_package_name = __name__
+_package_path = __path__[0]
 
-def _get_all_functions():
-    functions = {}
+_all_symbols = set()
 
-    from . import core
+def _discover_symbols():
+    """
+    Descubre todas las funciones, clases y variables públicas de core y submodules
+    para ofrecer autocompletado y acceso directo.
+    """
+    # Primero cargar core
+    try:
+        core = importlib.import_module(f"{_package_name}.core")
+        for name in getattr(core, "__all__", dir(core)):
+            if not name.startswith("_"):
+                _all_symbols.add(name)
+                _loaded_attrs[name] = getattr(core, name)
+    except ImportError:
+        pass
 
-    for name, obj in inspect.getmembers(core):
-        if inspect.isfunction(obj) and obj.__module__.startswith("helper.core"):
-            functions[name] = obj
+    # Luego recorrer submodules dinámicamente
+    try:
+        submodules_pkg = f"{_package_name}.submodules"
+        pkg = importlib.import_module(submodules_pkg)
+        if hasattr(pkg, "__path__"):
+            for _, modname, _ in pkgutil.iter_modules(pkg.__path__, pkg.__name__ + "."):
+                try:
+                    mod = importlib.import_module(modname)
+                    for name in getattr(mod, "__all__", dir(mod)):
+                        if not name.startswith("_"):
+                            _all_symbols.add(name)
+                            _loaded_attrs[name] = getattr(mod, name)
+                except ImportError:
+                    # Si no se puede importar un submódulo (dependencia opcional faltante), se omite
+                    continue
+    except ImportError:
+        pass
 
-    from . import submodules
+# Descubrimos una vez (no fuerza a importar todo, solo explora)
+_discover_symbols()
 
-    for name, obj in inspect.getmembers(submodules):
-        if inspect.isfunction(obj) and obj.__module__.startswith("helper.submodules"):
-            functions[name] = obj
+def __getattr__(name):
+    """
+    Permite acceder a cualquier símbolo (función, clase, variable) desde helper directamente.
+    Lazy load real: si alguien accede a un nombre no cacheado, intentamos cargarlo dinámicamente.
+    """
+    if name in _loaded_attrs:
+        return _loaded_attrs[name]
 
-    return functions
+    # Intentar carga perezosa (por si se agregaron nuevos submódulos)
+    for modname in [_package_name + ".core", _package_name + ".submodules"]:
+        try:
+            mod = importlib.import_module(modname)
+            if hasattr(mod, name):
+                obj = getattr(mod, name)
+                _loaded_attrs[name] = obj
+                return obj
+        except ImportError:
+            continue
 
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
-ALL_FUNCTIONS = _get_all_functions()
-
-_exported_names = set()
-
-from .core import __all__ as core_all
-
-_exported_names.update(core_all)
-
-from .submodules import __all__ as submodules_all
-
-_exported_names.update(submodules_all)
-
-
-_other_exports = {
-    "sys",
-    "ast",
-    "pd",
-    "Path",
-    "json",
-    "csv",
-    "ET",
-    "sns",
-    "mpl",
-    "tk",
-    "messagebox",
-    "ScrolledText",
-    "np",
-    "plt",
-    "re",
-    "inspect",
-    "asyncio",
-    "time",
-    "os",
-    "filedialog",
-    "scikit-learn"
-}
-
-_other_exports = _other_exports - _exported_names
-_exported_names.discard("sklearn")
-_exported_names.update(_other_exports)
-
-
-__all__ = sorted(_exported_names)
+def __dir__():
+    """
+    Ayuda al autocompletado de IDEs.
+    """
+    return sorted(list(globals().keys()) + list(_all_symbols))
