@@ -4,7 +4,7 @@ import inspect
 from typing import Set, Dict, Any
 from .shared import t
 
-__version__ = "3.0.2"
+__version__ = "3.0.3"
 
 _submodules_dir = os.path.dirname(__file__)
 
