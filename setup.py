@@ -8,7 +8,7 @@ import importlib.util
 # -------------------------------
 # Configuración general
 # -------------------------------
-VERSION = "3.0.3"
+VERSION = "3.0.4"
 PACKAGE_NAME = "pyhelper-tools-jbhm"
 DESCRIPTION = "A centralized toolkit for Python developers"
 AUTHOR = "Juan Braian Hernandez Morani"
