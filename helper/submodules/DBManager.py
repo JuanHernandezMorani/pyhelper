@@ -23,7 +23,7 @@ from .shared import (
     t,
     pyodbc,
     sys,
-    webbrowser
+    webbrowser,
 )
 from .pyswitch import Switch
 import re  # Added for type parsing
@@ -81,7 +81,6 @@ class DataBase:
 
                 import psycopg2
 
-
                 password = self.config["db_pass"]
                 if isinstance(password, str):
                     password = password.encode("latin-1", "ignore").decode("latin-1")
@@ -90,7 +89,6 @@ class DataBase:
                     show_gui_popup(
                         t("debug_title"), f"Password after encoding: {repr(password)}"
                     )
-
 
                 try:
                     conn = psycopg2.connect(
@@ -112,8 +110,6 @@ class DataBase:
                             f"Error en conexión directa: {e}",
                         )
                     raise
-
-
 
                 import urllib.parse
 
@@ -142,14 +138,12 @@ class DataBase:
             Session = sessionmaker(bind=self.engine)
             self.session = Session()
 
-
             with self.engine.connect() as conn:
                 result = conn.execute(text("SELECT 1"))
                 if self.config["db_debug"]:
                     show_gui_popup(
                         t("debug_title"), "Test query ejecutado correctamente"
                     )
-
 
                 if db_type == "mysql":
                     version_result = conn.execute(text("SELECT VERSION()"))
@@ -186,7 +180,7 @@ class DataBase:
         try:
             if not self.table_exists(table_name):
                 return False
-                
+
             query = text(f"SELECT COUNT(*) FROM {table_name}")
             result = self.session.execute(query).scalar()
             return result == 0
@@ -202,7 +196,7 @@ class DataBase:
     def _get_all_tables(self) -> List[str]:
         """Obtiene todas las tablas de la base de datos."""
         db_type = self.config.get("db_type", "mysql").lower()
-        
+
         if db_type == "postgresql":
             query = """
             SELECT table_name 
@@ -221,7 +215,7 @@ class DataBase:
             FROM information_schema.tables 
             WHERE table_schema = DATABASE()
             """
-            
+
         result = pd.read_sql(query, self.engine)
         return result["table_name"].tolist()
 
@@ -396,11 +390,14 @@ class DataBase:
     def insert(self, table_name: str, data: Dict[str, any]) -> None:
         """Inserta un registro en la tabla."""
         try:
+            # Strip double quotes from column names for placeholders
             cols = ", ".join(data.keys())
-            placeholders = ", ".join([f":{k}" for k in data.keys()])
+            placeholders = ", ".join([f":{k.strip('"')}" for k in data.keys()])
             query = text(f"INSERT INTO {table_name} ({cols}) VALUES ({placeholders})")
+            # Create parameter dictionary with stripped keys
+            params = {k.strip('"'): v for k, v in data.items()}
             with self.engine.begin() as conn:
-                conn.execute(query, data)
+                conn.execute(query, params)
         except Exception as e:
             if self.config["db_debug"]:
                 show_alert_popup(
@@ -457,7 +454,6 @@ class DataBase:
         try:
             where_clause = " AND ".join([f"{col} = :{col}" for col in where.keys()])
             query = text(f"DELETE FROM {table_name} WHERE {where_clause}")
-
 
             params = where.copy()
             dialect_name = self.engine.dialect.name
@@ -517,10 +513,8 @@ class DataBase:
             if not table_names:
                 raise ValueError("no_tables_to_export")
 
-
             output_path = Path(output_path) if output_path else Path.cwd() / "export"
             output_path.mkdir(parents=True, exist_ok=True)
-
 
             results = []
 
@@ -534,12 +528,10 @@ class DataBase:
                 if table_where:
                     query += f" WHERE {table_where}"
 
-
                 if separate_files or len(table_names) > 1:
                     table_output_path = output_path / f"{table_name}.{format_type}"
                 else:
                     table_output_path = output_path.with_suffix(f".{format_type}")
-
 
                 export_function = Switch(format_type.lower())(
                     {
@@ -623,9 +615,7 @@ class DataBase:
         if hasattr(col_type, "__class__") and hasattr(col_type, "compile"):
             return col_type
 
-
         col_type = col_type.lower().strip()
-
 
         if "(" in col_type and ")" in col_type:
             type_name = col_type.split("(")[0]
@@ -657,7 +647,6 @@ class DataBase:
 
             if col_type in type_mapping:
                 return type_mapping[col_type]
-
 
         return sa.String(255)
 
@@ -721,10 +710,8 @@ class DataBase:
             if len(table_names) < 2:
                 raise ValueError("at_least_two_tables_required")
 
-
             query = f"SELECT * FROM {table_names[0]}"
             result_df = pd.read_sql(query, self.engine)
-
 
             for i in range(1, len(table_names)):
                 next_df = pd.read_sql(f"SELECT * FROM {table_names[i]}", self.engine)
@@ -786,7 +773,6 @@ class DataBase:
                 }
             )
 
-
             on_condition = ""
             if on and join_type.lower() != "cross":
                 on_clauses = []
@@ -797,13 +783,11 @@ class DataBase:
                         on_clauses.append(f"{table1}.{col} = {table2}.{col}")
                 on_condition = " ON " + " AND ".join(on_clauses)
 
-
             query = f"""
             SELECT * FROM {table1}
             {join_query}
             {on_condition}
             """
-
 
             where_conditions = kwargs.get("where", [])
             if where_conditions:
@@ -817,11 +801,11 @@ class DataBase:
             raise SQLAlchemyError(f"{t('join_failed')}: {str(e)}")
 
     def drop(
-    self, 
-    table_name: str, 
-    where: Optional[Dict[str, any]] = None,
-    cascade: bool = False
-) -> None:
+        self,
+        table_name: str,
+        where: Optional[Dict[str, any]] = None,
+        cascade: bool = False,
+    ) -> None:
         """
         Elimina registros de una tabla, con opción de eliminación en cascada.
 
@@ -832,11 +816,12 @@ class DataBase:
         """
         try:
             dialect_name = self.engine.dialect.name
-        
+
             if cascade and where:
 
-                if dialect_name == 'postgresql':
-                    query = text("""
+                if dialect_name == "postgresql":
+                    query = text(
+                        """
                         SELECT
                             tc.table_name as table_name,
                             kcu.column_name as column_name,
@@ -851,9 +836,11 @@ class DataBase:
                               ON ccu.constraint_name = tc.constraint_name
                               AND ccu.table_schema = tc.table_schema
                         WHERE tc.constraint_type = 'FOREIGN KEY' AND ccu.table_name = :table_name
-                    """)
-                elif dialect_name == 'mssql':
-                    query = text("""
+                    """
+                    )
+                elif dialect_name == "mssql":
+                    query = text(
+                        """
                         SELECT 
                             OBJECT_NAME(fkc.parent_object_id) AS table_name,
                             COL_NAME(fkc.parent_object_id, fkc.parent_column_id) AS column_name,
@@ -864,9 +851,11 @@ class DataBase:
                             INNER JOIN sys.foreign_keys AS fk ON fkc.constraint_object_id = fk.object_id
                         WHERE 
                             OBJECT_NAME(fk.referenced_object_id) = :table_name
-                    """)
+                    """
+                    )
                 else:  # MySQL y otros
-                    query = text("""
+                    query = text(
+                        """
                         SELECT 
                             TABLE_NAME, 
                             COLUMN_NAME, 
@@ -874,29 +863,30 @@ class DataBase:
                             REFERENCED_COLUMN_NAME
                         FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
                         WHERE REFERENCED_TABLE_NAME = :table_name
-                    """)
-                
+                    """
+                    )
 
-                dependencies = pd.read_sql(query, self.engine, params={"table_name": table_name})
-
+                dependencies = pd.read_sql(
+                    query, self.engine, params={"table_name": table_name}
+                )
 
                 where_conditions = [f"{col} = :{col}" for col in where.keys()]
                 where_clause = " AND ".join(where_conditions)
 
-
                 for _, dep in dependencies.iterrows():
-                    delete_query = text(f"""
+                    delete_query = text(
+                        f"""
                         DELETE FROM {dep['table_name']} 
                         WHERE {dep['column_name']} IN (
                             SELECT {dep['referenced_column_name']} 
                             FROM {table_name} 
                             WHERE {where_clause}
                         )
-                    """)
-                
+                    """
+                    )
+
                     with self.engine.begin() as conn:
                         conn.execute(delete_query, where)
-
 
             if where:
                 where_conditions = [f"{col} = :{col}" for col in where.keys()]
@@ -906,16 +896,15 @@ class DataBase:
             else:
                 query = text(f"DELETE FROM {table_name}")
                 params = {}
-        
 
-            if dialect_name == 'postgresql':
+            if dialect_name == "postgresql":
                 for key, value in params.items():
                     if isinstance(value, int):
                         params[key] = str(value)
-            elif dialect_name == 'mssql':
+            elif dialect_name == "mssql":
 
                 pass
-        
+
             with self.engine.begin() as conn:
                 conn.execute(query, params)
 
@@ -949,7 +938,7 @@ class DataBase:
         """
         try:
             db_type = self.config.get("db_type", "").lower()
-            
+
             if db_type == "postgresql":
                 query = f"""
                 WITH RECURSIVE cte AS (
@@ -982,7 +971,7 @@ class DataBase:
                 """
             else:
 
-                if self.db_version and int(self.db_version.split('.')[0]) >= 8:
+                if self.db_version and int(self.db_version.split(".")[0]) >= 8:
                     query = f"""
                     WITH RECURSIVE cte AS (
                         SELECT *, 1 as {level_col}
@@ -1047,7 +1036,6 @@ class DataBase:
                         f"{t('window_function_omitted')}",
                     )
 
-
                 query = f"SELECT * FROM {table_name}"
                 return pd.read_sql(query, self.engine)
 
@@ -1073,7 +1061,6 @@ class DataBase:
                     f"{t('window_function_omitted')}",
                 )
 
-
             query = f"SELECT * FROM {table_name}"
             return pd.read_sql(query, self.engine)
 
@@ -1091,7 +1078,6 @@ class DataBase:
         try:
             query = text(sql)
 
-
             new_params = params.copy() if params else {}
             dialect_name = self.engine.dialect.name
             if dialect_name == "postgresql" and params:
@@ -1103,7 +1089,9 @@ class DataBase:
         except Exception as e:
             if self.config["db_debug"]:
                 show_alert_popup(
-                    "error", "sql_execution_error", f"{t('sql_execution_failed')}: {str(e)}"
+                    "error",
+                    "sql_execution_error",
+                    f"{t('sql_execution_failed')}: {str(e)}",
                 )
             raise SQLAlchemyError(f"{t('sql_execution_failed')}: {str(e)}")
 
@@ -1118,6 +1106,14 @@ class DataBase:
         self.engine = None
         self.metadata = None
         self.session = None
+
+    def get_table_name(self) -> List:
+        """
+        Devuelve una lista con el nombre de todas las tablas
+        """
+
+        inspector = sa.inspect(self.engine)
+        return List(str(inspector.get_table_names()))
 
     def show(
         self,
@@ -1146,10 +1142,8 @@ class DataBase:
                 show_gui_popup("Database Info", t("no_tables_in_database"))
                 return
 
-
             content = f"{t('database')}: {self.config['db_name']}\n"
             content += f"{t('tables_found')}: {len(table_names)}\n\n"
-
 
             table_data = {}
             for table_name in table_names:
@@ -1165,11 +1159,9 @@ class DataBase:
                 df = pd.read_sql(query, self.engine)
                 table_data[table_name] = df
 
-
                 content += f"{t('table')}: {table_name}\n"
                 content += f"{t('records')}: {len(df)}\n"
                 content += f"{t('columns')}: {', '.join(df.columns)}\n\n"
-
 
             def generate_preview():
                 fig, axes = plt.subplots(1, len(table_names), figsize=(15, 8))
@@ -1180,11 +1172,11 @@ class DataBase:
                     if i >= len(axes):
                         break
 
-
                     ax = axes[i]
                     ax.axis("off")
                     ax.set_title(
-                        f"{t('table')}: {table_name}\n{t('records')}: {len(df)}", fontsize=12
+                        f"{t('table')}: {table_name}\n{t('records')}: {len(df)}",
+                        fontsize=12,
                     )
 
                     if not df.empty:
@@ -1201,7 +1193,6 @@ class DataBase:
 
                 plt.tight_layout()
                 return fig
-
 
             def export_data(format_type):
                 try:
@@ -1228,7 +1219,6 @@ class DataBase:
                 except Exception as e:
                     if self.config["db_debug"]:
                         show_gui_popup("error", f"{t('export_error')}: {str(e)}")
-
 
             show_gui_popup(
                 title="Database Explorer",
@@ -1272,7 +1262,9 @@ class DataBase:
 
         except Exception as e:
             if self.config["db_debug"]:
-                show_alert_popup("error", "reset_error", f"{t('reset_failed')}: {str(e)}")
+                show_alert_popup(
+                    "error", "reset_error", f"{t('reset_failed')}: {str(e)}"
+                )
             raise SQLAlchemyError(f"{t('reset_failed')}: {str(e)}")
 
     def force_reset(self) -> None:
@@ -1306,7 +1298,8 @@ class DataBase:
                             )
             if self.config["db_debug"]:
                 show_gui_popup(
-                    "success", f"{t('force_reset_completed')}: {t('all_tables_dropped')}"
+                    "success",
+                    f"{t('force_reset_completed')}: {t('all_tables_dropped')}",
                 )
         except Exception as e:
             if self.config["db_debug"]:
@@ -1330,19 +1323,16 @@ def manageDB(
     def get_available_driver():
         """Busca controladores ODBC compatibles en orden de preferencia"""
         drivers_to_try = [
-            'ODBC Driver 17 for SQL Server',
-            'ODBC Driver 13 for SQL Server',
-            'ODBC Driver 11 for SQL Server'
+            "ODBC Driver 17 for SQL Server",
+            "ODBC Driver 13 for SQL Server",
+            "ODBC Driver 11 for SQL Server",
         ]
-    
+
         installed_drivers = pyodbc.drivers()
         for driver in drivers_to_try:
             if driver in installed_drivers:
                 return driver
         return None
-
-    
-
 
     if db_type.lower() == "postgresql":
         engine = create_engine(
@@ -1354,24 +1344,15 @@ def manageDB(
         )
     elif db_type.lower() == "mssql":
         driver = get_available_driver()
-        if driver is None: 
-            if show_yesno_popup(
-                "no_mssql_driver_title",
-                "no_mssql_driver_msg"
-            ):
+        if driver is None:
+            if show_yesno_popup("no_mssql_driver_title", "no_mssql_driver_msg"):
 
-                webbrowser.open("https://learn.microsoft.com/en-us/sql/connect/odbc/download-odbc-driver-for-sql-server")
-                show_alert_popup(
-                    "warning",
-                    t("need_install"),
-                    t("install_req_msg")
+                webbrowser.open(
+                    "https://learn.microsoft.com/en-us/sql/connect/odbc/download-odbc-driver-for-sql-server"
                 )
+                show_alert_popup("warning", t("need_install"), t("install_req_msg"))
             else:
-                show_alert_popup(
-                    "warning",
-                    t("c_error"),
-                    t("odbc_error_msg")
-                )
+                show_alert_popup("warning", t("c_error"), t("odbc_error_msg"))
             sys.exit(1)
             raise ValueError(f"{t('no_mssql_drivers_installed')}")
         else:
@@ -1398,8 +1379,11 @@ def manageDB(
                 conn.execute(text(f"CREATE DATABASE IF NOT EXISTS {db_name}"))
         elif db_type.lower() == "mssql":
             with engine.connect() as conn:
-                conn.execute(text(f"IF NOT EXISTS(SELECT * FROM sys.databases WHERE name = '{db_name}') CREATE DATABASE {db_name}"))
-
+                conn.execute(
+                    text(
+                        f"IF NOT EXISTS(SELECT * FROM sys.databases WHERE name = '{db_name}') CREATE DATABASE {db_name}"
+                    )
+                )
 
     config = {
         "db_name": db_name,
