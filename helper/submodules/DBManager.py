@@ -390,14 +390,19 @@ class DataBase:
     def insert(self, table_name: str, data: Dict[str, any]) -> None:
         """Inserta un registro en la tabla."""
         try:
-            # Strip double quotes from column names for placeholders
+            if not data:
+                # Para datos vacíos, usar DEFAULT VALUES
+                query = text(f"INSERT INTO {table_name} DEFAULT VALUES")
+                with self.engine.begin() as conn:
+                    conn.execute(query)
+                return
+            
             cols = ", ".join(data.keys())
-            placeholders = ", ".join([f":{k.strip('"')}" for k in data.keys()])
+            placeholders = ", ".join([f":{k}" for k in data.keys()])
             query = text(f"INSERT INTO {table_name} ({cols}) VALUES ({placeholders})")
-            # Create parameter dictionary with stripped keys
-            params = {k.strip('"'): v for k, v in data.items()}
+        
             with self.engine.begin() as conn:
-                conn.execute(query, params)
+                conn.execute(query, data)
         except Exception as e:
             if self.config["db_debug"]:
                 show_alert_popup(
