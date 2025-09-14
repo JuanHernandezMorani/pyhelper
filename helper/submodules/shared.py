@@ -17,7 +17,7 @@ import webbrowser
 import xml.etree.ElementTree as ET
 from collections.abc import Callable
 from datetime import timedelta
-from pathlib import Path
+from pathlib import Path, PurePath
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 import geopandas as gpd
@@ -171,20 +171,29 @@ else:
 
 def _load_gui_config_():
     """Carga la configuración de la GUI desde un archivo JSON."""
-    gui_json = "gui_config.json" if not CUSTOMGUI else "custom_gui_config.json"
     config_path = os.path.join(os.getcwd(), "gui_config.json")
     default_config = {
-        "bg_color": "#2b2b2b",
-        "text_color": "#ffffff",
-        "btn_bg": "#3c3f41",
-        "highlight_color": "#4e5254",
-        "preview_bg": "#f0f0f0"
+        "theme": "dark",
+        "custom_colors": {
+            "bg_color": "#2b2b2b",
+            "text_color": "#ffffff",
+            "btn_bg": "#3c3f41",
+            "highlight_color": "#4e5254",
+            "preview_bg": "#f0f0f0"
+        }
     }
     
     try:
         if os.path.exists(config_path):
             with open(config_path, 'r') as f:
                 user_config = json.load(f)
+                # Migrar configuraciones antiguas
+                if "bg_color" in user_config and "theme" not in user_config:
+                    user_config = {
+                        "theme": "custom",
+                        "custom_colors": user_config
+                    }
+                    _save_gui_config_(user_config)
                 return {**default_config, **user_config}
     except:
         pass
@@ -199,7 +208,6 @@ def _save_gui_config_(config):
             json.dump(config, f, indent=4)
     except Exception as e:
         print(f"Error guardando configuración: {str(e)}")
-
 
 def format_number(
     value: float, use_decimals: bool = True, decimals: int = 2, percent: bool = False
@@ -342,11 +350,27 @@ def show_gui_popup(
 
 
     config = _load_gui_config_()
-    BG_COLOR = config.get("bg_color", "#2b2b2b")
-    TEXT_COLOR = config.get("text_color", "#ffffff")
-    BTN_BG = config.get("btn_bg", "#3c3f41")
-    HIGHLIGHT_COLOR = config.get("highlight_color", "#4e5254")
-    PREVIEW_BG = config.get("preview_bg", "#f0f0f0")
+    theme = config.get("theme", "dark")
+    custom_colors = config.get("custom_colors", {})
+    
+    if theme == "light":
+        BG_COLOR = "#ffffff"
+        TEXT_COLOR = "#000000"
+        BTN_BG = "#f0f0f0"
+        HIGHLIGHT_COLOR = "#e0e0e0"
+        PREVIEW_BG = "#f0f0f0"
+    elif theme == "custom":
+        BG_COLOR = custom_colors.get("bg_color", "#2b2b2b")
+        TEXT_COLOR = custom_colors.get("text_color", "#ffffff")
+        BTN_BG = custom_colors.get("btn_bg", "#3c3f41")
+        HIGHLIGHT_COLOR = custom_colors.get("highlight_color", "#4e5254")
+        PREVIEW_BG = custom_colors.get("preview_bg", "#f0f0f0")
+    else:  # dark theme por defecto
+        BG_COLOR = "#2b2b2b"
+        TEXT_COLOR = "#ffffff"
+        BTN_BG = "#3c3f41"
+        HIGHLIGHT_COLOR = "#4e5254"
+        PREVIEW_BG = "#f0f0f0"
 
 
     if IN_JUPYTER:
@@ -486,80 +510,133 @@ def show_gui_popup(
             format_menu.post(x, y)
 
     def toggle_theme():
-        nonlocal BG_COLOR, TEXT_COLOR, BTN_BG, HIGHLIGHT_COLOR, PREVIEW_BG
+        config = _load_gui_config_()
+        current_theme = config.get("theme", "dark")
+        new_theme = "light" if current_theme == "dark" else "dark"
+        config["theme"] = new_theme
+        _save_gui_config_(config)
         
-        theme_config = switch(
-            BG_COLOR, {
-                "#ffffff": {
-                    "bg_color": "#2b2b2b",
-                    "text_color": "#ffffff", 
-                    "btn_bg": "#3c3f41",
-                    "highlight_color": "#4e5254",
-                    "preview_bg": "#f0f0f0"
-                },
-                "#2b2b2b": {
-                    "bg_color": "#ffffff",
-                    "text_color": "#000000",
-                    "btn_bg": "#f0f0f0", 
-                    "highlight_color": "#e0e0e0",
-                    "preview_bg": "#f0f0f0"
-                },
-                "default": {
-                "bg_color": "#2b2b2b",
-                "text_color": "#ffffff",
-                "btn_bg": "#3c3f41",
-                "highlight_color": "#4e5254",
-                "preview_bg": "#f0f0f0"
-            }
-            }
-        )
-        
-        _save_gui_config_(theme_config)
-        
-        on_close()
+        # Recargar la ventana
+        window.destroy()
         show_gui_popup(
             title, content, fig, plot_function, plot_args, 
             False, export_callback, table_data
         )
 
-    def custom_mng():
-        state = not CUSTOMGUI
-        _custom_settings_(state)
+    def toggle_custom():
+        config = _load_gui_config_()
+        current_theme = config.get("theme", "dark")
+        
+        if current_theme == "custom":
+            # Volver al tema oscuro si estaba en custom
+            config["theme"] = "dark"
+        else:
+            # Activar tema personalizado
+            config["theme"] = "custom"
+            # Si no hay colores personalizados, usar los actuales como base
+            if "custom_colors" not in config or not config["custom_colors"]:
+                config["custom_colors"] = {
+                    "bg_color": BG_COLOR,
+                    "text_color": TEXT_COLOR,
+                    "btn_bg": BTN_BG,
+                    "highlight_color": HIGHLIGHT_COLOR,
+                    "preview_bg": PREVIEW_BG
+                }
+        
+        _save_gui_config_(config)
+        
+        # Recargar la ventana
+        window.destroy()
+        show_gui_popup(
+            title, content, fig, plot_function, plot_args, 
+            False, export_callback, table_data
+        )
 
     def open_settings():
         settings_window = tk.Toplevel(window)
         settings_window.title("Configuración de GUI")
-        settings_window.geometry("400x300")
+        settings_window.geometry("400x500")
         settings_window.configure(bg=BG_COLOR)
         
+        # Centrar la ventana de configuración
+        settings_window.update_idletasks()
+        x = window.winfo_x() + (window.winfo_width() // 2) - (400 // 2)
+        y = window.winfo_y() + (window.winfo_height() // 2) - (500 // 2)
+        settings_window.geometry(f"400x500+{x}+{y}")
+        
         ttk.Label(settings_window, text="Configuración de colores", style="Dark.TLabel").pack(pady=10)
-
-        user_bg_color = askcolor(color="FFFFFF", title="Choose background color")
-        user_text_color = askcolor(color="FFFFFF", title="Choose text color")
-        user_btn_bg = askcolor(color="FFFFFF", title="Choose button background color")
-        user_highlight_color = askcolor(color="FFFFFF", title="Choose highlight color")
-        user_preview_bg = askcolor(color="FFFFFF", title="Choose preview background color")
-
-        custom_config = {
-                    "bg_color": user_bg_color[1],
-                    "text_color": user_text_color[1], 
-                    "btn_bg": user_btn_bg[1],
-                    "highlight_color": user_highlight_color[1],
-                    "preview_bg": user_preview_bg[1]
-                }
+        
+        colors_frame = ttk.Frame(settings_window, style="Dark.TFrame")
+        colors_frame.pack(padx=10, pady=10, fill="both", expand=True)
+        
+        # Función para crear selectores de color
+        def create_color_selector(parent, label, default_color, row):
+            ttk.Label(parent, text=label, style="Dark.TLabel").grid(row=row, column=0, sticky="w", padx=5, pady=5)
+            color_var = tk.StringVar(value=default_color)
+            color_label = ttk.Label(parent, background=default_color, width=10)
+            color_label.grid(row=row, column=1, padx=5, pady=5)
+            
+            def choose_color():
+                # Obtener la posición del botón que activó el selector
+                button_widget = settings_window.focus_get()
+                if button_widget:
+                    x_pos = button_widget.winfo_rootx() + button_widget.winfo_width() + 10
+                    y_pos = button_widget.winfo_rooty()
+                else:
+                    # Posición por defecto si no se puede obtener la del botón
+                    x_pos = settings_window.winfo_rootx() + settings_window.winfo_width() + 10
+                    y_pos = settings_window.winfo_rooty()
+                    
+                color = askcolor(
+                    color=color_var.get(), 
+                    title=f"Elegir color para {label}",
+                    parent=settings_window
+                )[1]
+                
+                if color:
+                    color_var.set(color)
+                    color_label.configure(background=color)
+            
+            color_button = ttk.Button(parent, text="Seleccionar", command=choose_color, style="Dark.TButton")
+            color_button.grid(row=row, column=2, padx=5, pady=5)
+            
+            return color_var
+        
+        # Crear selectores para cada color
+        bg_color_var = create_color_selector(colors_frame, "Color de fondo", custom_colors.get("bg_color", "#2b2b2b"), 0)
+        text_color_var = create_color_selector(colors_frame, "Color de texto", custom_colors.get("text_color", "#ffffff"), 1)
+        btn_bg_var = create_color_selector(colors_frame, "Color de botones", custom_colors.get("btn_bg", "#3c3f41"), 2)
+        highlight_color_var = create_color_selector(colors_frame, "Color de resaltado", custom_colors.get("highlight_color", "#4e5254"), 3)
+        preview_bg_var = create_color_selector(colors_frame, "Color de previsualización", custom_colors.get("preview_bg", "#f0f0f0"), 4)
         
         def save_custom_colors():
-            """Guarda la configuración de la GUI en un archivo JSON."""
-            config_path = os.path.join(os.getcwd(), "custom_gui_config.json")
-            try:
-                with open(config_path, 'w') as f:
-                    json.dump(custom_config, f, indent=4)
-                    _custom_settings_(True)
-            except Exception as e:
-                print(f"Error guardando configuración: {str(e)}")
+            config = _load_gui_config_()
+            config["custom_colors"] = {
+                "bg_color": bg_color_var.get(),
+                "text_color": text_color_var.get(),
+                "btn_bg": btn_bg_var.get(),
+                "highlight_color": highlight_color_var.get(),
+                "preview_bg": preview_bg_var.get()
+            }
+            config["theme"] = "custom"
+            _save_gui_config_(config)
+            settings_window.destroy()
+            window.destroy()
+            show_gui_popup(
+                title, content, fig, plot_function, plot_args, 
+                False, export_callback, table_data
+            )
         
         ttk.Button(settings_window, text="Guardar", command=save_custom_colors, style="Dark.TButton").pack(pady=10)
-
+        
+        # Hacer que la ventana de configuración sea modal
+        settings_window.transient(window)
+        settings_window.grab_set()
+        settings_window.focus_set()
+        
+        # Esperar a que la ventana se cierre
+        window.wait_window(settings_window)
+        
     def on_close():
         if current_fig is not None:
             plt.close(current_fig)
@@ -570,11 +647,13 @@ def show_gui_popup(
     btn_frame = ttk.Frame(main_frame, style="Dark.TFrame")
     btn_frame.grid(row=1, column=0, sticky="ew", pady=(0, 5))
 
+    # Configurar 6 columnas para acomodar todos los botones
     btn_frame.grid_columnconfigure(0, weight=1)
     btn_frame.grid_columnconfigure(1, weight=1)
     btn_frame.grid_columnconfigure(2, weight=1)
     btn_frame.grid_columnconfigure(3, weight=1)
     btn_frame.grid_columnconfigure(4, weight=1)
+    btn_frame.grid_columnconfigure(5, weight=1)
 
 
     action_btn = ttk.Button(
@@ -588,51 +667,42 @@ def show_gui_popup(
             btn_frame, text=export_text, command=export_data, style="Dark.TButton"
         )
         export_btn.grid(row=0, column=1, padx=5)
-
-
-    custom_event_btn_text = switch(CUSTOMGUI,{
-        False: custom_inactive_text,
-        True: custom_active_text,
-        "default": custom_inactive_text}
-    )
-    
-    custom_event_btn = ttk.Button(
-        btn_frame, text=custom_event_btn_text, 
-        command=custom_mng, style="Dark.TButton"
-    )
-    if CUSTOMGUI:
-        custom_event_btn.grid(row=0, column=2, padx=5)
     else:
-        custom_event_btn.grid(row=0, column=2, padx=2)
-    
+        # Espaciador si no hay botón de exportación
+        ttk.Frame(btn_frame, width=0).grid(row=0, column=1)
 
-    theme_btn_text = switch(BG_COLOR,{
-        "#ffffff": dark_theme_text,
-        "#2b2b2b": light_theme_text,
-        "default": light_theme_text}
-    )
-    
+    # Botón de tema claro/oscuro
+    theme_btn_text = light_theme_text if theme == "dark" else dark_theme_text
     theme_btn = ttk.Button(
-        btn_frame, text=theme_btn_text, 
-        command=toggle_theme, style="Dark.TButton"
+        btn_frame, text=theme_btn_text, command=toggle_theme, style="Dark.TButton"
     )
-    theme_btn.grid(row=0, column=2, padx=2)
-
-    if CUSTOMGUI:
-        theme_btn.grid_forget()
     
+    # Botón de custom
+    custom_btn_text = custom_active_text if theme == "custom" else custom_inactive_text
+    custom_btn = ttk.Button(
+        btn_frame, text=custom_btn_text, command=toggle_custom, style="Dark.TButton"
+    )
+    
+    # Colocar botones según el tema actual
+    if theme == "custom":
+        custom_btn.grid(row=0, column=2, padx=5)
+        # Ocultar botón de tema cuando está en modo custom
+        theme_btn.grid_forget()
+    else:
+        theme_btn.grid(row=0, column=2, padx=5)
+        custom_btn.grid(row=0, column=3, padx=5)
 
 
     settings_btn = ttk.Button(
         btn_frame, text=settings_text, command=open_settings, style="Dark.TButton"
     )
-    settings_btn.grid(row=0, column=3, padx=5)
+    settings_btn.grid(row=0, column=4, padx=5)
 
 
     close_btn = ttk.Button(
         btn_frame, text=close_text, command=on_close, style="Dark.TButton"
     )
-    close_btn.grid(row=0, column=4, padx=5, sticky="e")
+    close_btn.grid(row=0, column=5, padx=5, sticky="e")
 
 
     def on_tab_change(event):

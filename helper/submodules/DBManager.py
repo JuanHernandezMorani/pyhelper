@@ -5,6 +5,7 @@ from .shared import (
     filedialog,
     json,
     Path,
+    PurePath,
     pd,
     plt,
     create_engine,
@@ -391,12 +392,14 @@ class DataBase:
         """Inserta un registro en la tabla."""
         try:
             if not data:
-                # Para datos vacíos, usar DEFAULT VALUES
+                # Verificar que la tabla existe antes de insertar
+                if not self.table_exists(table_name):
+                    raise SQLAlchemyError(f"La tabla {table_name} no existe.")
                 query = text(f"INSERT INTO {table_name} DEFAULT VALUES")
                 with self.engine.begin() as conn:
                     conn.execute(query)
                 return
-            
+        
             cols = ", ".join(data.keys())
             placeholders = ", ".join([f":{k}" for k in data.keys()])
             query = text(f"INSERT INTO {table_name} ({cols}) VALUES ({placeholders})")
@@ -517,8 +520,11 @@ class DataBase:
 
             if not table_names:
                 raise ValueError("no_tables_to_export")
-
-            output_path = Path(output_path) if output_path else Path.cwd() / "export"
+            
+            def op():                
+                return Path(output_path) if not isinstance(output_path, PurePath) or not isinstance(output_path, Path) else output_path
+            
+            output_path =  op() if output_path else Path.cwd() / "export"
             output_path.mkdir(parents=True, exist_ok=True)
 
             results = []
@@ -615,45 +621,63 @@ class DataBase:
             raise SQLAlchemyError(f"{t('table_check_failed')}: {str(e)}")
 
     def _parse_column_type(self, col_type: str):
-        """Parsea el tipo de columna y devuelve el tipo SQLAlchemy apropiado con longitud para VARCHAR en MySQL"""
-
+        """Parsea el tipo de columna y devuelve el tipo SQLAlchemy apropiado.
+           Soporta sinónimos y hace matching por 'substrings'.
+        """
         if hasattr(col_type, "__class__") and hasattr(col_type, "compile"):
             return col_type
 
-        col_type = col_type.lower().strip()
+        if col_type is None:
+            return sa.Text()
+
+        col_type = str(col_type).lower().strip()
 
         if "(" in col_type and ")" in col_type:
-            type_name = col_type.split("(")[0]
+            base = col_type.split("(")[0].strip()
             params = col_type.split("(")[1].split(")")[0].split(",")
+            try:
+                if base in ("varchar", "character varying", "char", "character"):
+                    length = int(params[0])
+                    return sa.String(length=length)
+            except Exception:
+                pass
 
-            if type_name == "varchar":
-                length = int(params[0])
-                return sa.String(length=length)
+            if base in ("numeric", "decimal"):
+                return sa.Numeric()
+            if base in ("text", "clob"):
+                return sa.Text()
+            if base in ("uuid", "guid"):
+                return sa.String(36)
+            if base in ("int", "integer"):
+                return sa.Integer()
+            if base in ("bigint",):
+                return sa.BigInteger()
+            if base in ("float", "double", "real", "double precision", "float8"):
+                return sa.Float()
 
-        else:
+        if "char" in col_type or "text" in col_type or "clob" in col_type:
+            return sa.Text()
+        if "double" in col_type or "precision" in col_type or "float" in col_type or "real" in col_type:
+            return sa.Float()
+        if "bigint" in col_type:
+            return sa.BigInteger()
+        if "int" in col_type and "unsigned" not in col_type:
+            return sa.Integer()
+        if "numeric" in col_type or "decimal" in col_type:
+            return sa.Numeric()
+        if "bool" in col_type:
+            return sa.Boolean()
+        if "date" in col_type and "time" in col_type:
+            return sa.DateTime()
+        if "date" in col_type and "time" not in col_type:
+            return sa.Date()
+        if "time" in col_type and "date" not in col_type:
+            return sa.Time()
+        if "uuid" in col_type or "guid" in col_type:
+            return sa.String(36)
 
-            type_mapping = {
-                "varchar": sa.String(255),  # Longitud por defecto para MySQL
-                "string": sa.String(255),
-                "text": sa.Text(),
-                "integer": sa.Integer(),
-                "int": sa.Integer(),
-                "bigint": sa.BigInteger(),
-                "smallint": sa.SmallInteger(),
-                "float": sa.Float(),
-                "double": sa.Float(),
-                "numeric": sa.Numeric(),
-                "boolean": sa.Boolean(),
-                "date": sa.Date(),
-                "datetime": sa.DateTime(),
-                "time": sa.Time(),
-                "binary": sa.LargeBinary(),
-            }
+        return sa.Text()
 
-            if col_type in type_mapping:
-                return type_mapping[col_type]
-
-        return sa.String(255)
 
     def addTable(
         self,
@@ -685,9 +709,12 @@ class DataBase:
                             if col_def.name == col:
                                 col_def.primary_key = True
 
-            Table(table_name, self.metadata, *table_columns)
+            Table(table_name, self.metadata, *table_columns, extend_existing=True)
             self.metadata.create_all(self.engine)
-
+        
+            # Log para confirmar la creación de la tabla
+            if self.config["db_debug"]:
+                show_alert_popup("info", "Table Created", f"Table {table_name} created successfully.")
         except Exception as e:
             if self.config["db_debug"]:
                 show_alert_popup(

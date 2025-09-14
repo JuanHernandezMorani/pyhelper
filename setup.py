@@ -8,7 +8,7 @@ import importlib.util
 # -------------------------------
 # Configuración general
 # -------------------------------
-VERSION = "3.0.4"
+VERSION = "3.1.0"
 PACKAGE_NAME = "pyhelper-tools-jbhm"
 DESCRIPTION = "A centralized toolkit for Python developers"
 AUTHOR = "Juan Braian Hernandez Morani"
@@ -171,7 +171,7 @@ if "pkgutil" in install_requires:
 
 extras_require = {
     "linux": ["pyamdgpuinfo"],
-    "windows": ["wmi"],
+    "windows": ["wmi", "tables"],
     "macos": []
 }
 

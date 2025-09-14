@@ -11,6 +11,7 @@ pyodbc
 scikit-learn
 scipy
 seaborn
+stdlib-list
 
 [linux]
 pyamdgpuinfo
@@ -19,3 +20,4 @@ pyamdgpuinfo
 
 [windows]
 wmi
+tables
