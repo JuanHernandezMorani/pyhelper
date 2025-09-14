@@ -269,7 +269,7 @@ def register(name=None):
 
 def show_gui_popup(
     title, content, fig=None, plot_function=None, plot_args=None, 
-    preview_mode=False, export_callback=None, table_data=None
+    preview_mode=False, export_callback=None, table_data=None, is_debug: bool = False
 ):
 
     translations = {
@@ -638,9 +638,10 @@ def show_gui_popup(
         window.wait_window(settings_window)
         
     def on_close():
+        if is_debug:
+            print("DEBUG: Cerrar ventana")
         if current_fig is not None:
             plt.close(current_fig)
-        window.quit()
         window.destroy()
 
 
